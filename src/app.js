@@ -13,8 +13,8 @@ app.use(cookieParser());
 
 app.use('/', memberRouter);
 app.use('/projects', projectRouter);
-app.use('/', commentRouter);
 
+app.use('/', commentRouter);
 app.use(defaultNotFoundHandler);
 app.use(globalErrorHandler);
 
