@@ -68,7 +68,7 @@ model Invitation {
     projectId     Int
     inviteeUserId Int
     createdAt     DateTime         @default(now())
-    respondedAt   DateTime?
+    respondedAt   DateTime         @default(now())
     project       Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
     inviteeUser   User             @relation("InvitationInvitee", fields: [inviteeUserId], references: [id], onDelete: Cascade)
     projectMember ProjectMember?

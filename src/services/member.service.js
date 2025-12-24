@@ -12,7 +12,7 @@ async function erase(projectId, userId) {
 async function invite(projectId, email) {
   const user = await memberRepo.findByEmail(email);
   if (!user) throw new BadRequestError("NO_USER_FOUND");
-  return (invitationId = await memberRepo.invite(projectId, user.id));
+  return await memberRepo.invite(projectId, user.id);
 }
 
 async function accept(invitationId) {

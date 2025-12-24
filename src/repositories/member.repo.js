@@ -8,14 +8,21 @@ async function getList(projectId) {
   });
 }
 
-async function erase(projectId, userId) {
+async function erase(projectId, inviteeUserId) {
   const member = await prisma.projectMember.delete({
-    where: { projectId, inviteeId },
+    where: { projectId, inviteeUserId },
   });
   return await prisma.invitation.update({
     where: { invitationId: member.invitationId },
     data: { state: "quit" },
   });
+}
+
+async function invite(projectId, inviteeUserId) {
+  const invitation = await prisma.invitation.create({
+    data: { projectId, inviteeUserId },
+  });
+  return invitation.id;
 }
 
 export default {
