@@ -1,1 +1,1 @@
-# nb06-moonshot-team1
+# 프로젝트 이름
