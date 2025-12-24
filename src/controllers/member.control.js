@@ -1,5 +1,5 @@
-import { assert } from "superstruct";
-import memberService from "../services/member.service.js";
+//import { assert } from "superstruct";
+import memberService from '../services/member.service.js';
 
 async function getList(req, res, next) {
   const { projectId } = req.params;
@@ -41,5 +41,5 @@ export default {
   erase,
   invite,
   accept,
-  cancel,
+  cancel
 };

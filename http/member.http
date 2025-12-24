@@ -16,7 +16,7 @@ POST http://localhost:3000/projects/1/invitations
 Content-Type: application/json
 
 {
-  "invitationId": "초대링크/초대코드"
+  "email": "babo@example.com"
 }
 
 // 멤버 초대 수락: 인증

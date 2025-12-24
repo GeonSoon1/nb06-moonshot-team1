@@ -1,40 +1,40 @@
-import { prisma } from "../lib/prismaClient";
+import { prisma } from '../lib/prismaClient.js';
 
 async function getList(projectId) {
-  return await prisma.invitation.findMany({
+  return prisma.invitation.findMany({
     where: { projectId },
-    orderBy: { respondedAt: "desc" },
-    distinct: [productId, memberId],
+    orderBy: [{ projectId: 'asc' }, { inviteeUserId: 'asc' }, { respondedAt: 'desc' }],
+    distinct: ['projectId', 'inviteeUserId']
   });
 }
 
-async function erase(projectId, inviteeUserId) {
+async function erase(projectId, memberId) {
   const member = await prisma.projectMember.delete({
-    where: { projectId, inviteeUserId },
+    where: { projectId_memberId: { projectId, memberId } }
   });
   return await prisma.invitation.update({
-    where: { invitationId: member.invitationId },
-    data: { state: "quit" },
+    where: { id: member.invitationId },
+    data: { status: 'quit' }
   });
 }
 
 async function invite(projectId, inviteeUserId) {
   const invitation = await prisma.invitation.create({
-    data: { projectId, inviteeUserId },
+    data: { projectId, id: inviteeUserId, status: 'pending' }
   });
   return invitation.id;
 }
 
-async function update(invitationId, stateStr) {
+async function update(invitationId, statustr) {
   return await prisma.invitation.update({
-    where: { invitationId },
-    data: { state: stateStr },
+    where: { id: invitationId },
+    data: { status: statustr }
   });
 }
 
 async function create(invitationId, memberId, projectId) {
   return await prisma.projectMember.create({
-    data: { invitationId, projectId, memberId },
+    data: { invitationId, projectId, memberId }
   });
 }
 
@@ -43,5 +43,5 @@ export default {
   erase,
   invite,
   update,
-  create,
+  create
 };
