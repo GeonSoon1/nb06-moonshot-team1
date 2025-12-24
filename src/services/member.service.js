@@ -16,7 +16,7 @@ async function invite(projectId, email) {
 }
 
 async function accept(invitationId) {
-  const invitation = await memberRepo.update(invitationId);
+  const invitation = await memberRepo.update(invitationId, "accepted");
   return await memberRepo.create(
     invitationId,
     invitation.memberId,

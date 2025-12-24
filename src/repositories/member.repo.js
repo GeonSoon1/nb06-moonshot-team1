@@ -25,7 +25,23 @@ async function invite(projectId, inviteeUserId) {
   return invitation.id;
 }
 
+async function update(invitationId, stateStr) {
+  return await prisma.invitation.update({
+    where: { invitationId },
+    data: { state: stateStr },
+  });
+}
+
+async function accept(invitationId, memberId, projectId) {
+  return await prisma.projectMember.create({
+    data: { invitationId, projectId, memberId },
+  });
+}
+
 export default {
   getList,
   erase,
+  invite,
+  update,
+  accept,
 };
