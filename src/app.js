@@ -4,14 +4,15 @@ import {
   defaultNotFoundHandler,
   globalErrorHandler,
 } from "./lib/errors/errorHandler.js";
-import projectRouter from "./routers/invitation.router.js";
+import memberRouter from "./routers/member.router.js";
+import { InvitationStatus } from "@prisma/client";
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/projects", projectRouter);
+app.use("/projects", memberRouter);
 
 app.use(defaultNotFoundHandler);
 app.use(globalErrorHandler);
