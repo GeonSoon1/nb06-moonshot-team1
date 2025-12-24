@@ -32,7 +32,7 @@ async function update(invitationId, stateStr) {
   });
 }
 
-async function accept(invitationId, memberId, projectId) {
+async function create(invitationId, memberId, projectId) {
   return await prisma.projectMember.create({
     data: { invitationId, projectId, memberId },
   });
@@ -43,5 +43,5 @@ export default {
   erase,
   invite,
   update,
-  accept,
+  create,
 };

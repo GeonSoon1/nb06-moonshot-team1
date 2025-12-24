@@ -25,7 +25,7 @@ async function accept(invitationId) {
 }
 
 async function cancel(invitationId) {
-  return await memberRepo.update(invitationId);
+  return await memberRepo.update(invitationId, "canceled");
 }
 
 export default {
