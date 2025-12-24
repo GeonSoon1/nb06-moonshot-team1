@@ -7,3 +7,18 @@ async function getList(projectId) {
     distinct: [productId, memberId],
   });
 }
+
+async function erase(projectId, userId) {
+  const member = await prisma.projectMember.delete({
+    where: { projectId, inviteeId },
+  });
+  return await prisma.invitation.update({
+    where: { invitationId: member.invitationId },
+    data: { state: "quit" },
+  });
+}
+
+export default {
+  getList,
+  erase,
+};
