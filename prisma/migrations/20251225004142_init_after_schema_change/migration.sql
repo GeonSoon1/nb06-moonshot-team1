@@ -66,12 +66,13 @@ CREATE TABLE "Project" (
 
 -- CreateTable
 CREATE TABLE "Invitation" (
-    "id" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "InvitationId" TEXT,
     "status" "InvitationStatus" NOT NULL DEFAULT 'PENDING',
     "projectId" INTEGER NOT NULL,
     "inviteeUserId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "respondedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "respondedAt" TIMESTAMP(3),
 
     CONSTRAINT "Invitation_pkey" PRIMARY KEY ("id")
 );
@@ -80,8 +81,8 @@ CREATE TABLE "Invitation" (
 CREATE TABLE "ProjectMember" (
     "projectId" INTEGER NOT NULL,
     "memberId" INTEGER NOT NULL,
+    "inviteId" INTEGER,
     "role" "MemberRole" NOT NULL,
-    "invitationId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -163,7 +164,7 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "OAuthAccount_provider_providerAccountId_key" ON "OAuthAccount"("provider", "providerAccountId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ProjectMember_invitationId_key" ON "ProjectMember"("invitationId");
+CREATE UNIQUE INDEX "ProjectMember_inviteId_key" ON "ProjectMember"("inviteId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Task_id_projectId_key" ON "Task"("id", "projectId");
@@ -193,7 +194,7 @@ ALTER TABLE "ProjectMember" ADD CONSTRAINT "ProjectMember_projectId_fkey" FOREIG
 ALTER TABLE "ProjectMember" ADD CONSTRAINT "ProjectMember_memberId_fkey" FOREIGN KEY ("memberId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ProjectMember" ADD CONSTRAINT "ProjectMember_invitationId_fkey" FOREIGN KEY ("invitationId") REFERENCES "Invitation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "ProjectMember" ADD CONSTRAINT "ProjectMember_inviteId_fkey" FOREIGN KEY ("inviteId") REFERENCES "Invitation"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Task" ADD CONSTRAINT "Task_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;

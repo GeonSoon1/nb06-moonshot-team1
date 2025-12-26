@@ -8,6 +8,7 @@ memberRouter.get('/projects/:projectId/users', asyncHandler(memberControl.getLis
 memberRouter.delete('/projects/:projectId/users/:userId', asyncHandler(memberControl.erase));
 memberRouter.post('/projects/:projectId/invitations', asyncHandler(memberControl.invite));
 memberRouter.post('/invitations/:invitationId/accept', asyncHandler(memberControl.accept));
+memberRouter.post('/invitations/:invitationId/reject', asyncHandler(memberControl.reject));
 memberRouter.delete('/invitations/:invitationId', asyncHandler(memberControl.cancel));
 
 export default memberRouter;

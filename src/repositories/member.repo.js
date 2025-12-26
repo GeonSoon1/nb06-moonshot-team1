@@ -1,6 +1,6 @@
 import { prisma } from '../lib/prismaClient.js';
 
-async function getList(projectId) {
+async function getInvitationList(projectId) {
   return prisma.invitation.findMany({
     where: { projectId },
     orderBy: [{ projectId: 'asc' }, { inviteeUserId: 'asc' }, { respondedAt: 'desc' }],
@@ -8,40 +8,58 @@ async function getList(projectId) {
   });
 }
 
-async function erase(projectId, memberId) {
-  const member = await prisma.projectMember.delete({
+function eraseMember(projectId, memberId) {
+  return prisma.projectMember.delete({
     where: { projectId_memberId: { projectId, memberId } }
   });
-  return await prisma.invitation.update({
-    where: { id: member.invitationId },
-    data: { status: 'quit' }
+}
+
+function findMemberByIds(projectId, memberId) {
+  return prisma.projectMember.findUniqueOrThrow({
+    where: { projectId_memberId: { projectId, memberId } }
   });
 }
 
-async function invite(projectId, inviteeUserId) {
-  const invitation = await prisma.invitation.create({
-    data: { projectId, id: inviteeUserId, status: 'pending' }
-  });
-  return invitation.id;
+function findInvitationById(id) {
+  return prisma.invitation.findUniqueOrThrow({ where: { id } });
 }
 
-async function update(invitationId, statustr) {
-  return await prisma.invitation.update({
-    where: { id: invitationId },
-    data: { status: statustr }
+function updateWithIds(projectId, inviteeUserId, status) {
+  return prisma.invitation.update({
+    where: { projectId, inviteeUserId, status: 'PENDING' },
+    data: { status, respondedAt: new Date() }
   });
 }
 
-async function create(invitationId, memberId, projectId) {
-  return await prisma.projectMember.create({
-    data: { invitationId, projectId, memberId }
+function createMember(data) {
+  return prisma.projectMember.create({ data });
+}
+
+async function findInvitationByInvitationId(invitationId) {
+  return prisma.invitation.findUniqueOrThrow({
+    where: { invitationId }
+  });
+}
+async function inviteMember(data) {
+  return prisma.invitation.create({ data });
+}
+
+function updateInvitation(invitationId, status) {
+  return prisma.invitation.update({
+    where: { invitationId },
+    data: { status, respondedAt: new Date() }
   });
 }
 
 export default {
-  getList,
-  erase,
-  invite,
-  update,
-  create
+  getInvitationList, // GET invitaion
+  eraseMember, // DELETE projectMember
+  findMemberByIds, // projectMember
+  inviteMember, // CREATE invitation
+  findInvitationByInvitationId, // GET invitation
+  findInvitationById,
+  findMemberByIds,
+  updateInvitation, // UPDATE invitation
+  updateWithIds,
+  createMember // CREATE projectMember
 };

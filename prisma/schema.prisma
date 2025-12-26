@@ -63,12 +63,13 @@ model Project {
 }
 
 model Invitation {
-    id            String           @id @default(uuid())
+    id            Int              @id @default(autoincrement())
+    invitationId  String?          @unique // 수동생성되는 uuid
     status        InvitationStatus @default(PENDING)
     projectId     Int
     inviteeUserId Int
     createdAt     DateTime         @default(now())
-    respondedAt   DateTime         @default(now())
+    respondedAt   DateTime?
     project       Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
     inviteeUser   User             @relation("InvitationInvitee", fields: [inviteeUserId], references: [id], onDelete: Cascade)
     projectMember ProjectMember?
@@ -77,13 +78,13 @@ model Invitation {
 model ProjectMember {
     projectId      Int
     memberId       Int
+    inviteId       Int?        @unique
     role           MemberRole
-    invitationId   String?     @unique
     createdAt      DateTime    @default(now())
     updatedAt      DateTime    @updatedAt
     project        Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
     member         User        @relation(fields: [memberId], references: [id], onDelete: Cascade)
-    invitation     Invitation? @relation(fields: [invitationId], references: [id], onDelete: SetNull)
+    invitation     Invitation? @relation(fields: [inviteId], references: [id], onDelete: Cascade)
     tasksAssigned  Task[]      @relation("TaskAssigneeMember")
     tasksCreator   Task[]      @relation("TaskCreateMember")
     commentCreator Comment[]   @relation("CommentCreateMember")
