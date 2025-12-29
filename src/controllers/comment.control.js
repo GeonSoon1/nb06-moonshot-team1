@@ -3,7 +3,7 @@ export class CommentController {
     this.commentService = commentService;
   }
 
-  /** 1. 할 일에 댓글 추가 (POST) */
+  // 1. 할 일에 댓글 추가 (POST)
   createComment = async (req, res, next) => {
     try {
       const { taskId } = req.params;
@@ -24,7 +24,7 @@ export class CommentController {
     }
   };
 
-  /** 2. 할 일에 달린 댓글 조회 (GET / Pagination 반영) */
+  // 2. 할 일에 달린 댓글 조회 (GET / Pagination 반영)
   getComments = async (req, res, next) => {
     try {
       const { taskId } = req.params;
@@ -44,7 +44,7 @@ export class CommentController {
     }
   };
 
-  /** 3. 단일 댓글 조회 (GET) */
+  // 3. 단일 댓글 조회 (GET)
   getCommentById = async (req, res, next) => {
     try {
       const { commentId } = req.params;
@@ -62,7 +62,7 @@ export class CommentController {
     }
   };
 
-  /** 4. 댓글 수정 (PATCH) */
+  // 4. 댓글 수정 (PATCH)
   updateComment = async (req, res, next) => {
     try {
       const { commentId } = req.params;
@@ -81,7 +81,7 @@ export class CommentController {
     }
   };
 
-  /** 5. 댓글 삭제 (DELETE) */
+  // 5. 댓글 삭제 (DELETE)
   deleteComment = async (req, res, next) => {
     try {
       const { commentId } = req.params;

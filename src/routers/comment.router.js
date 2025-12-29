@@ -1,6 +1,6 @@
 import express from "express";
 import { prisma } from "../utils/prisma/index.js";
-import { CommentRepository } from "../repositories/comment.repository.js";
+import { CommentRepository } from "../repositories/comment.repo.js";
 import { CommentService } from "../services/comment.service.js";
 import { CommentController } from "../controllers/comment.controller.js";
 import authMiddleware from "../middlewares/auth.middleware.js"; // 인증 미들웨어
