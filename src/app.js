@@ -13,7 +13,11 @@ import {
   globalErrorHandler,
 } from "./lib/errors/errorHandler.js";
 // import projectRouter from "./routers/project.router.js";
+<<<<<<< HEAD
 >>>>>>> 4db124a (서버 오류 해결)
+=======
+import commentRouter from "./routers/comment.router.js";
+>>>>>>> bdedd44 (✨ feat : 테스트를 위한 인증 라이브러리 주석 처리)
 
 const app = express();
 
@@ -25,7 +29,11 @@ app.use('/', memberRouter);
 app.use('/projects', projectRouter);
 =======
 // app.use("/projects", projectRouter);
+<<<<<<< HEAD
 >>>>>>> 4db124a (서버 오류 해결)
+=======
+app.use("/", commentRouter);
+>>>>>>> bdedd44 (✨ feat : 테스트를 위한 인증 라이브러리 주석 처리)
 
 app.use(defaultNotFoundHandler);
 app.use(globalErrorHandler);
