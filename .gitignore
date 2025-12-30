@@ -5,3 +5,6 @@ node_modules/
 .prettierrc
 
 
+/generated/prisma
+
+/src/generated/prisma
