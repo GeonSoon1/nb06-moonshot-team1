@@ -1,10 +1,11 @@
-import { assert } from 'superstruct'
-import { asyncHandler } from '../middlewares/asyncHandler.js'
-import { getProjectListService } from '../services/productService.js'
+//import { assert } from "superstruct";
+import projectService from '../services/project.service.js';
 
-export const getListProjects = asyncHandler(async(req, res) => {
-  const { offset=0, limit=10, order='newest', keyword } = req.query;
+async function getList(req, res, next) {
+  const projectListWithCounts = await projectService.getList();
+  res.status(200).json(projectListWithCounts);
+}
 
-  const list = await getProjectListService({ offset, limit, order, keyword })
-  res.status(200).json(list);
-})
+export default {
+  getList
+};
