@@ -1,4 +1,3 @@
-import { InvitationStatus } from '@prisma/client';
 import { BadRequestError, NotFoundError } from '../lib/errors/customError.js';
 import { prisma } from '../lib/prismaClient.js';
 import memberRepo from '../repositories/member.repo.js';
@@ -37,14 +36,14 @@ async function erase(projectId, userId) {
     console.log('No member found.');
     throw new NotFoundError('ProjectMember');
   }
-  const invitationFound = await memberRepo.findInvitationById(memberFound.inviteId);
+  const invitationFound = await memberRepo.findInvitationByInvitationId(memberFound.invitationId);
   if (invitationFound.status !== 'ACCEPTED') {
     console.log('No accepted invitation found.');
     throw new NotFoundError('Accepted Invitation');
   }
 
   const [invitation, member] = await prisma.$transaction([
-    memberRepo.updateInvitation(invitationFound.invitationId, 'CANCELED'),
+    memberRepo.updateInvitation(invitationFound.invitationId, 'CANCELED'), // 'quit' 만드는 게 좋겠음
     memberRepo.eraseMember(projectId, userId)
   ]);
   return invitation;
@@ -57,9 +56,9 @@ async function accept(invitationId) {
   const [invitation, member] = await prisma.$transaction([
     memberRepo.updateInvitation(invitationId, 'ACCEPTED'),
     memberRepo.createMember({
+      invitationId,
       projectId: invitationFound.projectId,
       memberId: invitationFound.inviteeUserId,
-      inviteId: invitationFound.id,
       role: 'MEMBER'
     })
   ]);
@@ -74,17 +73,16 @@ async function invite(projectId, email) {
 
   const invitationOk = okToSendInvitation(user, projectId) && !isOwner(user, projectId);
   if (!invitationOk) {
-    console.log('No invitation to this user (check owner, member, or pending invitation)');
+    console.log('No invitation to this user. Check project owner/member or pending invitation.');
     throw new BadRequestError('NO_INVITATION_TO_USER');
   }
   const invitationData = {
-    invitationId: crypto.randomUUID(),
     projectId,
     inviteeUserId: user.id,
     status: 'PENDING'
   };
   const inviation = await memberRepo.inviteMember(invitationData);
-  return inviation.invitationId;
+  return inviation.id;
 }
 
 async function reject(invitationId) {

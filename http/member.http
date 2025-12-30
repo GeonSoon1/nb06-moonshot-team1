@@ -3,7 +3,7 @@
 // 조회 필드:id, name, email, profileImage, taskCount, statusm, invitationId
 // {[], total: memberCount }
 // 수정 필요: owner 추가하고, 조회 필드 맞추기
-GET http://localhost:3000/projects/2/users  
+GET http://localhost:3000/projects/4/users  
 
 ###
 GET http://localhost:3000/projects
@@ -17,23 +17,23 @@ DELETE http://localhost:3000/projects/3/users/1
 // 멤버 초대: 인증, 인가
 // 201, 400, 401, 403
 ###
-POST http://localhost:3000/projects/1/invitations
+POST http://localhost:3000/projects/2/invitations
 Content-Type: application/json
 
 {
-  "email": "user6@test.com"
+  "email": "user2@test.com"
 }
 
 // 멤버 초대 수락: 인증
 // 200, 400, 404
 ###
-POST http://localhost:3000/invitations/61fe64de-9d99-47ba-8d9e-b4a6dcb58ee9/accept
+POST http://localhost:3000/invitations/7a76c130-0b69-4eb2-83c1-597132fafd01/accept
 
 ###
-POST http://localhost:3000/invitations/52121219-e0d2-4359-aa53-936770d8175a/reject
+POST http://localhost:3000/invitations/7095f1c6-f973-41b0-bc47-b6a6708cf4ef/reject
 
 // 멤버 초대 삭제: 인증, 인가
 // 204, 400, 401, 403, 404
 // 초대 취소에 해당: 실제로 invitation 기록을 없애지 말고, status를 변화시킴 (PATCH)
 ### 
-DELETE http://localhost:3000/invitations/52121219-e0d2-4359-aa53-936770d8175a
+DELETE http://localhost:3000/invitations/7095f1c6-f973-41b0-bc47-b6a6708cf4ef

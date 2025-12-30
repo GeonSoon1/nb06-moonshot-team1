@@ -35,18 +35,18 @@ function createMember(data) {
   return prisma.projectMember.create({ data });
 }
 
-async function findInvitationByInvitationId(invitationId) {
+async function findInvitationByInvitationId(id) {
   return prisma.invitation.findUniqueOrThrow({
-    where: { invitationId }
+    where: { id }
   });
 }
 async function inviteMember(data) {
   return prisma.invitation.create({ data });
 }
 
-function updateInvitation(invitationId, status) {
+function updateInvitation(id, status) {
   return prisma.invitation.update({
-    where: { invitationId },
+    where: { id },
     data: { status, respondedAt: new Date() }
   });
 }
