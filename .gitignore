@@ -3,8 +3,3 @@
 node_modules/
 .env
 .prettierrc
-
-
-/generated/prisma
-
-/src/generated/prisma
