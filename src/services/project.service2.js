@@ -51,7 +51,21 @@ async function getMemberList(projectId) {
       };
     })
   );
-  return { data, total: data.length };
+  const ownerTasks = await prisma.task.findMany({
+    where: { taskCreatorId: project.ownerId }
+  });
+
+  const ownerData = {
+    id: project.owner.id,
+    name: project.owner.name,
+    email: project.owner.email,
+    profileImage: project.owner.profileImage,
+    taskCount: ownerTasks.length,
+    status: 'owner',
+    invitationId: null
+  };
+
+  return { data: [ownerData, ...data], total: data.length + 1 };
 }
 
 // 멤버 제외

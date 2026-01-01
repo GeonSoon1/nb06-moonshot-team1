@@ -23,7 +23,10 @@ function createMember(data) {
 }
 
 function findById(id) {
-  return prisma.project.findUnique({ where: { id } });
+  return prisma.project.findUnique({
+    where: { id },
+    include: { owner: true }
+  });
 }
 
 export default {
