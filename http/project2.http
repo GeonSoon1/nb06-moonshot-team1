@@ -1,0 +1,23 @@
+###
+GET http://localhost:3000/projects
+
+// 멤버 목록 조회: 인증, 인가
+// 200, 400, 401, 403
+###
+GET http://localhost:3000/projects/1/users  
+
+
+// 멤버 제외: 인증, 인가
+// 204, 400, 401, 403, 404
+### 
+DELETE http://localhost:3000/projects/1/users/3
+
+// 멤버 초대: 인증, 인가
+// 201, 400, 401, 403
+###
+POST http://localhost:3000/projects/1/invitations
+Content-Type: application/json
+
+{
+  "email": "user3@test.com"
+}
