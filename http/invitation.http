@@ -1,10 +1,10 @@
 // 초대 수락: 인증
 // 200, 400, 404
-POST http://localhost:3000/invitations/12048122-646c-4074-bc5a-eb5e3815a1e3/accept
+POST http://localhost:3000/invitations/545dca71-9fd6-448b-b281-41289569629b/accept
 
 // 초대 거절: 인증
 ###
-POST http://localhost:3000/invitations/f77cd11f-8d57-499e-a435-2a0609186493/reject
+POST http://localhost:3000/invitations/72d319f2-5453-424f-8122-0ca352d0fa7a/reject
 
 
 // 초대 취소: 인증, 인가

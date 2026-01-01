@@ -4,34 +4,26 @@ import invitationRepo from '../repositories/invitation.repo.js';
 import projectRepo2 from '../repositories/project.repo2.js';
 
 // 초대 승인
-async function accept(invitationId) {
-  const invitationFound = await checkStatusPending(invitationId);
-
+async function accept(invitationId, memberData) {
   // 트렌젝션 사용: Invitation table 수정 AND ProjectMember에 추가
   const [invitation, member] = await prisma.$transaction([
     invitationRepo.update(invitationId, 'ACCEPTED'),
-    projectRepo2.createMember({
-      invitationId,
-      projectId: invitationFound.projectId,
-      memberId: invitationFound.inviteeUserId,
-      role: 'MEMBER'
-    })
+    projectRepo2.createMember(memberData)
   ]);
   return [invitation, member];
 }
 
 async function reject(invitationId) {
-  await checkStatusPending(invitationId);
+  await checkPending(invitationId);
   return await invitationRepo.update(invitationId, 'REJECTED');
 }
 
 async function cancel(invitationId) {
-  await checkStatusPending(invitationId);
+  await checkPending(invitationId);
   return await invitationRepo.update(invitationId, 'CANCELED');
 }
 
-//-------------------------------------------- 지역 함수
-async function checkStatusPending(invitationId) {
+async function checkPending(invitationId) {
   const invitation = await invitationRepo.findById(invitationId);
   if (!invitation) {
     console.log('초대 기록이 없습니다');
@@ -45,6 +37,7 @@ async function checkStatusPending(invitationId) {
 }
 
 export default {
+  checkPending,
   accept,
   reject,
   cancel
