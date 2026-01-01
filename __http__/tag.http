@@ -1,0 +1,24 @@
+// 1. 할 일에 태그 추가 (POST)
+// 로그인한 유저가 프로젝트 멤버여야 합니다.
+POST http://localhost:3000/api/tasks/1/tags
+Content-Type: application/json
+Authorization: Bearer 여기에_실제_토큰_입력
+
+{
+  "tagName": "문샷"
+}
+
+###
+
+// 2. 특정 할 일의 모든 태그 조회 (GET)
+// 응답에서 각 태그의 tagId를 확인하여 아래 삭제 테스트에 사용하세요.
+GET http://localhost:3000/api/tasks/1/tags
+Authorization: Bearer 여기에_실제_토큰_입력
+
+###
+
+// 3. 할 일에서 태그 삭제 (DELETE)
+// 태그 본체는 남고 해당 할 일과의 연결만 끊어집니다.
+// 마지막 숫자 5는 삭제하려는 태그의 ID(tagId)입니다.
+DELETE http://localhost:3000/api/tasks/1/tags/5
+Authorization: Bearer 여기에_실제_토큰_입력
