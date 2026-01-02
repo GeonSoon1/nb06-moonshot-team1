@@ -309,6 +309,7 @@ export async function register(req, res) {
     return res.status(201).send(userWithoutPassword);
   } catch (err) {
     if (err instanceof StructError) {
+      console.log(err.message)
       throw new BadRequestError('잘못된 데이터 형식');
     }
     if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {

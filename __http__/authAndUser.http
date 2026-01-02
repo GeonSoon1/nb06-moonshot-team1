@@ -3,9 +3,9 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-    "email": "user9@test.com",
-    "name": "user9",
-    "password": "password9"
+    "email": "user2@test.com",
+    "name": "user1",
+    "password": "password1"
 }
 
 ### 로그인
@@ -13,8 +13,8 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-    "email": "user8@test.com",
-    "password": "password8"
+    "email": "user2@test.com",
+    "password": "password1"
 }
 
 ### 토큰갱신
