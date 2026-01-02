@@ -7,6 +7,7 @@ import commentRouter from './routers/comment.router.js';
 import cors from 'cors';
 import authRouter from './routers/auth.router.js';
 import userRouter from './routers/user.router.js';
+import taskRouter from './routers/task.router.js'
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use('/projects', projectRouter2);
 app.use('/invitations', invitationRouter);
 app.use('/', commentRouter);
+app.use('/tasks', taskRouter)
 
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
