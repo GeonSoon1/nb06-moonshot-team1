@@ -14,12 +14,12 @@ DELETE http://localhost:3000/projects/3/users/1
 
 // 멤버 초대: 인증, 인가
 // 201, 400, 401, 403
-###
-POST http://localhost:3000/projects/2/invitations
+### 
+POST http://localhost:3001/projects/3/invitations
 Content-Type: application/json
 
 {
-  "email": "user7@test.com"
+  "email": "use21@user.com"
 }
 
 // 멤버 초대 수락: 인증
@@ -34,4 +34,4 @@ POST http://localhost:3000/invitations/7095f1c6-f973-41b0-bc47-b6a6708cf4ef/reje
 // 204, 400, 401, 403, 404
 // 초대 취소에 해당: 실제로 invitation 기록을 없애지 말고, status를 변화시킴 (PATCH)
 ### 
-DELETE http://localhost:3000/invitations/7095f1c6-f973-41b0-bc47-b6a6708cf4ef
+DELETE http://localhost:3001/invitations/5a7de60d-e237-4d61-bdc7-5f9fa6a2f0fc

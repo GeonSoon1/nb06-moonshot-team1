@@ -23,19 +23,17 @@ model User {
 }
 
 model OAuthAccount {
-    id                    Int           @id @default(autoincrement())
-    userId                Int // FK
-    provider              OAuthProvider
-    providerId            String
-    accessTokenHashed     String
-    refreshTokenEncrypted String? // 양방향 암호화 필요. 권한 위임증서의 목적. 클라이언트는 몰라야 함
-    //expiresAt             DateTime?
-    scope                 String[]
-    createdAt             DateTime      @default(now())
-    updatedAt             DateTime      @updatedAt
-    user                  User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id                Int           @id @default(autoincrement())
+    provider          OAuthProvider
+    providerAccountId String
+    refreshTokenEnc   String?
+    scope             String[]
+    userId            Int
+    createdAt         DateTime      @default(now())
+    updatedAt         DateTime      @updatedAt
+    user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@unique([provider, providerId], name: "oauth_provider_account_unique")
+    @@unique([provider, providerAccountId])
 }
 
 model Session {

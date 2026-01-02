@@ -1,6 +1,8 @@
 import express from 'express';
 import memberControl from '../controllers/member.control.js';
 import { asyncHandler } from '../middlewares/asyncHandler.js';
+import { authenticate } from '../middlewares/authenticate.js';
+import authorize from '../middlewares/authorize.js';
 
 const memberRouter = express.Router();
 
@@ -9,6 +11,11 @@ memberRouter.delete('/projects/:projectId/users/:userId', asyncHandler(memberCon
 memberRouter.post('/projects/:projectId/invitations', asyncHandler(memberControl.invite));
 memberRouter.post('/invitations/:invitationId/accept', asyncHandler(memberControl.accept));
 memberRouter.post('/invitations/:invitationId/reject', asyncHandler(memberControl.reject));
-memberRouter.delete('/invitations/:invitationId', asyncHandler(memberControl.cancel));
+memberRouter.delete(
+  '/invitations/:invitationId',
+  authenticate,
+  authorize.projectOwner,
+  asyncHandler(memberControl.cancel)
+);
 
 export default memberRouter;

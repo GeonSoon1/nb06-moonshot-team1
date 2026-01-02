@@ -1,5 +1,5 @@
-import { prisma } from '../lib/prismaClient';
-import { ForbiddenError, UnauthorizedError, BadRequestError } from '../lib/errors/customError';
+import { prisma } from '../lib/prismaClient.js';
+import { ForbiddenError, UnauthorizedError, BadRequestError } from '../lib/errors/customError.js';
 
 async function projectOwner(req, res, next) {
   try {

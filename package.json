@@ -12,11 +12,15 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^6.18.0",
+    "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "express": "^5.2.1",
     "is-email": "^1.0.2",
     "is-uuid": "^1.0.2",
+    "jsonwebtoken": "^9.0.3",
+    "lru-cache": "^11.2.4",
     "superstruct": "^2.0.2"
   },
   "devDependencies": {

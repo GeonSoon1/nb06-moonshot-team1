@@ -1,5 +1,3 @@
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-
 export class BaseError extends Error {
   statusCode;
   constructor(message, statusCode) {
