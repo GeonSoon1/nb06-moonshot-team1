@@ -45,3 +45,12 @@ CREATE SCHEMA public;
 DELETE FROM "Invitation" WHERE id = 1;  -- 아이디가 1인 로우 제거
 
 UPDATE "Invitation" SET "status" = 'PENDING' WHERE id = 3;
+
+
+INSERT INTO "Project" (name, description, "ownerId", "createdAt", "updatedAt")
+VALUES
+  ('프리즈마 완전정복', '같이 열심히 하면 됩니다', 8, now(), now());
+
+INSERT INTO "ProjectMember" ("projectId", "memberId", role, "createdAt", "updatedAt")
+VALUES
+  (5, 8, 'OWNER', now(), now());

@@ -1,4 +1,4 @@
-import { BadRequestError } from '../lib/errors/customError.js';
+import { BadRequestError } from '../middlewares/errors/customError.js';
 
 export function requireRefresh(req, _res, next) {
   const header = req.headers.authorization;

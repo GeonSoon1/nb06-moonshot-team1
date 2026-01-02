@@ -8,10 +8,10 @@ import { ACCESS_TOKEN_COOKIE_NAME } from '../lib/constants.js';
 
 async function projectOwner(req, res, next) {
   try {
-    if (!req.cookies[ACCESS_TOKEN_COOKIE_NAME]) {
-      console.log('토큰이 만료되었습니다'); // 작동할지 모르겠음
-      throw new UnauthorizedError('토큰 만료');
-    }
+    // if (!req.cookies[ACCESS_TOKEN_COOKIE_NAME]) {
+    //   console.log('토큰이 만료되었습니다'); // 작동할지 모르겠음
+    //   throw new UnauthorizedError('토큰 만료');
+    // }
     if (!req.user) {
       console.log('인증되지 않은 유저입니다. 로그인이 필요합니다');
       throw new UnauthorizedError('로그인이 필요합니다');
@@ -47,10 +47,7 @@ async function projectMember(req, res, next) {
     }
     const projectId = await resolveProjectId(req.params);
     const isMember = await prisma.projectMember.findUnique({
-      where: {
-        projectId,
-        memberId: req.user.id
-      }
+      where: { projectId_memberId: { projectId, memberId: req.user.id } }
     });
 
     if (!isMember) {
