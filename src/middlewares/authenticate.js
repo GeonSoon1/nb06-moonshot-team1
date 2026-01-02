@@ -1,23 +1,20 @@
-import { prisma } from '../lib/prismaClient.js'
-import { verifyAccessToken } from '../lib/token.js'
-import { ACCESS_TOKEN_COOKIE_NAME } from '../lib/constants.js'
-
+import { prisma } from '../lib/prismaClient.js';
+import { verifyAccessToken } from '../lib/token.js';
+import { UnauthorizedError } from '../lib/errors/customError.js';
 
 // 브라우저로부터 넘어온 토큰을 검사하고 유저 db에 있는지 확인 후 req.user = user로 다음 미들웨어에 넘겨줌.
-export const authenticate = (async(req, res, next) => {
-  const accessToken = req.cookies[ACCESS_TOKEN_COOKIE_NAME]
-
-  if (!accessToken) {
-    return res.status(401).json({ message: 'Unauthorized' })
+export async function authenticate(req, _res, next) {
+  const header = req.headers.authorization;
+  const token = header?.startsWith('Bearer ') ? header.split(' ')[1] : null;
+  if (!token) {
+    throw new UnauthorizedError('로그인이 필요합니다');
   }
-
-  const { userId } = verifyAccessToken(accessToken) // 실패 시 asyncHandler가 잡음
-
-  const user = await prisma.user.findUnique({ where: { id: userId }}) // 실패 시 asyncHandler가 잡음
-
+  const payload = verifyAccessToken(token);
+  const userId = payload.userId ?? payload.id;
+  const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) {
-    return res.status(401).json({ message: 'Unauthorized' })
+    throw new UnauthorizedError('존재하지 않는 사용자입니다');
   }
-  req.user = user
-  next()
-})
+  req.user = user;
+  next();
+}

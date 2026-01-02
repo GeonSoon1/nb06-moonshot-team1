@@ -2,6 +2,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+console.log(process.env.PORT);
+console.log(process.env.NODE_ENV);
+
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const PORT = process.env.PORT || 3000;
 const ACCESS_TOKEN_COOKIE_NAME = 'access-token';
