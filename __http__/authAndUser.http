@@ -3,10 +3,9 @@ POST http://localhost:3001/auth/register
 Content-Type: application/json
 
 {
-    "email": "alstn4@alstn.com",
-    "name": "민수",
-    "password": "alstnalstn"
-
+    "email": "use21@user.com",
+    "name": "유저",
+    "password": "dbwjdbwj"
 }
 
 ### 로그인
@@ -24,8 +23,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhd
 
 ### 내 정보 조회
 GET http://localhost:3001/users/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzMzNzcwNywiZXhwIjoxNzY3MzM5NTA3fQ.JOkVApBruJOFto5wxpgmWVlQIrs3kCMUQ4Js66I9RtA
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzMzODYxNSwiZXhwIjoxNzY3MzQwNDE1fQ.SceJLQ_J7Sh5AY2rSDoAKpjojYXNVJ7TczPJhG5D-PQ
 
 ### 내 정보 수정
 PATCH http://localhost:3001/users/me
