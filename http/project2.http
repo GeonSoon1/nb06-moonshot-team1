@@ -10,14 +10,14 @@ GET http://localhost:3000/projects/1/users
 // 멤버 제외: 인증, 인가
 // 204, 400, 401, 403, 404
 ### 
-DELETE http://localhost:3000/projects/1/users/7
+DELETE http://localhost:3000/projects/4/users/7
 
 // 멤버 초대: 인증, 인가
 // 201, 400, 401, 403
 ###
-POST http://localhost:3000/projects/3/invitations
+POST http://localhost:3000/projects/4/invitations
 Content-Type: application/json
 
 {
-  "email": "user1@test.com"
+  "email": "user6@test.com"
 }

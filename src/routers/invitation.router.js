@@ -1,6 +1,7 @@
 import express from 'express';
 import invitationControl from '../controllers/invitation.control.js';
 import { asyncHandler } from '../middlewares/asyncHandler.js';
+import authorize from '../middlewares/authorize.js';
 
 const invitationRouter = express.Router();
 

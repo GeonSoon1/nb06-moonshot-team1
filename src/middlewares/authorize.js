@@ -1,5 +1,9 @@
-import { prisma } from '../lib/prismaClient';
-import { ForbiddenError, UnauthorizedError, BadRequestError } from '../lib/errors/customError';
+import { prisma } from '../lib/prismaClient.js';
+import {
+  ForbiddenError,
+  UnauthorizedError,
+  BadRequestError
+} from '../middlewares/errors/customError.js';
 import { ACCESS_TOKEN_COOKIE_NAME } from '../lib/constants.js';
 
 async function projectOwner(req, res, next) {
