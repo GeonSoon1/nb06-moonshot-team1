@@ -82,7 +82,7 @@ async function deleteMember(projectId, userId) {
   }
   // transaction 사용: Invitation update & ProjectMember delete
   const [invitation, member] = await prisma.$transaction([
-    invitationRepo.update(invitationFound.id, 'CANCELED'), // 'quit' 만드는 게 좋겠음
+    invitationRepo.update(invitationFound.id, 'QUIT'),
     projectRepo2.deleteMember(projectId, userId)
   ]);
   return invitation;

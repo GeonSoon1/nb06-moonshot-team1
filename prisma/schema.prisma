@@ -29,7 +29,7 @@ model OAuthAccount {
     providerId            String
     accessTokenHashed     String
     refreshTokenEncrypted String? // 양방향 암호화 필요. 권한 위임증서의 목적. 클라이언트는 몰라야 함
-    //expiresAt             DateTime?
+    expiresAt             DateTime?
     scope                 String[]
     createdAt             DateTime      @default(now())
     updatedAt             DateTime      @updatedAt
@@ -171,6 +171,7 @@ enum InvitationStatus {
     ACCEPTED
     REJECTED
     CANCELED
+    QUIT
 }
 
 enum TaskStatus {
