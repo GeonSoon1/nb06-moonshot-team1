@@ -1,0 +1,17 @@
+// 초대 수락: 인증
+// 200, 400, 404
+POST http://localhost:3000/invitations/7be18880-73a0-401b-a7a5-d1be7412b364/accept
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhdCI6MTc2NzM0NjUzMSwiZXhwIjoxNzY3MzQ4MzMxfQ.OGK1yZpAt3ao0Sk86bDgKDC7bP9wusUm3SnITAXEzg0
+// 초대 거절: 인증
+###
+POST http://localhost:3000/invitations/ee87f6df-3c37-4871-82e8-f9764e2dffac/reject
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTc2NzM0Njc4NiwiZXhwIjoxNzY3MzQ4NTg2fQ.8je7HkE_BH5tQhJUguZPr4LgjA0GIJH_lMYvZjy4Xks
+//Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhdCI6MTc2NzM0NjUzMSwiZXhwIjoxNzY3MzQ4MzMxfQ.OGK1yZpAt3ao0Sk86bDgKDC7bP9wusUm3SnITAXEzg0
+// 인증만 되면 거절 가능. 초대코드 소지 자체로 인가되는 것으로 간주?
+
+// 초대 취소: 인증, 인가
+// 204, 400, 401, 403, 404
+### 
+DELETE http://localhost:3000/invitations/e5c85e95-c974-4438-9b57-f909489a1d43
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhdCI6MTc2NzM0NjUzMSwiZXhwIjoxNzY3MzQ4MzMxfQ.OGK1yZpAt3ao0Sk86bDgKDC7bP9wusUm3SnITAXEzg0
+

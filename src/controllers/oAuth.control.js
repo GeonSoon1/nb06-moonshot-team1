@@ -3,7 +3,11 @@ import { encryptToken } from '../lib/crypto.token.js';
 import bcrypt from 'bcrypt';
 import { CreateUserBodyStruct, LoginUserBodyStruct } from '../structs/oAuth.structs.js';
 import { create, StructError } from 'superstruct';
-import { BadRequestError, NotFoundError, UnauthorizedError } from '../lib/errors/customError.js';
+import {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError
+} from '../middlewares/errors/customError.js';
 import { Prisma } from '@prisma/client';
 import {
   sha256,

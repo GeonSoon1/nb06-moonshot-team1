@@ -1,20 +1,20 @@
 ### 회원가입
-POST http://localhost:3001/auth/register
+POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-    "email": "use21@user.com",
-    "name": "유저",
-    "password": "dbwjdbwj"
+    "email": "user9@test.com",
+    "name": "user9",
+    "password": "password9"
 }
 
 ### 로그인
-POST http://localhost:3001/auth/login
+POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-    "email": "alstn3@alstn.com",
-    "password": "alstn1234"
+    "email": "user8@test.com",
+    "password": "password8"
 }
 
 ### 토큰갱신

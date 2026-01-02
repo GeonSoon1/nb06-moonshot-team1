@@ -1,0 +1,28 @@
+###
+GET http://localhost:3000/projects
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTc2NzM0NTg3NiwiZXhwIjoxNzY3MzQ3Njc2fQ.SrHyJtEp4o6OtV5OFmtg5nkRTOBckSuTcB7wbuWvN0o
+// 멤버 목록 조회: 인증, 인가
+// 200, 400, 401, 403
+###
+GET http://localhost:3000/projects/5/users  
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTc2NzM0NTg3NiwiZXhwIjoxNzY3MzQ3Njc2fQ.SrHyJtEp4o6OtV5OFmtg5nkRTOBckSuTcB7wbuWvN0o
+
+
+// 멤버 제외: 인증, 인가
+// 204, 400, 401, 403, 404
+### 
+DELETE http://localhost:3000/projects/5/users/9
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhdCI6MTc2NzM0NjUzMSwiZXhwIjoxNzY3MzQ4MzMxfQ.OGK1yZpAt3ao0Sk86bDgKDC7bP9wusUm3SnITAXEzg0
+
+//Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTc2NzM0NTg3NiwiZXhwIjoxNzY3MzQ3Njc2fQ.SrHyJtEp4o6OtV5OFmtg5nkRTOBckSuTcB7wbuWvN0o
+
+// 멤버 초대: 인증, 인가
+// 201, 400, 401, 403
+###
+POST http://localhost:3000/projects/5/invitations
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTc2NzM0Njc4NiwiZXhwIjoxNzY3MzQ4NTg2fQ.8je7HkE_BH5tQhJUguZPr4LgjA0GIJH_lMYvZjy4Xks
+Content-Type: application/json
+
+{
+  "email": "user9@test.com"
+}

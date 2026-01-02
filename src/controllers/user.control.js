@@ -6,7 +6,7 @@ import {
   UpdateInfoStruct
 } from '../structs/user.structs.js';
 import { create } from 'superstruct';
-import { BadRequestError, ForbiddenError } from '../lib/errors/customError.js';
+import { BadRequestError, ForbiddenError } from '../middlewares/errors/customError.js';
 import { dateParts, STATUS, toEndOfDay, toStartOfDay } from '../lib/util.js';
 
 //내 정보 조회

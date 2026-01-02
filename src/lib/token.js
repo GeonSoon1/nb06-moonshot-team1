@@ -1,9 +1,7 @@
 import jwt from 'jsonwebtoken';
-import { UnauthorizedError } from './errors/customError.js';
+import { UnauthorizedError } from '../middlewares/errors/customError.js';
 import crypto from 'crypto';
-
-const ACCESS_TOKEN_SECRET = process.env.JWT_ACCESS_TOKEN_SECRET;
-const REFRESH_TOKEN_SECRET = process.env.JWT_REFRESH_TOKEN_SECRET;
+import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from './constants.js';
 
 export function generateAccessToken(userId) {
   try {
