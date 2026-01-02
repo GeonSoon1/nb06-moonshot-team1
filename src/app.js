@@ -21,12 +21,9 @@ app.use(express.json());
 app.use('/', memberRouter);
 app.use('/projects', projectRouter);
 
-<<<<<<< HEAD
-=======
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
 
->>>>>>> 2ecc037 (✨ feat : auth, user api기능 추가)
 app.use('/', commentRouter);
 app.use(defaultNotFoundHandler);
 app.use(globalErrorHandler);
