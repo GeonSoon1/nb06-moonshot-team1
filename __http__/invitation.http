@@ -1,7 +1,8 @@
 // 초대 수락: 인증
 // 200, 400, 404
-POST http://localhost:3000/invitations/7be18880-73a0-401b-a7a5-d1be7412b364/accept
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhdCI6MTc2NzM0NjUzMSwiZXhwIjoxNzY3MzQ4MzMxfQ.OGK1yZpAt3ao0Sk86bDgKDC7bP9wusUm3SnITAXEzg0
+POST http://localhost:3000/invitations/88f44bfd-b3d5-43d6-9723-78c6e03030bd/accept
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzM1ODg4MSwiZXhwIjoxNzY3MzYwNjgxfQ.IousA2C3mHkJ8wEwE9fL6kSEPGK-oHsZUeNSIyVLxZM
+
 // 초대 거절: 인증
 ###
 POST http://localhost:3000/invitations/ee87f6df-3c37-4871-82e8-f9764e2dffac/reject

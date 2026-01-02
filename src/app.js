@@ -19,15 +19,13 @@ app.use(
 );
 app.use(express.json());
 
+app.use('/', taskRouter)
 app.use('/projects', projectRouter2);
 app.use('/invitations', invitationRouter);
 app.use('/', commentRouter);
-app.use('/tasks', taskRouter)
-
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
 
-app.use('/', commentRouter);
 app.use(defaultNotFoundHandler);
 app.use(globalErrorHandler);
 

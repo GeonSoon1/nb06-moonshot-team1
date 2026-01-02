@@ -19,10 +19,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhd
 // 멤버 초대: 인증, 인가
 // 201, 400, 401, 403
 ###
-POST http://localhost:3000/projects/5/invitations
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTc2NzM0Njc4NiwiZXhwIjoxNzY3MzQ4NTg2fQ.8je7HkE_BH5tQhJUguZPr4LgjA0GIJH_lMYvZjy4Xks
+POST http://localhost:3000/projects/1/invitations
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzM1ODg1MywiZXhwIjoxNzY3MzYwNjUzfQ.U-HrUA4NVeFbcz01gTZfh7oNRsNWVVIo7wDcQ-tU6R0
 Content-Type: application/json
 
 {
-  "email": "user9@test.com"
+  "email": "user2@test.com"
 }
