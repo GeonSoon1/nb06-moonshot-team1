@@ -37,7 +37,7 @@ VALUES
 ('매일 운동하기', '걷기, 에어로빅 운동, 근력 운동 중 한가지는 매일 1회 꼭 하기', '2026-03-15', '2026-06-30', 2, 1, 1, now(), now());
 
 
-psql postgresql://postgres:password@localhost:5432/moonshot
+psql postgresql://apple:0000@localhost:5432/moonshot
 
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;

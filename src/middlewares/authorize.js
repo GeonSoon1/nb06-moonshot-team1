@@ -1,10 +1,14 @@
 import { prisma } from '../lib/prismaClient.js';
+<<<<<<< HEAD
 import {
   ForbiddenError,
   UnauthorizedError,
   BadRequestError
 } from '../middlewares/errors/customError.js';
 import { ACCESS_TOKEN_COOKIE_NAME } from '../lib/constants.js';
+=======
+import { ForbiddenError, UnauthorizedError, BadRequestError } from '../lib/errors/customError.js';
+>>>>>>> 738d7be (🐛 fix : 인증 버그 수정)
 
 async function projectOwner(req, res, next) {
   try {
