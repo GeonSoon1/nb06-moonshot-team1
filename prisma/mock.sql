@@ -1,27 +1,31 @@
-INSERT INTO "User" (email, name, "passwordHash", "createdAt", "updatedAt")
+INSERT INTO "User" (email, name, "passwordHashed", "createdAt", "updatedAt")
 VALUES
-  ('user1@test.com', 'user1', 'password1', now(), now()),
-  ('user2@test.com', 'user2', 'password2', now(), now()),
-  ('user3@test.com', 'user3', 'password3', now(), now()),
-  ('user4@test.com', 'user4', 'password4', now(), now()),
-  ('user5@test.com', 'user5', 'password5', now(), now()),
-  ('user6@test.com', 'user6', 'password6', now(), now()),
-  ('user7@test.com', 'user7', 'password7', now(), now());
+  ('user1@test.com', 'user1', '$2b$10$0eu.QBUY5ZCQGWX.oO8MAeks0MHBSXer9J94NcZUSa2o7hl60qFjy', now(), now()),
+  ('user2@test.com', 'user2', '$2b$10$bUslXtF2adOHqVQQBiQi2.pBhNLX2Nmdzoy7L9aTeu8SnAqC.tKyq', now(), now()),
+  ('user3@test.com', 'user3', '$2b$10$wrrtxSZIe/jVDV.dfovZHuXhb.VLsCJp73WH9N7bNm0NlExISM/oK', now(), now()),
+  ('user4@test.com', 'user4', '$2b$10$BEPbUEt0iyggByK2rlGDbumECBnNsUa3/kPGh0K/8BLk7PDaq3.Le', now(), now()),
+  ('user5@test.com', 'user5', '$2b$10$PtRyuogMz.c57PFws5vBfOLWPgR.S.evR3EeLchS6Bdv/psoSNmLO', now(), now()),
+  ('user6@test.com', 'user6', '$2b$10$jSm5kuKo9QA.jqnKCI.guup49xDx6gj9gRSj9T.Vw91NCwA8CNxZO', now(), now()),
+  ('user7@test.com', 'user7', '$2b$10$i/zy07XVMaISTdavrOTekOOuzVVRpyhbo2hwZqAQ1Sxncgcb49qQ.', now(), now()),
+  ('user8@test.com', 'user8', '$2b$10$KhuEOtTmZVgo6xbI0qPLL.UO/dIzzJ7T6pA/HuWbUmfy35e44ed3W', now(), now()),
+  ('user9@test.com', 'user9', '$2b$10$f0oBVLIPPAA1zHhyvsha3eP91iDtetCguX2MlEtwluPF4knJAl5Qm', now(), now());
 
 INSERT INTO "Project" (name, description, "ownerId", "createdAt", "updatedAt")
 VALUES
   ('사워도우빵 만들기', '천연효모로 건강한 빵 같이 만들어요', 1, now(), now()),
-  ('근육질몸 만들기', '매일 30분 투자하여 6개월 내 근육질 되기', 1, now(), now()),
-  ('집수리 하기', '외관은 오래되었어도 내부는 새집처럼!', 2, now(), now()),
-  ('Javascript 완전정복', '자바스크립트 사용법과 적용 마스터하기 ', 3, now(), now());
+  ('근육질몸 만들기', '매일 30분 투자하여 6개월 내 근육질 되기', 2, now(), now()),
+  ('집수리 하기', '외관은 오래되었어도 내부는 새집처럼!', 3, now(), now()),
+  ('Javascript 완전정복', '자바스크립트 사용법과 적용 마스터하기 ', 4, now(), now()),
+  ('프리즈마 완전정복', '같이 열심히 하면 됩니다', 8, now(), now());;
 
 
 INSERT INTO "ProjectMember" ("projectId", "memberId", role, "createdAt", "updatedAt")
 VALUES
   (1, 1, 'OWNER', now(), now()),
-  (2, 1, 'OWNER', now(), now()),
-  (3, 2, 'OWNER', now(), now()), 
-  (4, 3, 'OWNER', now(), now());
+  (2, 2, 'OWNER', now(), now()),
+  (3, 3, 'OWNER', now(), now()), 
+  (4, 4, 'OWNER', now(), now()),
+  (5, 8, 'OWNER', now(), now());;
 
 INSERT INTO "Task" ("title", description, "startDate", "endDate", "projectId", "taskCreatorId", "assigneeProjectMemberId", "createdAt", "updatedAt")
 VALUES
