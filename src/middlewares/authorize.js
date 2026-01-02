@@ -1,8 +1,13 @@
 import { prisma } from '../lib/prismaClient';
 import { ForbiddenError, UnauthorizedError, BadRequestError } from '../lib/errors/customError';
+import { ACCESS_TOKEN_COOKIE_NAME } from '../lib/constants.js';
 
 async function projectOwner(req, res, next) {
   try {
+    if (!req.cookies[ACCESS_TOKEN_COOKIE_NAME]) {
+      console.log('토큰이 만료되었습니다'); // 작동할지 모르겠음
+      throw new UnauthorizedError('토큰 만료');
+    }
     if (!req.user) {
       console.log('인증되지 않은 유저입니다. 로그인이 필요합니다');
       throw new UnauthorizedError('로그인이 필요합니다');
@@ -20,6 +25,7 @@ async function projectOwner(req, res, next) {
 
     if (req.user.id !== project.ownerId) {
       console.log('권한이 없습니다. 프로젝트 관리자이어야 합니다');
+      if (req.baseUrl.includes('invitations')) throw new ForbiddenError('권한이 없습니다');
       throw new ForbiddenError('프로젝트 관리자가 아닙니다');
     }
 

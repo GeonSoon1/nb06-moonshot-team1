@@ -4,7 +4,7 @@ import {
   BadRequestError,
   ForbiddenError,
   UnauthorizedError
-} from '../lib/errors/customError.js';
+} from './errors/customError.js';
 import { Prisma } from '@prisma/client';
 // import { Request, Response, NextFunction } from "express";
 // import { isSyntaxJsonError } from "../lib/errors/errorUtils";

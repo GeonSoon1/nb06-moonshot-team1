@@ -1,4 +1,4 @@
-import { BadRequestError, NotFoundError } from '../lib/errors/customError.js';
+import { BadRequestError, NotFoundError } from '../middlewares/errors/customError.js';
 import { prisma } from '../lib/prismaClient.js';
 import invitationRepo from '../repositories/invitation.repo.js';
 import projectRepo2 from '../repositories/project.repo2.js';
@@ -27,7 +27,8 @@ async function checkPending(invitationId) {
   const invitation = await invitationRepo.findById(invitationId);
   if (!invitation) {
     console.log('초대 기록이 없습니다');
-    throw new NotFoundError();
+    throw new BadRequestError('잘못된 요청 형식');
+    //throw new NotFoundError();
   }
   if (invitation.status !== 'PENDING') {
     console.log('대기 중인 초대가 아닙니다');

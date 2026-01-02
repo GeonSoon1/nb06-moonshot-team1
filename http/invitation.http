@@ -10,4 +10,4 @@ POST http://localhost:3000/invitations/72d319f2-5453-424f-8122-0ca352d0fa7a/reje
 // 초대 취소: 인증, 인가
 // 204, 400, 401, 403, 404
 ### 
-DELETE http://localhost:3000/invitations/294d8f91-3deb-4026-8888-3d4d0587fa5c
+DELETE http://localhost:3000/invitations/5d732b97-d5be-4705-8be5-67289a9172ac
