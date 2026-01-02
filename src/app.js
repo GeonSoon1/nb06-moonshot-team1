@@ -1,8 +1,8 @@
 import express from 'express';
 import { defaultNotFoundHandler, globalErrorHandler } from './middlewares/errorHandler.js';
 import { PORT } from './lib/constants.js';
-import projectRouter from './routers/project.router.js';
-import memberRouter from './routers/member.router.js';
+import projectRouter2 from './routers/project.router2.js';
+import invitationRouter from './routers/invitation.router.js';
 import commentRouter from './routers/comment.router.js';
 import cors from 'cors';
 import authRouter from './routers/auth.router.js';
@@ -18,8 +18,9 @@ app.use(
 );
 app.use(express.json());
 
-app.use('/', memberRouter);
-app.use('/projects', projectRouter);
+app.use('/projects', projectRouter2);
+app.use('/invitations', invitationRouter);
+app.use('/', commentRouter);
 
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
