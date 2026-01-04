@@ -1,12 +1,15 @@
 @baseUrl = http://localhost:3000
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzM2NDI3MCwiZXhwIjoxNzY3MzY2MDcwfQ.R7-TACrUrkfiMorwqUrpYDNmWFolc_G67AWZMbl9tEY
+
 // 초대 수락: 인증
 // 200, 400, 404
 POST {{baseUrl}}/invitations/f34c9292-d274-4fcd-8437-b2ac66c5ea41/accept
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzM1NjQ1MywiZXhwIjoxNzY3MzU4MjUzfQ.lYA7kDjq5Dk5GWEZWIwtVse3JC6UHgWMflxdAnNh8Ig
+Authorization: Bearer {{accessToken}}
+
 // 초대 거절: 인증
 ###
 POST {{baseUrl}}/invitations/ee87f6df-3c37-4871-82e8-f9764e2dffac/reject
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzM1NjQ1MywiZXhwIjoxNzY3MzU4MjUzfQ.lYA7kDjq5Dk5GWEZWIwtVse3JC6UHgWMflxdAnNh8Ig
+Authorization: Bearer {{accessToken}}
 //Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhdCI6MTc2NzM0NjUzMSwiZXhwIjoxNzY3MzQ4MzMxfQ.OGK1yZpAt3ao0Sk86bDgKDC7bP9wusUm3SnITAXEzg0
 // 인증만 되면 거절 가능. 초대코드 소지 자체로 인가되는 것으로 간주?
 
@@ -14,5 +17,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhd
 // 204, 400, 401, 403, 404
 ### 
 DELETE {{baseUrl}}/invitations/e5c85e95-c974-4438-9b57-f909489a1d43
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzM1NjQ1MywiZXhwIjoxNzY3MzU4MjUzfQ.lYA7kDjq5Dk5GWEZWIwtVse3JC6UHgWMflxdAnNh8Ig
-
+Authorization: Bearer {{accessToken}}

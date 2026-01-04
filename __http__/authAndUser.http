@@ -1,4 +1,7 @@
 @baseUrl = http://localhost:3000
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzM5MDE0NiwiZXhwIjoxNzY3MzkxOTQ2fQ.Jqrp4_vi95EsjiH0IgvrGnbHJC6w1RvOZJeOey_lDI8
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzM5MDE0NiwiZXhwIjoxNzY3OTk0OTQ2fQ.RGgS5n4jQ89u2g4MsJMUezH5Royx_p8Da1_kfOtT3xM
+
 ### 회원가입
 POST {{baseUrl}}/auth/register
 Content-Type: application/json
@@ -25,15 +28,15 @@ Content-Type: application/json
 
 ### 토큰갱신
 POST {{baseUrl}}/auth/refresh
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzMzNzY4OSwiZXhwIjoxNzY3OTQyNDg5fQ.jyKeDQMimEQi4aYaFpgTX_tpazm7tVXhUYcy6Un_hpc
+Authorization: Bearer {{refreshToken}}
 
 ### 내 정보 조회
 GET {{baseUrl}}/users/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzMzODYxNSwiZXhwIjoxNzY3MzQwNDE1fQ.SceJLQ_J7Sh5AY2rSDoAKpjojYXNVJ7TczPJhG5D-PQ
+Authorization: Bearer {{accessToken}}
 
 ### 내 정보 수정
 PATCH {{baseUrl}}/users/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzMzNzcwNywiZXhwIjoxNzY3MzM5NTA3fQ.JOkVApBruJOFto5wxpgmWVlQIrs3kCMUQ4Js66I9RtA
+Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
@@ -47,15 +50,15 @@ Content-Type: application/json
 
 ### 내가 참여중인 프로젝트 조회
 GET {{baseUrl}}/users/me/projects
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzMzNzcwNywiZXhwIjoxNzY3MzM5NTA3fQ.JOkVApBruJOFto5wxpgmWVlQIrs3kCMUQ4Js66I9RtA
+Authorization: Bearer {{accessToken}}
 
 ### 내가 참여중인 모든 프로젝트의 할 일 목록 조회
 GET {{baseUrl}}/users/me/tasks
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzMzNzcwNywiZXhwIjoxNzY3MzM5NTA3fQ.JOkVApBruJOFto5wxpgmWVlQIrs3kCMUQ4Js66I9RtA
+Authorization: Bearer {{accessToken}}
 
 ### 쿼리 추가 버전
-GET {{baseUrl}}/users/me/tasks?from=2026-01-01&to=2026-01-31&project_id=27&status=todo&assignee_id=17&keyword=TODO
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzMzNzcwNywiZXhwIjoxNzY3MzM5NTA3fQ.JOkVApBruJOFto5wxpgmWVlQIrs3kCMUQ4Js66I9RtA
+GET {{baseUrl}}/users/me/tasks?from=2026-01-01&to=2026-01-31&project_id=1&status=todo&assignee_id=1&keyword=TODO
+Authorization: Bearer {{accessToken}}
 
 //날짜, 키워드 : ?from=2026-01-01&to=2026-01-31&keyword=진행
 //users/me/tasks?from=2026-01-01&to=2026-01-31
