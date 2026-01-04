@@ -1,7 +1,12 @@
 import * as taskRepo from "../repositories/task.repo.js";
 import { formatTask } from "../lib/util.js";
+import { NotFoundError, BadRequestError, ForbiddenError } from "../middlewares/errors/customError.js";
 
-export const createNewTask = async (projectId, userId, body) => {
+export const createNewTask = async (projectId, userId, body, filePaths) => {
+  
+  // 데이터 형식이 숫자가 아니면 400 에러
+  if (isNaN(body.startYear)) throw new BadRequestError('잘못된 요청 형식');
+
   const data = {
     title: body.title,
     description: body.description,
@@ -20,11 +25,12 @@ export const createNewTask = async (projectId, userId, body) => {
       } } 
     })) 
   },
-    attachments: { create: body.attachments?.map(url => ({ url })) }
+    attachments: { create: filePaths.map(url => ({ url })) }
   };
-  // console.log('task.service에서의 data :', data)
+  
   return formatTask(await taskRepo.createTask(data));
 };
+
 
 export const getTaskList = async (projectId, query) => {
   const { page = 1, limit = 10, status, assignee, keyword, order = 'desc', order_by = 'created_at' } = query;
@@ -43,13 +49,41 @@ export const getTaskList = async (projectId, query) => {
   return { data: tasks.map(t => formatTask(t)), total };
 };
 
+
 export const getTaskDetail = async (id) => {
   const task = await taskRepo.findById(id);
-  if (!task) throw { status: 404 };
+  if (!task) throw new NotFoundError();
   return formatTask(task);
 };
 
-export const updateTaskInfo = async (id, body) => {
+
+export const updateTaskInfo = async (id, body, userId, newFilePaths) => {
+  // 1. 먼저 기존 할 일을 조회해서 어떤 프로젝트에 속해 있는지 알아내기
+  const task = await taskRepo.findById(id);
+  if (!task) {
+    throw new NotFoundError();
+  }
+  
+  // userId를 사용하여 "수정하려는 나"가 멤버인지 서비스에서도 한 번 더 확인!
+  const requester = await taskRepo.findProjectMember(task.projectId, userId);
+  if (!requester) {
+    throw new ForbiddenError("프로젝트 멤버가 아닙니다");
+  }
+
+  // 2. 담당자를 바꾸려고 할때(assigneeId가 있을 때)만 검사 실행
+  // 이 프로젝트id를 가지고 assigneeId가 projectMember인지 알아보기
+  if (body.assigneeId) {
+    const targetAssigneeId = Number(body.assigneeId)
+    
+    // repo에서 데이터를 가져온다.(찾으면 객체, 못 찾으면 null)
+    const member = await taskRepo.findProjectMember(task.projectId, targetAssigneeId)
+
+    if (!member) {
+      // console.log('담당자 후보가 프로젝트 멤버가 아닙니다.')
+      throw new ForbiddenError("프로젝트 멤버가 아닙니다");
+    }
+  }
+
   const updateData = {};
   if (body.title) updateData.title = body.title;
   if (body.description !== undefined) updateData.description = body.description;
@@ -58,7 +92,7 @@ export const updateTaskInfo = async (id, body) => {
   if (body.endYear) updateData.endDate = new Date(body.endYear, body.endMonth - 1, body.endDay);
   if (body.assigneeId) updateData.assigneeProjectMemberId = Number(body.assigneeId);
 
-  const updated = await taskRepo.updateWithTransaction(id, updateData, body.tags, body.attachments);
+  const updated = await taskRepo.updateWithTransaction(id, updateData, body.tags, newFilePaths);
   return formatTask(updated);
 };
 

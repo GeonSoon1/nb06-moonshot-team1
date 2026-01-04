@@ -9,27 +9,27 @@
 
 ### [1] 프로젝트에 할 일 생성
 # @name createTask
-POST {{baseUrl}}/projects/{{projectId}}/tasks
-Content-Type: application/json
-Authorization: Bearer {{accessToken}}
+# POST {{baseUrl}}/projects/{{projectId}}/tasks
+# Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
 
-{
-  "title": "Prisma 스키마 완성하기2",
-  "description": "팀원들과 함께 태스크 모델까지 구현을 완료합니다.",
-  "startYear": 2025,
-  "startMonth": 5,
-  "startDay": 1,
-  "endYear": 2025,
-  "endMonth": 5,
-  "endDay": 15,
-  "status": "todo",
-  "assigneeId": {{assigneeId}},
-  "tags": ["개발", "백엔드", "Prisma"],
-  "attachments": [
-    "https://example.com/files/schema.pdf",
-    "https://example.com/files/diagram.png"
-  ]
-}
+# {
+#   "title": "Prisma 스키마 완성하기2",
+#   "description": "팀원들과 함께 태스크 모델까지 구현을 완료합니다.",
+#   "startYear": 2025,
+#   "startMonth": 5,
+#   "startDay": 1,
+#   "endYear": 2025,
+#   "endMonth": 5,
+#   "endDay": 15,
+#   "status": "todo",
+#   "assigneeId": {{assigneeId}},
+#   "tags": ["개발", "백엔드", "Prisma"],
+#   "attachments": [
+#     "https://example.com/files/schema.pdf",
+#     "https://example.com/files/diagram.png"
+#   ]
+# }
 
 ### 생성된 할 일 ID 저장
 @taskId = {{createTask.response.body.id}}
@@ -52,16 +52,16 @@ Authorization: Bearer {{accessToken}}
 
 ### [5] 할 일 수정 (담당자 및 상태 변경)
 # 담당자를 다른 멤버(예: ID 4)로 바꾸고 상태를 '진행중'으로 변경
-PATCH {{baseUrl}}/tasks/{{taskId}}
-Content-Type: application/json
-Authorization: Bearer {{accessToken}}
+# PATCH {{baseUrl}}/tasks/{{taskId}}
+# Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
 
-{
-  "title": "Prisma 마스터하기 (수정본)",
-  "assigneeId": 2,
-  "status": "in_progress",
-  "tags": ["백엔드", "공부중"]
-}
+# {
+#   "title": "Prisma 마스터하기 (수정본)",
+#   "assigneeId": 2,
+#   "status": "in_progress",
+#   "tags": ["백엔드", "공부중"]
+# }
 
 
 ### [6] 할 일 삭제 (DELETE)
