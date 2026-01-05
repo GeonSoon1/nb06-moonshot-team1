@@ -1,4 +1,6 @@
 import { prisma } from '../lib/prismaClient.js';
+import { create } from 'superstruct';
+import * as CommentStruct from '../structs/comment.structs.js';
 export class CommentController {
   constructor(commentService) {
     this.commentService = commentService;
@@ -14,8 +16,7 @@ export class CommentController {
         where: { id: tId }
       });
 
-      console.log('commentControl.js의 task', task);
-      const { content } = req.body;
+      const { content } = create(req.body, CommentStruct.CreateComment);
       const userId = req.user.id;
       // req.user.id; // 인증 미들웨어(Bearer token)에서 가져온 정보
       const newComment = await this.commentService.createComment(
@@ -67,9 +68,8 @@ export class CommentController {
   updateComment = async (req, res, next) => {
     try {
       const { commentId } = req.params;
-      const { content } = req.body;
+      const { content } = create(req.body, CommentStruct.UpdateComment);
       const userId = req.user.id;
-
       const updatedComment = await this.commentService.updateComment(commentId, userId, content);
 
       return res.status(200).json(updatedComment);

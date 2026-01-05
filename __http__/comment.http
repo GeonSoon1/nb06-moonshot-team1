@@ -5,7 +5,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhd
 Content-Type: application/json
 
 {
-    "content": "문샷 댓글 테스트."
+    "content": "문샷 댓글 생성 테스트"
 }
 
 ###
@@ -19,12 +19,12 @@ Content-Type: application/json
 
 ### 3. 댓글 수정 (PATCH)
 # 댓글이 생성되면 응답으로 오는 'id'를 확인한 뒤 아래 1 대신 넣어주세요.
-PATCH http://localhost:3000/comments/22
+PATCH http://localhost:3000/comments/25
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhdCI6MTc2NzU3NzM4NywiZXhwIjoxNzY3NjYzNzg3fQ.DuCjjTQDkARXKaNX2PmUPXPfFmQZIsWb1AZMaV5GUts
 Content-Type: application/json
 
 {
-    "content": "문샷 댓글 수정 테스트."
+    "content": "문샷 댓글 수정 테스트"
 }
 
 ###
