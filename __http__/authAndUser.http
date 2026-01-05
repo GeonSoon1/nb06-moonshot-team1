@@ -3,8 +3,13 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
+<<<<<<< HEAD
     "email": "user10@test.com",
     "name": "user10",
+=======
+    "email": "user3@test.com",
+    "name": "user5",
+>>>>>>> 1850d95 (✨ feat : task 관련 작업 수정 완료)
     "password": "password1"
 }
 
@@ -13,7 +18,11 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
+<<<<<<< HEAD
     "email": "user13@test.com",
+=======
+    "email": "user3@test.com",
+>>>>>>> 1850d95 (✨ feat : task 관련 작업 수정 완료)
     "password": "password1"
 }
 

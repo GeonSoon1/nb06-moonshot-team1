@@ -49,6 +49,7 @@ async function projectMember(req, res, next) {
     const isMember = await prisma.projectMember.findUnique({
       where: { projectId_memberId: { projectId, memberId: req.user.id } }
     });
+
     if (!isMember) {
       console.log('권한이 없습니다. 프로젝트 멤버이어야 합니다');
       throw new ForbiddenError('프로젝트 멤버가 아닙니다');

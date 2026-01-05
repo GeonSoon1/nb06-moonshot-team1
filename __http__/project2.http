@@ -19,10 +19,19 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhd
 // 멤버 초대: 인증, 인가
 // 201, 400, 401, 403
 ###
+<<<<<<< HEAD
 POST http://localhost:3000/projects/4/invitations
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTc2NzU3NTM5MSwiZXhwIjoxNzY3NTc3MTkxfQ.MHciAPa6hc9oA9UAAdziL0ZTGsLgXQE6oGAOfADkODs
 Content-Type: application/json
 
 {
   "email": "user13@test.com"
+=======
+POST http://localhost:3003/projects/1/invitations
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzYwNTAyOCwiZXhwIjoxNzY3NjkxNDI4fQ.tZUKTpze1f0HLNJ_v2S2DYvVqy6NezIZFJBtt260Sjg
+Content-Type: application/json
+
+{
+  "email": "user3@test.com"
+>>>>>>> 1850d95 (✨ feat : task 관련 작업 수정 완료)
 }

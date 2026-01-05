@@ -1,7 +1,14 @@
 // 초대 수락: 인증
 // 200, 400, 404
+<<<<<<< HEAD
 POST http://localhost:3000/invitations/4a7c0468-bcf7-4b2a-95bd-30a2c5e9e1ed/accept
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpYXQiOjE3Njc1NzU0NzMsImV4cCI6MTc2NzU3NzI3M30.ex7R2PzU5UWfbvCLZ4YdIirZCt45a6MPpKyDenRgBXQ
+=======
+POST http://localhost:3000/invitations/5d92aabd-5daa-48da-bf20-b592b0480c80/accept
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTc2NzYwNTA4NSwiZXhwIjoxNzY3NjkxNDg1fQ.iuve8pfiCDFJMMqCcoDFHQLHm3cOumv2RjXiVWlDyHg
+
+
+>>>>>>> 1850d95 (✨ feat : task 관련 작업 수정 완료)
 
 // 초대 거절: 인증
 ###
