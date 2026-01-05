@@ -5,7 +5,7 @@ import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from './constants.js';
 
 export function generateAccessToken(userId) {
   try {
-    return jwt.sign({ userId }, ACCESS_TOKEN_SECRET, { expiresIn: '30m' });
+    return jwt.sign({ userId }, ACCESS_TOKEN_SECRET, { expiresIn: '1d' }); //30m
   } catch (error) {
     throw new Error('Access 토큰 생성 실패');
   }

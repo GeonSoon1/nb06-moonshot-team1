@@ -53,4 +53,4 @@ VALUES
 
 INSERT INTO "ProjectMember" ("projectId", "memberId", role, "createdAt", "updatedAt")
 VALUES
-  (5, 8, 'OWNER', now(), now());
+  (3, 3, 'OWNER', now(), now());

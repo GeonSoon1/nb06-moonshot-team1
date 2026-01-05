@@ -49,11 +49,11 @@ async function projectMember(req, res, next) {
     const isMember = await prisma.projectMember.findUnique({
       where: { projectId_memberId: { projectId, memberId: req.user.id } }
     });
-
     if (!isMember) {
       console.log('권한이 없습니다. 프로젝트 멤버이어야 합니다');
       throw new ForbiddenError('프로젝트 멤버가 아닙니다');
     }
+
     next();
   } catch (err) {
     next(err);
@@ -89,6 +89,7 @@ async function commentAuthor(req, res, next) {
 }
 
 async function resolveProjectId(params) {
+  console.log('authorize에 리졸프패럼', params);
   if (params.subTaskId) {
     const subtask = await prisma.subTask.findUniqueOrThrow({
       where: { id: Number(params.subTaskId) }

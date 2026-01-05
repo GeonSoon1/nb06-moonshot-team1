@@ -22,7 +22,6 @@ export function dateParts(d) {
   };
 }
 
-
 export const formatTask = (task) => ({
   id: task.id,
   projectId: task.projectId,
@@ -35,14 +34,38 @@ export const formatTask = (task) => ({
   endMonth: task.endDate.getMonth() + 1,
   endDay: task.endDate.getDate(),
   status: task.status.toLowerCase(),
-  assignee: task.assigneeProjectMember ? {
-    id: task.assigneeProjectMember.member.id,
-    name: task.assigneeProjectMember.member.name,
-    email: task.assigneeProjectMember.member.email,
-    profileImage: task.assigneeProjectMember.member.profileImage,
-  } : null,
-  tags: task.taskTags?.map(tt => ({ id: tt.tag.id, name: tt.tag.name })) || [],
-  attachments: task.attachments?.map(a => a.url) || [],
+  assignee: task.assigneeProjectMember
+    ? {
+        id: task.assigneeProjectMember.member.id,
+        name: task.assigneeProjectMember.member.name,
+        email: task.assigneeProjectMember.member.email,
+        profileImage: task.assigneeProjectMember.member.profileImage
+      }
+    : null,
+  tags: task.taskTags?.map((tt) => ({ id: tt.tag.id, name: tt.tag.name })) || [],
+  attachments: task.attachments?.map((a) => a.url) || [],
   createdAt: task.createdAt,
-  updatedAt: task.updatedAt,
-})
+  updatedAt: task.updatedAt
+});
+
+/**
+ * DB에서 조회된 중첩된 댓글 데이터를 명세서 규격에 맞게 가공합니다.
+ *
+ */
+export const formatComment = (comment) => {
+  if (!comment) return null;
+
+  return {
+    id: comment.id,
+    content: comment.content,
+    taskId: comment.taskId,
+    author: {
+      id: comment.author.member.id,
+      name: comment.author.member.name,
+      email: comment.author.member.email,
+      profileImage: comment.author.member.profileImage
+    },
+    createdAt: comment.createdAt,
+    updatedAt: comment.updatedAt
+  };
+};

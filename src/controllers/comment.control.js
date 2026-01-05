@@ -1,3 +1,4 @@
+import { prisma } from '../lib/prismaClient.js';
 export class CommentController {
   constructor(commentService) {
     this.commentService = commentService;
@@ -7,11 +8,22 @@ export class CommentController {
   createComment = async (req, res, next) => {
     try {
       const { taskId } = req.params;
-      const { content } = req.body;
-      const userId = 2;
-      // req.user.id; // 인증 미들웨어(Bearer token)에서 가져온 정보
+      console.log('typeof taskId', typeof taskId);
+      const tId = Number(taskId);
+      const task = await prisma.task.findUnique({
+        where: { id: tId }
+      });
 
-      const newComment = await this.commentService.createComment(taskId, userId, content);
+      console.log('commentControl.js의 task', task);
+      const { content } = req.body;
+      const userId = req.user.id;
+      // req.user.id; // 인증 미들웨어(Bearer token)에서 가져온 정보
+      const newComment = await this.commentService.createComment(
+        taskId,
+        task.projectId,
+        userId,
+        content
+      );
 
       // 성공 시 명세서에 정의된 200 OK 응답
       return res.status(200).json(newComment);
@@ -28,7 +40,7 @@ export class CommentController {
       const { page = 1, limit = 10 } = req.query; // 쿼리 스트링에서 페이지 정보 추출
       const userId = req.user.id;
 
-      const result = await this.commentService.getCommentsByTaskId(taskId, userId, page, limit);
+      const result = await this.commentService.findAllByTaskId(taskId, userId, page, limit);
 
       return res.status(200).json(result);
     } catch (error) {

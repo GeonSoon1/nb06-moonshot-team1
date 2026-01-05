@@ -8,28 +8,33 @@ export class CommentRepository {
       select: {
         member: {
           // ProjectMember를 거쳐 User 정보를 가져와야 함
-          select: { id: true, name: true, email: true, profileImage: true },
-        },
-      },
-    },
+          select: { id: true, name: true, email: true, profileImage: true }
+        }
+      }
+    }
   };
 
   createComment = async (taskId, projectId, authorId, content) => {
+    console.log('commentRepo에 taskId: ', taskId);
+    console.log('commentRepo에 projectId: ', projectId);
+    console.log('commentRepo에 authorId: ', authorId);
+    console.log('commentRepo에 content: ', content);
+
     return await this.prisma.comment.create({
       data: {
         taskId: +taskId,
         projectId: +projectId, // 추가됨
         authorId: +authorId,
-        content,
+        content
       },
-      include: this.commentInclude,
+      include: this.commentInclude
     });
   };
 
   findCommentById = async (commentId) => {
     return await this.prisma.comment.findUnique({
       where: { id: +commentId },
-      include: this.commentInclude,
+      include: this.commentInclude
     });
   };
 
@@ -40,9 +45,9 @@ export class CommentRepository {
         include: this.commentInclude,
         skip: +skip,
         take: +limit,
-        orderBy: { createdAt: "desc" },
+        orderBy: { createdAt: 'desc' }
       }),
-      this.prisma.comment.count({ where: { taskId: +taskId } }),
+      this.prisma.comment.count({ where: { taskId: +taskId } })
     ]);
     return { data, total };
   };
@@ -51,7 +56,7 @@ export class CommentRepository {
     return await this.prisma.comment.update({
       where: { id: +commentId },
       data: { content },
-      include: this.commentInclude,
+      include: this.commentInclude
     });
   };
 
