@@ -1,3 +1,4 @@
+import { prisma } from '../lib/prismaClient.js';
 export class CommentController {
   constructor(commentService) {
     this.commentService = commentService;
@@ -7,11 +8,19 @@ export class CommentController {
   createComment = async (req, res, next) => {
     try {
       const { taskId } = req.params;
-      const { content } = req.body;
-      const userId = req.user.id; // 인증 미들웨어(Bearer token)에서 가져온 정보
+      console.log('typeof taskId', typeof taskId);
+      const tId = Number(taskId);
+      const task = await prisma.task.findUnique({
+        where: { id: tId }
+      });
 
+      console.log('commentControl.js의 task', task);
+      const { content } = req.body;
+      const userId = req.user.id;
+      // req.user.id; // 인증 미들웨어(Bearer token)에서 가져온 정보
       const newComment = await this.commentService.createComment(
         taskId,
+        task.projectId,
         userId,
         content
       );
@@ -31,12 +40,7 @@ export class CommentController {
       const { page = 1, limit = 10 } = req.query; // 쿼리 스트링에서 페이지 정보 추출
       const userId = req.user.id;
 
-      const result = await this.commentService.getCommentsByTaskId(
-        taskId,
-        userId,
-        page,
-        limit
-      );
+      const result = await this.commentService.findAllByTaskId(taskId, userId, page, limit);
 
       return res.status(200).json(result);
     } catch (error) {
@@ -51,10 +55,7 @@ export class CommentController {
       const userId = req.user.id;
 
       // 댓글 상세 조회를 위해 서비스 호출 (여기서 멤버 체크 등 수행)
-      const comment = await this.commentService.getCommentDetail(
-        commentId,
-        userId
-      );
+      const comment = await this.commentService.getCommentDetail(commentId, userId);
 
       return res.status(200).json(comment);
     } catch (error) {
@@ -69,11 +70,7 @@ export class CommentController {
       const { content } = req.body;
       const userId = req.user.id;
 
-      const updatedComment = await this.commentService.updateComment(
-        commentId,
-        userId,
-        content
-      );
+      const updatedComment = await this.commentService.updateComment(commentId, userId, content);
 
       return res.status(200).json(updatedComment);
     } catch (error) {

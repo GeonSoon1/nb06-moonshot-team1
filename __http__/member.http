@@ -15,11 +15,12 @@ DELETE http://localhost:3000/projects/3/users/1
 // 멤버 초대: 인증, 인가
 // 201, 400, 401, 403
 ### 
-POST http://localhost:3001/projects/3/invitations
+POST http://localhost:3000/projects/2/invitations
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzUyNjYzOCwiZXhwIjoxNzY3NTI4NDM4fQ.i-gGvyioKpT7yziPIS3UuJOjMBvDF4dwcZKda_HELlc
 Content-Type: application/json
 
 {
-  "email": "use21@user.com"
+  "email": "user3@test.com"
 }
 
 // 멤버 초대 수락: 인증
