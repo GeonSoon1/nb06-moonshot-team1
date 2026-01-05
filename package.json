@@ -21,6 +21,7 @@
     "is-uuid": "^1.0.2",
     "jsonwebtoken": "^9.0.3",
     "lru-cache": "^11.2.4",
+    "multer": "^2.0.2",
     "superstruct": "^2.0.2"
   },
   "devDependencies": {
