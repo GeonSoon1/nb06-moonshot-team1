@@ -3,18 +3,9 @@ import { encryptToken } from '../lib/crypto.token.js';
 import bcrypt from 'bcrypt';
 import { CreateUserBodyStruct, LoginUserBodyStruct } from '../structs/oAuth.structs.js';
 import { create, StructError } from 'superstruct';
-import {
-  BadRequestError,
-  NotFoundError,
-  UnauthorizedError
-} from '../middlewares/errors/customError.js';
+import { BadRequestError, NotFoundError, UnauthorizedError } from '../middlewares/errors/customError.js';
 import { Prisma } from '@prisma/client';
-import {
-  sha256,
-  generateAccessToken,
-  generateRefreshToken,
-  verifyRefreshToken
-} from '../lib/token.js';
+import { sha256, generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../lib/token.js';
 
 // Oauth 워크플로우를 생각하며 혹은 브라우저로 띄워놓고 로직을 보면 이해하는데 도움이 됨
 // refreshToken은 DB에 원문 저장 X → sha256 해시로 저장
@@ -309,7 +300,7 @@ export async function register(req, res) {
     return res.status(201).send(userWithoutPassword);
   } catch (err) {
     if (err instanceof StructError) {
-      console.log(err.message)
+      console.log(err.message);
       throw new BadRequestError('잘못된 데이터 형식');
     }
     if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
@@ -388,7 +379,7 @@ export async function refresh(req, res) {
   });
 
   if (!rotated) {
-    throw new UnauthorizedError('토큰 만료4');
+    throw new UnauthorizedError('토큰 만료');
   }
 
   return res.status(200).json({

@@ -1,21 +1,21 @@
 @baseUrl = http://localhost:3000
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlhdCI6MTc2NzY3MTk0MSwiZXhwIjoxNzY3NzU4MzQxfQ.29QFepcvd4Ea_zESxYnXXc74VC8OQQ5j18n74V86amc
-
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY3ODQ0NiwiZXhwIjoxNzY3NzY0ODQ2fQ.dHH-URrcryZXgvVqa3pvr0kEON7GizaR898YJyBwR4Y
+@invitationID = 2489fb51-2be8-48dc-be58-71fbbd40a717
 
 
 // 초대 수락: 인증
 // 200, 400, 404
-POST {{baseUrl}}/invitations/6f9101f3-096b-4537-b664-d2920ad27326/accept
+POST {{baseUrl}}/invitations/{{invitationID}}/accept
 Authorization: Bearer {{accessToken}}
 
 // 초대 거절: 인증
 ###
-POST {{baseUrl}}/invitations/5bb12443-03b6-4109-8cf0-5f0171b49f54/reject
+POST {{baseUrl}}/invitations/{{invitationID}}/reject
 Authorization: Bearer {{accessToken}}
 // 인증만 되면 거절 가능. 초대코드 소지 자체로 인가되는 것으로 간주?
 
 // 초대 취소: 인증, 인가
 // 204, 400, 401, 403, 404
 ### 
-DELETE {{baseUrl}}/invitations/969dca11-bdb0-435b-8625-36233e749e88
+DELETE {{baseUrl}}/invitations/{{invitationID}}749e88
 Authorization: Bearer {{accessToken}}

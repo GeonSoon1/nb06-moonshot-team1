@@ -1,13 +1,7 @@
 import express from 'express';
 import { asyncHandler } from '../middlewares/asyncHandler.js';
 import { requireRefresh } from '../middlewares/refreshToken.js';
-import {
-  googleAuth,
-  googleCallback,
-  login,
-  refresh,
-  register
-} from '../controllers/oAuth.control.js';
+import { googleAuth, googleCallback, login, refresh, register } from '../controllers/oAuth.control.js';
 
 const authRouter = express.Router();
 

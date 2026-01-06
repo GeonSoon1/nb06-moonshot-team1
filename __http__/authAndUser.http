@@ -17,8 +17,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-    "email": "user6@test.com",
-    "password": "password6"
+    "email": "user1@test.com",
+    "password": "password1"
 }
 
 ### 토큰갱신

@@ -5,7 +5,6 @@ import authorize from '../middlewares/authorize.js';
 import * as taskControl from '../controllers/task.control.js';
 import { upload } from '../middlewares/upload.js';
 
-
 const taskRouter = express.Router();
 
 // 프로젝트에 할 일 생성
@@ -20,7 +19,13 @@ taskRouter.get('/tasks/:taskId', authenticate, authorize.projectMember, asyncHan
 // 할 일 수정
 taskRouter.patch('/tasks/:taskId', authenticate, authorize.projectMember, upload.array('files'), asyncHandler(taskControl.update));
 
-// 할 일 삭제 
+// 할 일 삭제
 taskRouter.delete('/tasks/:taskId', authenticate, authorize.projectMember, asyncHandler(taskControl.remove));
+
+// 하위 할 일 생성 (지민님)
+taskRouter.post('/tasks/:taskId/subtasks', authenticate, authorize.projectMember, asyncHandler(taskControl.createSubTask));
+
+// 하위 할 일 목록 조회 (지민님)
+taskRouter.get('/tasks:taskId/subtasks', authenticate, authorize.projectMember, asyncHandler(taskControl.getSubTasks));
 
 export default taskRouter;

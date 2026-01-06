@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3000
 @accessToken2 = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY1OTUwMywiZXhwIjoxNzY3NzQ1OTAzfQ.8svW0RKiopc5CJzXEowLojhxsXcQDQpsCzRK6BDFYFY
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlhdCI6MTc2NzY3MTk0MSwiZXhwIjoxNzY3NzU4MzQxfQ.29QFepcvd4Ea_zESxYnXXc74VC8OQQ5j18n74V86amc
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY3ODQ0NiwiZXhwIjoxNzY3NzY0ODQ2fQ.dHH-URrcryZXgvVqa3pvr0kEON7GizaR898YJyBwR4Y
 
 ### 프로젝트 목록 조회: 인증, 부가기능
 GET {{baseUrl}}/projects
@@ -53,10 +53,10 @@ Authorization: Bearer {{accessToken}}
 
 
 ### 프로젝트 멤버 초대: 인증, 인가(관리자)
-POST {{baseUrl}}/projects/9/invitations
+POST {{baseUrl}}/projects/1/invitations
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-  "email": "user5@test.com"
+  "email": "user8@test.com"
 }
