@@ -3,29 +3,43 @@ import { asyncHandler } from '../middlewares/asyncHandler.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import authorize from '../middlewares/authorize.js';
 import * as taskControl from '../controllers/task.control.js';
+import { CommentRepository } from '../repositories/comment.repo.js';
+import { CommentService } from '../services/comment.service.js';
+import { CommentController } from '../controllers/comment.control.js';
 import { upload } from '../middlewares/upload.js';
+import { prisma } from '../lib/prismaClient.js';
 
 const taskRouter = express.Router();
 
-// 프로젝트에 할 일 생성
-taskRouter.post('/projects/:projectId/tasks', authenticate, authorize.projectMember, upload.array('files'), asyncHandler(taskControl.create));
-
-// 프로젝트의 할 일 목록 조회
-taskRouter.get('/projects/:projectId/tasks', authenticate, authorize.projectMember, asyncHandler(taskControl.getList));
+// 의존성 주입
+const commentRepository = new CommentRepository(prisma);
+const commentService = new CommentService(commentRepository);
+const commentController = new CommentController(commentService);
 
 // 할 일 조회
-taskRouter.get('/tasks/:taskId', authenticate, authorize.projectMember, asyncHandler(taskControl.getDetail));
+taskRouter.get('/:taskId', authenticate, authorize.projectMember, asyncHandler(taskControl.getDetail));
 
 // 할 일 수정
-taskRouter.patch('/tasks/:taskId', authenticate, authorize.projectMember, upload.array('files'), asyncHandler(taskControl.update));
+taskRouter.patch('/:taskId', authenticate, authorize.projectMember, upload.array('files'), asyncHandler(taskControl.update));
 
 // 할 일 삭제
-taskRouter.delete('/tasks/:taskId', authenticate, authorize.projectMember, asyncHandler(taskControl.remove));
+taskRouter.delete('/:taskId', authenticate, authorize.projectMember, asyncHandler(taskControl.remove));
+
+
 
 // 하위 할 일 생성 (지민님)
-taskRouter.post('/tasks/:taskId/subtasks', authenticate, authorize.projectMember, asyncHandler(taskControl.createSubTask));
+taskRouter.post('/:taskId/subtasks', authenticate, authorize.projectMember, asyncHandler(taskControl.createSubTask));
 
 // 하위 할 일 목록 조회 (지민님)
-taskRouter.get('/tasks:taskId/subtasks', authenticate, authorize.projectMember, asyncHandler(taskControl.getSubTasks));
+taskRouter.get('/:taskId/subtasks', authenticate, authorize.projectMember, asyncHandler(taskControl.getSubTasks));
+
+
+
+// 댓글 생성 (현우님)
+taskRouter.post('/:taskId/comments', authenticate, authorize.projectMember,commentController.createComment);
+
+// 댓글 목록 조회 (현우님)
+taskRouter.get('/:taskId/comments', authenticate, authorize.projectMember, commentController.getComments);
+
 
 export default taskRouter;

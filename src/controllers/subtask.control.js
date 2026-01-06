@@ -1,6 +1,6 @@
 import { assert } from 'superstruct';
 import subTaskService from '../services/subtask.service.js'; // .js 필수
-import { PatchSubTask } from '../structs/subTask.struct.js';
+import { PatchSubTask } from '../structs/subtask.struct.js';
 
 async function getSubTask(req, res, next) {
   const { subTaskId } = req.params;

@@ -15,11 +15,6 @@ export class CommentRepository {
   };
 
   createComment = async (taskId, projectId, authorId, content) => {
-    console.log('commentRepo에 taskId: ', taskId);
-    console.log('commentRepo에 projectId: ', projectId);
-    console.log('commentRepo에 authorId: ', authorId);
-    console.log('commentRepo에 content: ', content);
-
     return await this.prisma.comment.create({
       data: {
         taskId: +taskId,

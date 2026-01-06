@@ -8,6 +8,7 @@ import commentRouter from './routers/comment.router.js';
 import authRouter from './routers/auth.router.js';
 import userRouter from './routers/user.router.js';
 import taskRouter from './routers/task.router.js';
+import subtaskRouter from './routers/subtask.router.js'
 
 const app = express();
 
@@ -20,12 +21,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/', taskRouter);
+app.use('/tasks', taskRouter);
 app.use('/projects', projectRouter);
 app.use('/invitations', invitationRouter);
-app.use('/', commentRouter);
+app.use('/comments', commentRouter);
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
+app.use('/subtasks', subtaskRouter);
 
 app.use(defaultNotFoundHandler);
 app.use(globalErrorHandler);

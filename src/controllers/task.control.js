@@ -1,6 +1,7 @@
 import * as taskService from '../services/task.service.js';
 import * as TaskStruct from '../structs/task.structs.js';
 import { CreateSubTask } from '../structs/subtask.struct.js';
+import { assert } from 'superstruct';
 
 /**
  * 생성
@@ -106,6 +107,13 @@ export const remove = async (req, res) => {
   res.status(204).end();
 };
 
+
+
+/// 하위 할 일 ///
+
+/**
+ * 할 일(task) 조회
+ */
 export async function createSubTask(req, res, next) {
   const { taskId } = req.params;
   const { title } = req.body;

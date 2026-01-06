@@ -1,13 +1,15 @@
 @baseUrl = http://localhost:3000
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY1OTUwMywiZXhwIjoxNzY3NzQ1OTAzfQ.8svW0RKiopc5CJzXEowLojhxsXcQDQpsCzRK6BDFYFY
-@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY1OTUwMywiZXhwIjoxNzY4MjY0MzAzfQ.5gCBLVNlG9QgJMsTk8bkEX3L7YHfyUbAwRsTbH7SN1I
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY5MjI5OSwiZXhwIjoxNzY3Nzc4Njk5fQ.qQe_E9sLauxaICp4kX018zoyVfEmweClpgTROyWEYq8
+
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY5MjI5OSwiZXhwIjoxNzY4Mjk3MDk5fQ.vAaXnY-jAZUAG-8TrlgvRSWFBt60dCJfqPVC81f62RI
+
 
 ### 회원가입
 POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-    "email": "user1@test.com",
+    "email": "user3@test.com",
     "name": "user1",
     "password": "password1"
 }
@@ -35,9 +37,9 @@ Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-  "email": "alstn3@alstn.com",
+  "email": "user3@test.com",
   "name": "빙수",
-  "currentPassword": "alstn123",
+  "currentPassword": "password1",
   "newPassword": "alstn1234",
   "profileImage": "https://example.com"
 }
