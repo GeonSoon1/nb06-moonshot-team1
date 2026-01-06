@@ -22,6 +22,7 @@ export function globalErrorHandler(err, req, res, next) {
     return res.status(400).send({ message: err.message });
   }
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    console.log(err)
     return res.status(400).send({ message: '잘못된 요청입니다' });
   }
   if (err instanceof UnauthorizedError) {

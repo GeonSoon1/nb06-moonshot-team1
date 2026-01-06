@@ -1,5 +1,5 @@
 import subTaskRepo from '../repositories/subtask.repo.js'; // .js 필수
-import AppError from '../structs/appError.js'; // .js 필수
+// import AppError from '../structs/appError.js'; // .js 필수
 
 // 하위할일 상세조회
 async function getSubTask(subTaskId) {

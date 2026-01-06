@@ -1,11 +1,19 @@
+### 사용할 ID들 (본인의 DB 상황에 맞게 수정하세요)
+@baseUrl = http://localhost:3000
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY4OTU3NiwiZXhwIjoxNzY3Nzc1OTc2fQ.FdFe6Rg0CbVRK2lRCQwBkW4WBjBOKUUpbhWFKlxu7Uk
+
+@subTaskId = 1
+
 ###하위할일 상세조회
-GET http://localhost:3000/subtasks/6
+GET {{baseUrl}}/subtasks/{{subTaskId}}
+Authorization: Bearer {{accessToken}}
 
 
 ### 2-3. [수정] 하위 할 일 완료 처리 및 제목 수정
 # 주소 맨 끝의 숫자(1)를 수정할 SubTask ID로 바꾸세요.
-PATCH http://localhost:3000/subtasks/6
+PATCH {{baseUrl}}/subtasks/{{subTaskId}}
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
   "title": "이마트 장보기 (완료함)",
@@ -14,4 +22,5 @@ Content-Type: application/json
 
 ### 2-4. [삭제] 하위 할 일 삭제
 # 주소 맨 끝의 숫자(1)를 삭제할 SubTask ID로 바꾸세요.
-DELETE http://localhost:3000/subtasks/6
+DELETE {{baseUrl}}/subtasks/{{subTaskId}}
+Authorization: Bearer {{accessToken}}
