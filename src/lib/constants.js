@@ -2,8 +2,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-console.log(process.env.PORT);
-console.log(process.env.NODE_ENV);
+// console.log(process.env.PORT);
+// console.log(process.env.NODE_ENV);
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const PORT = process.env.PORT || 3000;
@@ -12,8 +12,6 @@ const REFRESH_TOKEN_COOKIE_NAME = 'refresh-token';
 
 const ACCESS_TOKEN_SECRET = process.env.JWT_ACCESS_TOKEN_SECRET;
 const REFRESH_TOKEN_SECRET = process.env.JWT_REFRESH_TOKEN_SECRET;
-// const JWT_ACCESS_TOKEN_SECRET = process.env.JWT_ACCESS_TOKEN_SECRET;
-// const JWT_REFRESH_TOKEN_SECRET = process.env.JWT_REFRESH_TOKEN_SECRET;
 
 export {
   NODE_ENV,

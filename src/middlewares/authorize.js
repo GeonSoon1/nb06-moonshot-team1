@@ -4,24 +4,15 @@ import {
   UnauthorizedError,
   BadRequestError
 } from '../middlewares/errors/customError.js';
-import { ACCESS_TOKEN_COOKIE_NAME } from '../lib/constants.js';
 
 async function projectOwner(req, res, next) {
   try {
-    // if (!req.cookies[ACCESS_TOKEN_COOKIE_NAME]) {
-    //   console.log('토큰이 만료되었습니다'); // 작동할지 모르겠음
-    //   throw new UnauthorizedError('토큰 만료');
-    // }
     if (!req.user) {
       console.log('인증되지 않은 유저입니다. 로그인이 필요합니다');
       throw new UnauthorizedError('로그인이 필요합니다');
     }
-    const projectId = Number(req.params.projectId);
-    if (Number.isNaN(projectId)) {
-      console.log('프로젝트 아이디가 없습니다');
-      throw new BadRequestError('잘못된 요청 형식');
-    }
 
+    const projectId = await resolveProjectId(req.params);
     const project = await prisma.project.findUniqueOrThrow({
       where: { id: projectId },
       select: { ownerId: true }
@@ -90,7 +81,14 @@ async function commentAuthor(req, res, next) {
 }
 
 async function resolveProjectId(params) {
-  console.log('authorize에 리졸프패럼', params);
+  //console.log('authorize에 리졸프패럼', params);
+  if (params.invitationId) {
+    const invitation = await prisma.invitation.findUniqueOrThrow({
+      where: { id: params.invitationId }
+    });
+    return Number(invitation.projectId);
+  }
+
   if (params.subTaskId) {
     const subtask = await prisma.subTask.findUniqueOrThrow({
       where: { id: Number(params.subTaskId) }
@@ -111,7 +109,7 @@ async function resolveProjectId(params) {
   if (params.projectId) {
     return Number(params.projectId);
   }
-  console.log('요청 파라미터에 projectId, taskId, subTaskId 중 하나가 있어야 합니다');
+  console.log('요청 파라미터에 projectId, taskId, subTaskId, invitationId 중 하나가 있어야 합니다');
   throw new BadRequestError('잘못된 요청 형식');
 }
 

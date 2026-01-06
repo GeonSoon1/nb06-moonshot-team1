@@ -1,6 +1,8 @@
-/generated/prisma
-/src/generated/prisma
+generated/prisma
+src/generated/prisma
 node_modules/
 .env
 .prettierrc
 uploads/
+src/test.js
+

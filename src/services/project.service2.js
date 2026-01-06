@@ -39,20 +39,18 @@ async function getMemberList(projectId) {
 
   const data = await Promise.all(
     selectedInvitations.map(async (i) => {
-      const { inviteeUserId: id, status, invitationId } = i;
+      const { inviteeUserId: id, status, id: invitationId } = i;
       const user = await prisma.user.findUniqueOrThrow({ where: { id } }); // User API로 대체
       const { name, email, profileImage } = user;
 
       // Task API로 대체
-      const tasks = await prisma.task.findMany({
-        where: { taskCreatorId: id }
-      });
+      const taskCount = await prisma.task.count({ where: { taskCreatorId: id } });
       return {
         id,
         name,
         email,
         profileImage,
-        taskCount: tasks.length,
+        taskCount,
         status: status.toLowerCase(),
         invitationId
       };
@@ -89,11 +87,13 @@ async function deleteMember(projectId, userId) {
     throw new BadRequestError('잘못된 요청 형식');
     //throw new NotFoundError();
   }
+
   // transaction 사용: Invitation update & ProjectMember delete
   const [invitation, member] = await prisma.$transaction([
     invitationRepo.update(invitationFound.id, 'QUIT'),
     projectRepo2.deleteMember(projectId, userId)
   ]);
+  console.log(member)
   return invitation;
 }
 

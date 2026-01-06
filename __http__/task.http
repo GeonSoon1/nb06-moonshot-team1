@@ -1,9 +1,5 @@
 @baseUrl = http://localhost:3000
-<<<<<<< HEAD
 @accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhdCI6MTc2NzU3NTQyMCwiZXhwIjoxNzY3NTc3MjIwfQ.gVK4-84Y56Wbkf3Aw8XkGzl91jMsVPOZksUkqI0MDpU
-=======
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzYwNTA2MCwiZXhwIjoxNzY3NjkxNDYwfQ.Eqffgt4fDqDX8-kkG4PzdZNSOG_X_48DNoE1_puBBtg
->>>>>>> 1850d95 (✨ feat : task 관련 작업 수정 완료)
 
 
 
@@ -28,14 +24,10 @@
 #   "endDay": 15,
 #   "status": "todo",
 #   "assigneeId": {{assigneeId}},
-<<<<<<< HEAD
 #   "tags": ["개발", "백엔드", "Prisma"],
 #   "attachments": [
 #     "https://example.com/files/schema.pdf",
 #     "https://example.com/files/diagram.png"
-=======
-#   "tags": ["개발", "백엔드", "Prisma"]
->>>>>>> 1850d95 (✨ feat : task 관련 작업 수정 완료)
 #   ]
 # }
 

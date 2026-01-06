@@ -1,42 +1,37 @@
+@baseUrl = http://localhost:3000
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY1OTUwMywiZXhwIjoxNzY3NzQ1OTAzfQ.8svW0RKiopc5CJzXEowLojhxsXcQDQpsCzRK6BDFYFY
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY1OTUwMywiZXhwIjoxNzY4MjY0MzAzfQ.5gCBLVNlG9QgJMsTk8bkEX3L7YHfyUbAwRsTbH7SN1I
+
 ### 회원가입
-POST http://localhost:3000/auth/register
+POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-<<<<<<< HEAD
-    "email": "user10@test.com",
-    "name": "user10",
-=======
-    "email": "user3@test.com",
-    "name": "user5",
->>>>>>> 1850d95 (✨ feat : task 관련 작업 수정 완료)
+    "email": "user1@test.com",
+    "name": "user1",
     "password": "password1"
 }
 
 ### 로그인
-POST http://localhost:3000/auth/login
+POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-<<<<<<< HEAD
-    "email": "user13@test.com",
-=======
-    "email": "user3@test.com",
->>>>>>> 1850d95 (✨ feat : task 관련 작업 수정 완료)
+    "email": "user1@test.com",
     "password": "password1"
 }
 
 ### 토큰갱신
-POST http://localhost:3001/auth/refresh
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzMzNzY4OSwiZXhwIjoxNzY3OTQyNDg5fQ.jyKeDQMimEQi4aYaFpgTX_tpazm7tVXhUYcy6Un_hpc
+POST {{baseUrl}}/auth/refresh
+Authorization: Bearer {{refreshToken}}
 
 ### 내 정보 조회
-GET http://localhost:3001/users/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzMzODYxNSwiZXhwIjoxNzY3MzQwNDE1fQ.SceJLQ_J7Sh5AY2rSDoAKpjojYXNVJ7TczPJhG5D-PQ
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{accessToken}}
 
 ### 내 정보 수정
-PATCH http://localhost:3001/users/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzMzNzcwNywiZXhwIjoxNzY3MzM5NTA3fQ.JOkVApBruJOFto5wxpgmWVlQIrs3kCMUQ4Js66I9RtA
+PATCH {{baseUrl}}/users/me
+Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
@@ -49,16 +44,16 @@ Content-Type: application/json
 
 
 ### 내가 참여중인 프로젝트 조회
-GET http://localhost:3001/users/me/projects
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzMzNzcwNywiZXhwIjoxNzY3MzM5NTA3fQ.JOkVApBruJOFto5wxpgmWVlQIrs3kCMUQ4Js66I9RtA
+GET {{baseUrl}}/users/me/projects
+Authorization: Bearer {{accessToken}}
 
 ### 내가 참여중인 모든 프로젝트의 할 일 목록 조회
-GET http://localhost:3001/users/me/tasks
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzMzNzcwNywiZXhwIjoxNzY3MzM5NTA3fQ.JOkVApBruJOFto5wxpgmWVlQIrs3kCMUQ4Js66I9RtA
+GET {{baseUrl}}/users/me/tasks
+Authorization: Bearer {{accessToken}}
 
 ### 쿼리 추가 버전
-GET http://localhost:3001/users/me/tasks?from=2026-01-01&to=2026-01-31&project_id=27&status=todo&assignee_id=17&keyword=TODO
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2NzMzNzcwNywiZXhwIjoxNzY3MzM5NTA3fQ.JOkVApBruJOFto5wxpgmWVlQIrs3kCMUQ4Js66I9RtA
+GET {{baseUrl}}/users/me/tasks?from=2026-01-01&to=2026-01-31&project_id=1&status=todo&assignee_id=1&keyword=TODO
+Authorization: Bearer {{accessToken}}
 
 //날짜, 키워드 : ?from=2026-01-01&to=2026-01-31&keyword=진행
 //users/me/tasks?from=2026-01-01&to=2026-01-31

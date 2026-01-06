@@ -11,12 +11,13 @@ import taskRouter from './routers/task.router.js';
 
 const app = express();
 
-app.use(
-  cors({
-    origin: 'http://localhost:3000',
-    allowedHeaders: ['Content-Type', 'Authorization']
-  })
-);
+// app.use(
+//   cors({
+//     origin: 'http://localhost:3000',
+//     allowedHeaders: ['Content-Type', 'Authorization']
+//   })
+// );
+app.use(cors());
 app.use(express.json());
 
 app.use('/', taskRouter);
