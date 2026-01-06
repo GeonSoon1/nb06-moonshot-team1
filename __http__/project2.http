@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY1OTUwMywiZXhwIjoxNzY3NzQ1OTAzfQ.8svW0RKiopc5CJzXEowLojhxsXcQDQpsCzRK6BDFYFY
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTc2NzY2NDUzMiwiZXhwIjoxNzY3NzUwOTMyfQ.ctU0Tb0fKPWZk_b-awIfh4Wjgz5tUk0GebHwxE9HMbI
 ###
 GET {{baseUrl}}/projects
 Authorization: Bearer {{accessToken}}
@@ -17,10 +17,10 @@ Authorization: Bearer {{accessToken}}
 // 멤버 초대: 인증, 인가
 // 201, 400, 401, 403
 ###
-POST {{baseUrl}}/projects/1/invitations
+POST {{baseUrl}}/projects/2/invitations
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-  "email": "user4@test.com"
+  "email": "user6@test.com"
 }

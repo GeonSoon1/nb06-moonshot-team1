@@ -1,9 +1,11 @@
 @baseUrl = http://localhost:3000
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY1OTUwMywiZXhwIjoxNzY3NzQ1OTAzfQ.8svW0RKiopc5CJzXEowLojhxsXcQDQpsCzRK6BDFYFY
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlhdCI6MTc2NzY2NDU3MSwiZXhwIjoxNzY3NzUwOTcxfQ.RxUhxqZlJjQgJOpJ_BnaAO_8evt6fD_PEVFUFReIvag
+
+
 
 // 초대 수락: 인증
 // 200, 400, 404
-POST {{baseUrl}}/invitations/e1c88810-9375-4d97-bae9-1f94fda076f2/accept
+POST {{baseUrl}}/invitations/6a91299c-6dbb-4ee6-a11c-2f6c4b099663/accept
 Authorization: Bearer {{accessToken}}
 
 // 초대 거절: 인증
