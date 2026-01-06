@@ -1,16 +1,16 @@
 @baseUrl = http://localhost:3000
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlhdCI6MTc2NzY2NDU3MSwiZXhwIjoxNzY3NzUwOTcxfQ.RxUhxqZlJjQgJOpJ_BnaAO_8evt6fD_PEVFUFReIvag
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlhdCI6MTc2NzY3MTk0MSwiZXhwIjoxNzY3NzU4MzQxfQ.29QFepcvd4Ea_zESxYnXXc74VC8OQQ5j18n74V86amc
 
 
 
 // 초대 수락: 인증
 // 200, 400, 404
-POST {{baseUrl}}/invitations/6a91299c-6dbb-4ee6-a11c-2f6c4b099663/accept
+POST {{baseUrl}}/invitations/6f9101f3-096b-4537-b664-d2920ad27326/accept
 Authorization: Bearer {{accessToken}}
 
 // 초대 거절: 인증
 ###
-POST {{baseUrl}}/invitations/bc6dab5e-6f90-4047-a70e-06edb3f4d3ed/reject
+POST {{baseUrl}}/invitations/5bb12443-03b6-4109-8cf0-5f0171b49f54/reject
 Authorization: Bearer {{accessToken}}
 // 인증만 되면 거절 가능. 초대코드 소지 자체로 인가되는 것으로 간주?
 

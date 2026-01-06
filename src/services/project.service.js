@@ -1,11 +1,11 @@
-import projectRepo2 from '../repositories/project.repo2.js';
+import projectRepo from '../repositories/project.repo.js';
 import invitationRepo from '../repositories/invitation.repo.js';
-import { NotFoundError, BadRequestError } from '../middlewares/errors/customError.js';
+import { BadRequestError } from '../middlewares/errors/customError.js';
 import { prisma } from '../lib/prismaClient.js';
 
 // 프로젝트 목록 조회: 부가 기능
 async function getProjectList() {
-  const projectList = await projectRepo2.getProjectList();
+  const projectList = await projectRepo.getProjectList();
   const projectListWithCounts = projectList.map((p) => {
     const { id, name, description, projectMembers = [], tasks = [], ...rest } = p;
 
@@ -19,19 +19,80 @@ async function getProjectList() {
   return projectListWithCounts;
 }
 
-// 멤버 목록 조회
+// 프로젝트 생성
+async function createProject(userId, projectData) {
+  const { name: nameStr, description: descriptionStr } = projectData;
+
+  // 1. 유저당 최대 5개 제한 확인
+  const count = await projectRepo.countProjects(userId);
+  if (count >= 5) {
+    console.log('프로젝트는 최대 5개까지만 생성할 수 있습니다');
+    throw new BadRequestError('프로젝트는 최대 5개까지만 생성할 수 있습니다');
+  }
+
+  let p = await projectRepo.createProject(nameStr, descriptionStr, userId);
+  const memberData = { projectId: p.id, memberId: p.ownerId, role: 'OWNER' };
+
+  const owner = await projectRepo.createMember(memberData);
+  console.log(owner);
+  p = await projectRepo.findProjectById(p.id);
+  const { id, name, description, projectMembers = [], tasks = [], ...rest } = p;
+  const memberCount = projectMembers.length ?? 0; // owner 포함
+  const todoCount = tasks.filter((t) => t.status === 'TODO').length;
+  const inProgressCount = tasks.filter((t) => t.status === 'IN_PROGRESS').length;
+  const doneCount = tasks.filter((t) => t.status === 'DONE').length;
+
+  return { id, name, description, memberCount, todoCount, inProgressCount, doneCount };
+}
+
+//프로젝트 상세조회
+async function getProject(projectId) {
+  const p = await projectRepo.findProjectById(projectId);
+  if (p) {
+    const { id, name, description, projectMembers = [], tasks = [], ...rest } = p;
+    const memberCount = projectMembers.length ?? 0; // owner 포함
+    const todoCount = tasks.filter((t) => t.status === 'TODO').length;
+    const inProgressCount = tasks.filter((t) => t.status === 'IN_PROGRESS').length;
+    const doneCount = tasks.filter((t) => t.status === 'DONE').length;
+
+    return { id, name, description, memberCount, todoCount, inProgressCount, doneCount };
+  } else {
+    return null;
+  }
+}
+
+// 프로젝트 수정
+async function updateProject(projectId, projectData) {
+  const p = await projectRepo.updateProject(projectId, projectData);
+  if (p) {
+    const { id, name, description, projectMembers = [], tasks = [], ...rest } = p;
+    const memberCount = projectMembers.length ?? 0; // owner 포함
+    const todoCount = tasks.filter((t) => t.status === 'TODO').length;
+    const inProgressCount = tasks.filter((t) => t.status === 'IN_PROGRESS').length;
+    const doneCount = tasks.filter((t) => t.status === 'DONE').length;
+
+    return { id, name, description, memberCount, todoCount, inProgressCount, doneCount };
+  } else {
+    return null;
+  }
+}
+
+// 프로젝트 삭제
+async function deleteProject(projectId) {
+  await projectRepo.deleteProject(projectId);
+}
+
+// 프로젝트 멤버 목록 조회
 // 승인/대기중인 멤버만 조회하여 상태와 함께 출력
 async function getMemberList(projectId) {
-  const project = await projectRepo2.findById(projectId);
+  const project = await projectRepo.findById(projectId);
   if (!project) {
     console.log('프로젝트가 존재하지 않습니다');
     throw new BadRequestError('잘못된 요청 형식');
     //throw new NotFoundError('프로젝트가 존재하지 않습니다');
   }
   const invitations = await invitationRepo.getList(projectId);
-  const selectedInvitations = invitations.filter(
-    (i) => i.status === 'PENDING' || i.status === 'ACCEPTED'
-  );
+  const selectedInvitations = invitations.filter((i) => i.status === 'PENDING' || i.status === 'ACCEPTED');
   if (!selectedInvitations) {
     console.log('멤버가 존재하지 않습니다');
     throw new BadRequestError('잘못된 요청 형식');
@@ -73,9 +134,9 @@ async function getMemberList(projectId) {
   return { data: [ownerData, ...data], total: data.length + 1 };
 }
 
-// 멤버 제외
+// 프로젝트 멤버 제외
 async function deleteMember(projectId, userId) {
-  const memberFound = await projectRepo2.findMemberByIds(projectId, userId);
+  const memberFound = await projectRepo.findMemberByIds(projectId, userId);
   if (!memberFound) {
     console.log('멤버/프로젝트가 존재하지 않습니다');
     throw new BadRequestError('잘못된 요청 형식');
@@ -91,13 +152,13 @@ async function deleteMember(projectId, userId) {
   // transaction 사용: Invitation update & ProjectMember delete
   const [invitation, member] = await prisma.$transaction([
     invitationRepo.update(invitationFound.id, 'QUIT'),
-    projectRepo2.deleteMember(projectId, userId)
+    projectRepo.deleteMember(projectId, userId)
   ]);
-  console.log(member)
+  console.log(member);
   return invitation;
 }
 
-// 맴버 초대
+// 프로젝트 맴버 초대
 async function inviteMember(projectId, email) {
   // User API로 대체
   const user = await prisma.user.findUnique({
@@ -130,15 +191,17 @@ function isOwner(user, projectId) {
 
 function okToSendInvitation(user, projectId) {
   if (user.invitations.length == 0) return true;
-  const isPendingInvitation = user.invitations.some(
-    (i) => i.projectId === projectId && i.status === 'PENDING'
-  );
+  const isPendingInvitation = user.invitations.some((i) => i.projectId === projectId && i.status === 'PENDING');
   const isMember = user.projectMembers.some((m) => m.projectId === projectId);
   return !isPendingInvitation && !isMember;
 }
 
 export default {
   getProjectList,
+  createProject,
+  getProject,
+  updateProject,
+  deleteProject,
   getMemberList,
   deleteMember,
   inviteMember

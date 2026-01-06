@@ -1,10 +1,10 @@
 import express from 'express';
 import { defaultNotFoundHandler, globalErrorHandler } from './middlewares/errorHandler.js';
+import cors from 'cors';
 import { PORT } from './lib/constants.js';
-import projectRouter2 from './routers/project.router2.js';
+import projectRouter from './routers/project.router.js';
 import invitationRouter from './routers/invitation.router.js';
 import commentRouter from './routers/comment.router.js';
-import cors from 'cors';
 import authRouter from './routers/auth.router.js';
 import userRouter from './routers/user.router.js';
 import taskRouter from './routers/task.router.js';
@@ -21,7 +21,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/', taskRouter);
-app.use('/projects', projectRouter2);
+app.use('/projects', projectRouter);
 app.use('/invitations', invitationRouter);
 app.use('/', commentRouter);
 app.use('/auth', authRouter);

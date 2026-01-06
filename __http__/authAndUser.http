@@ -7,8 +7,8 @@ POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-    "email": "user6@test.com",
-    "name": "user4",
+    "email": "user1@test.com",
+    "name": "user1",
     "password": "password1"
 }
 
@@ -18,7 +18,7 @@ Content-Type: application/json
 
 {
     "email": "user6@test.com",
-    "password": "password1"
+    "password": "password6"
 }
 
 ### 토큰갱신

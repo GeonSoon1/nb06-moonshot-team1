@@ -1,0 +1,17 @@
+###하위할일 상세조회
+GET http://localhost:3000/subtasks/6
+
+
+### 2-3. [수정] 하위 할 일 완료 처리 및 제목 수정
+# 주소 맨 끝의 숫자(1)를 수정할 SubTask ID로 바꾸세요.
+PATCH http://localhost:3000/subtasks/6
+Content-Type: application/json
+
+{
+  "title": "이마트 장보기 (완료함)",
+  "status": "DONE"
+}
+
+### 2-4. [삭제] 하위 할 일 삭제
+# 주소 맨 끝의 숫자(1)를 삭제할 SubTask ID로 바꾸세요.
+DELETE http://localhost:3000/subtasks/6
