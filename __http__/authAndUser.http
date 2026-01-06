@@ -7,8 +7,8 @@ POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-    "email": "user1@test.com",
-    "name": "user1",
+    "email": "user3@test.com",
+    "name": "user5",
     "password": "password1"
 }
 
@@ -17,7 +17,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-    "email": "user1@test.com",
+    "email": "user3@test.com",
     "password": "password1"
 }
 
