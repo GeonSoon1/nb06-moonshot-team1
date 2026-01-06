@@ -87,11 +87,13 @@ async function deleteMember(projectId, userId) {
     throw new BadRequestError('잘못된 요청 형식');
     //throw new NotFoundError();
   }
+
   // transaction 사용: Invitation update & ProjectMember delete
   const [invitation, member] = await prisma.$transaction([
     invitationRepo.update(invitationFound.id, 'QUIT'),
     projectRepo2.deleteMember(projectId, userId)
   ]);
+  console.log(member)
   return invitation;
 }
 

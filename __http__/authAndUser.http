@@ -1,19 +1,14 @@
 @baseUrl = http://localhost:3000
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzM5MDE0NiwiZXhwIjoxNzY3MzkxOTQ2fQ.Jqrp4_vi95EsjiH0IgvrGnbHJC6w1RvOZJeOey_lDI8
-@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzM5MDE0NiwiZXhwIjoxNzY3OTk0OTQ2fQ.RGgS5n4jQ89u2g4MsJMUezH5Royx_p8Da1_kfOtT3xM
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY1OTUwMywiZXhwIjoxNzY3NzQ1OTAzfQ.8svW0RKiopc5CJzXEowLojhxsXcQDQpsCzRK6BDFYFY
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY1OTUwMywiZXhwIjoxNzY4MjY0MzAzfQ.5gCBLVNlG9QgJMsTk8bkEX3L7YHfyUbAwRsTbH7SN1I
 
 ### 회원가입
 POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-<<<<<<< HEAD
-    "email": "user10@test.com",
-    "name": "user10",
-=======
-    "email": "user3@test.com",
-    "name": "user5",
->>>>>>> 1850d95 (✨ feat : task 관련 작업 수정 완료)
+    "email": "user1@test.com",
+    "name": "user1",
     "password": "password1"
 }
 

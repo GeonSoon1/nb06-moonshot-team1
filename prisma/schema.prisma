@@ -169,6 +169,7 @@ enum InvitationStatus {
     ACCEPTED
     REJECTED
     CANCELED
+    QUIT
 }
 
 enum TaskStatus {
