@@ -36,15 +36,19 @@ model OAuthAccount {
     @@unique([provider, providerAccountId])
 }
 
+//deviceid 추가 sha256해시로 저장
 model Session {
     id               Int       @id @default(autoincrement())
     userId           Int // FK
+    deviceIdHash     String
     refreshTokenHash String
     expiresAt        DateTime
     revokedAt        DateTime?
     createdAt        DateTime  @default(now())
     updatedAt        DateTime  @updatedAt
     user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, deviceIdHash]) //유저 + 디바이스 당 세션 1개
 }
 
 model Project {
