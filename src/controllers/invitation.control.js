@@ -17,7 +17,7 @@ async function accept(req, res, next) {
   assert(memberData, CreateProjectMember);
 
   const [invitation, member] = await invitationService.accept(invitationId, memberData);
-  console.log('초대가 승인되었습니다');
+  console.log('초대가 승인되어 새 멤버가 등록되었습니다');
   console.log(member);
   res.status(200).json(invitation);
 }

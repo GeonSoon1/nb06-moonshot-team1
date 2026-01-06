@@ -1,12 +1,12 @@
 
 ### 사용할 ID들 (본인의 DB 상황에 맞게 수정하세요)
 @baseUrl = http://localhost:3000
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTc2NzY2NDU1MywiZXhwIjoxNzY3NzUwOTUzfQ.jWuoJcvbnksjYX8zs9K8jDv612QfKVrztyW5J6uOUFE
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY1OTUwMywiZXhwIjoxNzY3NzQ1OTAzfQ.8svW0RKiopc5CJzXEowLojhxsXcQDQpsCzRK6BDFYFY
 
 
-@projectId = 2
+@projectId = 1
 @assigneeId = 3
-@taskId = 2
+@taskId = 11
 
 
 ### [1] 프로젝트에 할 일 생성 (Multipart/form-data)
@@ -107,3 +107,15 @@ Authorization: Bearer {{accessToken}}
 ### [7] 삭제 확인 
 GET {{baseUrl}}/tasks/{{taskId}}
 Authorization: Bearer {{accessToken}}
+
+
+### [8] 하위 할 일 생성 (지민님)
+POST {{baseUrl}}/tasks/{{taskId}}/subtasks
+Content-Type: application/json
+
+{ 
+  "title": "재료 준비하기: 강력분과 물, 뚜껑있는 용기 (0.5L 전후)"
+}
+
+### [9] 하위 할 일 목록 조회 (지민님)
+GET {{baseUrl}}/tasks/{{taskId}}/subtasks
