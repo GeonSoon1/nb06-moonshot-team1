@@ -1,9 +1,10 @@
 import { assert } from 'superstruct';
-import { CreateProjectMember } from '../structs/projectMember.structs.js';
-import invitationService from '../services/invitation.service.js';
+import { CreateProjectMember } from '../structs/projectMember.structs';
+import invitationService from '../services/invitation.service';
+import { Request, Response, NextFunction } from 'express';
 
 // accept, reject, cancel 을 하나로 합칠 것
-async function accept(req, res, next) {
+async function accept(req: Request, res: Response, next: NextFunction) {
   const { invitationId } = req.params;
 
   // superstruct는 controller에서 하는게 정석이라고 하여 서비스에서 옮김
@@ -21,14 +22,14 @@ async function accept(req, res, next) {
   console.log(member);
   res.status(200).json(invitation);
 }
-async function reject(req, res, next) {
+async function reject(req: Request, res: Response, next: NextFunction) {
   const { invitationId } = req.params;
   const invitation = await invitationService.reject(invitationId);
   console.log('초대가 거절되었습니다');
   res.status(200).json(invitation);
 }
 
-async function cancel(req, res, next) {
+async function cancel(req: Request, res: Response, next: NextFunction) {
   const { invitationId } = req.params;
   const invitation = await invitationService.cancel(invitationId);
   console.log('초대가 취소되었습니다');

@@ -2,7 +2,7 @@ import { prisma } from '../lib/prismaClient';
 import { ForbiddenError, UnauthorizedError, BadRequestError } from './errors/customError';
 import { Request, Response, NextFunction } from 'express';
 
-async function projectOwner(req: Request, res: Request, next: NextFunction) {
+async function projectOwner(req: Request, res: Response, next: NextFunction) {
   try {
     if (!req.user) {
       console.log('인증되지 않은 유저입니다. 로그인이 필요합니다');
@@ -27,7 +27,7 @@ async function projectOwner(req: Request, res: Request, next: NextFunction) {
   }
 }
 
-async function projectMember(req: Request, res: Request, next: NextFunction) {
+async function projectMember(req: Request, res: Response, next: NextFunction) {
   try {
     if (!req.user) {
       console.log('인증되지 않은 유저입니다. 로그인이 필요합니다');
@@ -49,7 +49,7 @@ async function projectMember(req: Request, res: Request, next: NextFunction) {
   }
 }
 
-async function commentAuthor(req: Request, res: Request, next: NextFunction) {
+async function commentAuthor(req: Request, res: Response, next: NextFunction) {
   try {
     if (!req.user) {
       console.log('인증되지 않은 유저입니다. 로그인이 필요합니다');

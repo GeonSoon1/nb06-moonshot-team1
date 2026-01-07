@@ -92,7 +92,9 @@ async function getMemberList(projectId) {
     //throw new NotFoundError('프로젝트가 존재하지 않습니다');
   }
   const invitations = await invitationRepo.getList(projectId);
-  const selectedInvitations = invitations.filter((i) => i.status === 'PENDING' || i.status === 'ACCEPTED');
+  const selectedInvitations = invitations.filter(
+    (i) => i.status === 'PENDING' || i.status === 'ACCEPTED'
+  );
   if (!selectedInvitations) {
     console.log('멤버가 존재하지 않습니다');
     throw new BadRequestError('잘못된 요청 형식');
@@ -168,7 +170,6 @@ async function inviteMember(projectId, email) {
   if (!user) {
     console.log('존재하지 않는 유저입니다');
     throw new BadRequestError('잘못된 요청 형식');
-    //throw new NotFoundError();
   }
   const invitationOk = okToSendInvitation(user, projectId) && !isOwner(user, projectId);
   if (!invitationOk) {
@@ -191,7 +192,9 @@ function isOwner(user, projectId) {
 
 function okToSendInvitation(user, projectId) {
   if (user.invitations.length == 0) return true;
-  const isPendingInvitation = user.invitations.some((i) => i.projectId === projectId && i.status === 'PENDING');
+  const isPendingInvitation = user.invitations.some(
+    (i) => i.projectId === projectId && i.status === 'PENDING'
+  );
   const isMember = user.projectMembers.some((m) => m.projectId === projectId);
   return !isPendingInvitation && !isMember;
 }

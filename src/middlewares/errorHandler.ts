@@ -4,17 +4,22 @@ import {
   BadRequestError,
   ForbiddenError,
   UnauthorizedError
-} from './errors/customError.js';
+} from './errors/customError';
 import { Prisma } from '@prisma/client';
-// import { Request, Response, NextFunction } from "express";
-// import { isSyntaxJsonError } from "../lib/errors/errorUtils";
+import { ErrorRequestHandler, Request, Response, NextFunction } from 'express';
+//import { isSyntaxJsonError } from "../lib/errors/errorUtils";
 
 //404 처리 미들웨어
-export function defaultNotFoundHandler(req, res, next) {
+export function defaultNotFoundHandler(req: Request, res: Response, next: NextFunction) {
   return res.status(404).send({ message: '존재하지 않습니다' });
 }
 //전역 에러 처리 미들웨어(400,401,403,404,500)
-export function globalErrorHandler(err, req, res, next) {
+export function globalErrorHandler(
+  err: ErrorRequestHandler,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   if (err instanceof StructError) {
     return res.status(400).send({ message: '잘못된 데이터 형식' });
   }
@@ -22,7 +27,7 @@ export function globalErrorHandler(err, req, res, next) {
     return res.status(400).send({ message: err.message });
   }
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-    console.log(err)
+    console.log(err);
     return res.status(400).send({ message: '잘못된 요청입니다' });
   }
   if (err instanceof UnauthorizedError) {
