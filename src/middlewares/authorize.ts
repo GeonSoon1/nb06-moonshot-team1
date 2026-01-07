@@ -1,11 +1,8 @@
-import { prisma } from '../lib/prismaClient.js';
-import {
-  ForbiddenError,
-  UnauthorizedError,
-  BadRequestError
-} from '../middlewares/errors/customError.js';
+import { prisma } from '../lib/prismaClient';
+import { ForbiddenError, UnauthorizedError, BadRequestError } from './errors/customError';
+import { Request, Response, NextFunction } from 'express';
 
-async function projectOwner(req, res, next) {
+async function projectOwner(req: Request, res: Request, next: NextFunction) {
   try {
     if (!req.user) {
       console.log('인증되지 않은 유저입니다. 로그인이 필요합니다');
@@ -30,7 +27,7 @@ async function projectOwner(req, res, next) {
   }
 }
 
-async function projectMember(req, res, next) {
+async function projectMember(req: Request, res: Request, next: NextFunction) {
   try {
     if (!req.user) {
       console.log('인증되지 않은 유저입니다. 로그인이 필요합니다');
@@ -52,7 +49,7 @@ async function projectMember(req, res, next) {
   }
 }
 
-async function commentAuthor(req, res, next) {
+async function commentAuthor(req: Request, res: Request, next: NextFunction) {
   try {
     if (!req.user) {
       console.log('인증되지 않은 유저입니다. 로그인이 필요합니다');
@@ -80,8 +77,7 @@ async function commentAuthor(req, res, next) {
   }
 }
 
-async function resolveProjectId(params) {
-  //console.log('authorize에 리졸프패럼', params);
+async function resolveProjectId(params: Record<string, string | undefined>) {
   if (params.invitationId) {
     const invitation = await prisma.invitation.findUniqueOrThrow({
       where: { id: params.invitationId }
