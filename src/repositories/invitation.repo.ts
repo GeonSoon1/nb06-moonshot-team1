@@ -1,6 +1,8 @@
-import { prisma } from '../lib/prismaClient.js';
+import { prisma } from '../lib/prismaClient';
+import { InvitationStatus } from '../dto/dto';
+import { Prisma, Invitation } from '@prisma/client';
 
-async function getList(projectId) {
+async function getList(projectId: number) {
   return prisma.invitation.findMany({
     where: { projectId },
     orderBy: [{ projectId: 'asc' }, { inviteeUserId: 'asc' }, { respondedAt: 'desc' }],
@@ -8,18 +10,18 @@ async function getList(projectId) {
   });
 }
 
-function findById(id) {
+function findById(id: string): Promise<Invitation | null> {
   return prisma.invitation.findUnique({ where: { id } });
 }
 
-function update(id, status) {
+function update(id: string, status: InvitationStatus) {
   return prisma.invitation.update({
     where: { id },
     data: { status, respondedAt: new Date() }
   });
 }
 
-async function invite(data) {
+async function invite(data: Prisma.InvitationCreateInput) {
   return prisma.invitation.create({ data });
 }
 

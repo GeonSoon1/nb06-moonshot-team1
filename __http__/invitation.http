@@ -19,5 +19,5 @@ Authorization: Bearer {{accessToken}}
 // 초대 취소: 인증, 인가
 // 204, 400, 401, 403, 404
 ### 
-DELETE {{baseUrl}}/invitations/{{invitationID}}749e88
+DELETE {{baseUrl}}/invitations/{{invitationID}}
 Authorization: Bearer {{accessToken}}
