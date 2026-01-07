@@ -82,3 +82,25 @@ export async function findSubTasksByTaskId(taskId) {
     }
   });
 }
+//민수 추가(캘린더)
+export const setGoogleEventId = (taskId, googleEventId) =>
+  prisma.task.update({
+    where: { id: taskId },
+    data: { googleEventId },
+    include: {
+      assigneeProjectMember: { include: { member: true } },
+      taskTags: { include: { tag: true } },
+      attachments: true
+    }
+  });
+//기존 findbyid가 인클루드가 커서 삭제용으로 가볍게 만들었습니다.
+export const findDeleteMetaById = (id) =>
+  prisma.task.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      projectId: true,
+      taskCreatorId: true,
+      googleEventId: true
+    }
+  });

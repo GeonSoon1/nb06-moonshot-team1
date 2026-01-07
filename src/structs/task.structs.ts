@@ -17,7 +17,6 @@ const TaskStatus = s.enums(['todo', 'in_progress', 'done']);
 // 5. 숫자형 데이터: 숫자 또는 숫자로 된 문자열 허용 (Multipart 대응)
 const CoerceNumber = s.union([s.number(), s.string()]);
 
-
 // --- [API별 검증 스키마] ---
 
 // [A] 할 일 생성 (POST)
@@ -33,7 +32,7 @@ export const CreateTask = s.object({
   status: s.optional(TaskStatus),
   tags: TagList,
   assigneeId: s.optional(CoerceNumber),
-  attachments: s.optional(s.array(s.string())) 
+  attachments: s.optional(s.array(s.string()))
 });
 
 // [B] 할 일 수정 (PATCH)
@@ -51,7 +50,7 @@ export const TaskQuery = s.object({
   order_by: s.optional(s.enums(['created_at', 'name', 'end_date']))
 });
 
-// [D] 할 일 조회용 
+// [D] 할 일 조회용
 export const TaskIdParam = s.object({
   taskId: CoerceNumber // 아까 만든 숫자/문자열 허용 타입 재사용
 });

@@ -16,9 +16,9 @@ export function toEndOfDay(dateStr) {
 export function dateParts(d) {
   return {
     //getUTC는 js 표준 내장객체인 date의 메서드임
-    year: d.getUTCFullYear(),
-    month: d.getUTCMonth() + 1, //date 객체에서 월은 0부터 시작이라 +1
-    day: d.getUTCDate()
+    year: d.getKSTFullYear(),
+    month: d.getKSTMonth() + 1, //date 객체에서 월은 0부터 시작이라 +1
+    day: d.getKSTDate()
   };
 }
 

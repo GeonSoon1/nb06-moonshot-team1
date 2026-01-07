@@ -3,23 +3,9 @@ import bcrypt from 'bcrypt';
 import { oAuthRepo } from '../repositories/oAuth.repo.js';
 import { userRepo } from '../repositories/user.repo.js';
 import { sessionRepo } from '../repositories/session.repo.js';
-import {
-  generateAccessToken,
-  generateRefreshToken,
-  sha256,
-  verifyRefreshToken
-} from '../lib/token.js';
-import {
-  decodeOAuthState,
-  getGoogleProfile,
-  getGoogleToken,
-  stripPassword
-} from '../lib/utils/oAuth.js';
-import {
-  BadRequestError,
-  NotFoundError,
-  UnauthorizedError
-} from '../middlewares/errors/customError.js';
+import { generateAccessToken, generateRefreshToken, sha256, verifyRefreshToken } from '../lib/token.js';
+import { decodeOAuthState, getGoogleProfile, getGoogleToken, stripPassword } from '../lib/utils/oAuth.js';
+import { BadRequestError, NotFoundError, UnauthorizedError } from '../middlewares/errors/customError.js';
 
 export class OAuthService {
   //구글 로그인
@@ -29,7 +15,7 @@ export class OAuthService {
     if (!clientId || !redirectUri) {
       throw new Error('구글 클라이언트 아이디와 리다이렉트 URI를 확인해주세요'); //백엔드 역할, 콘솔로 출력되게 warn
     }
-    const scope = ['openid', 'email', 'profile'].join(' ');
+    const scope = ['openid', 'email', 'profile', 'https://www.googleapis.com/auth/calendar.events'].join(' ');
     const state = Buffer.from(
       JSON.stringify({
         redirectTo: redirectTo || process.env.FRONTEND_REDIRECT_URI || 'http://localhost:3000',
@@ -130,10 +116,7 @@ export class OAuthService {
     const newHash = sha256(newRefreshToken);
     const newExpiresAt = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
     const result = await prisma.$transaction(async (tx) => {
-      const updated = await sessionRepo.rotateSession(
-        { userId, deviceIdHash, oldHash, newHash, newExpiresAt, now },
-        tx
-      );
+      const updated = await sessionRepo.rotateSession({ userId, deviceIdHash, oldHash, newHash, newExpiresAt, now }, tx);
       if (updated.count !== 1) {
         await sessionRepo.revokeSessions({ userId, deviceIdHash, now }, tx);
         return { status: 'RELOGIN' };

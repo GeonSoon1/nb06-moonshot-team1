@@ -1,12 +1,10 @@
 import { encryptToken } from '../lib/crypto.token.js';
+import { prisma } from '../lib/prismaClient.js';
 import { generateAccessToken, generateRefreshToken, sha256 } from '../lib/token.js';
 
 //구글 유저 정보 업서트
 export class OAuthRepository {
-  async upsertGoogleAccount(
-    tx,
-    { email, name, profileImage, providerAccountId, googleRefreshToken, scopes }
-  ) {
+  async upsertGoogleAccount(tx, { email, name, profileImage, providerAccountId, googleRefreshToken, scopes }) {
     const user = await tx.user.upsert({
       where: { email },
       update: {
@@ -63,6 +61,12 @@ export class OAuthRepository {
       }
     });
     return { accessToken, refreshToken };
+  }
+  async findGoogleToken(userId) {
+    return prisma.oAuthAccount.findFirst({
+      where: { userId, provider: 'GOOGLE' },
+      select: { refreshTokenEnc: true }
+    });
   }
 }
 

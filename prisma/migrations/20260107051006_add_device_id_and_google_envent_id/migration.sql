@@ -2,7 +2,7 @@
 CREATE TYPE "OAuthProvider" AS ENUM ('GOOGLE', 'KAKAO', 'NAVER', 'FACEBOOK');
 
 -- CreateEnum
-CREATE TYPE "InvitationStatus" AS ENUM ('PENDING', 'ACCEPTED', 'REJECTED', 'CANCELED');
+CREATE TYPE "InvitationStatus" AS ENUM ('PENDING', 'ACCEPTED', 'REJECTED', 'CANCELED', 'QUIT');
 
 -- CreateEnum
 CREATE TYPE "TaskStatus" AS ENUM ('TODO', 'IN_PROGRESS', 'DONE');
@@ -16,7 +16,7 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "profileImage" TEXT,
-    "passwordHash" TEXT,
+    "passwordHashed" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -28,9 +28,7 @@ CREATE TABLE "OAuthAccount" (
     "id" SERIAL NOT NULL,
     "provider" "OAuthProvider" NOT NULL,
     "providerAccountId" TEXT NOT NULL,
-    "accessToken" TEXT,
-    "refreshToken" TEXT,
-    "expiresAt" TIMESTAMP(3),
+    "refreshTokenEnc" TEXT,
     "scope" TEXT[],
     "userId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -42,10 +40,11 @@ CREATE TABLE "OAuthAccount" (
 -- CreateTable
 CREATE TABLE "Session" (
     "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "deviceIdHash" TEXT NOT NULL,
     "refreshTokenHash" TEXT NOT NULL,
     "expiresAt" TIMESTAMP(3) NOT NULL,
     "revokedAt" TIMESTAMP(3),
-    "userId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -71,6 +70,7 @@ CREATE TABLE "Invitation" (
     "projectId" INTEGER NOT NULL,
     "inviteeUserId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "respondedAt" TIMESTAMP(3),
 
     CONSTRAINT "Invitation_pkey" PRIMARY KEY ("id")
 );
@@ -79,8 +79,8 @@ CREATE TABLE "Invitation" (
 CREATE TABLE "ProjectMember" (
     "projectId" INTEGER NOT NULL,
     "memberId" INTEGER NOT NULL,
-    "role" "MemberRole" NOT NULL,
     "invitationId" TEXT,
+    "role" "MemberRole" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -98,6 +98,7 @@ CREATE TABLE "Task" (
     "projectId" INTEGER NOT NULL,
     "taskCreatorId" INTEGER NOT NULL,
     "assigneeProjectMemberId" INTEGER NOT NULL,
+    "googleEventId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -162,10 +163,13 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "OAuthAccount_provider_providerAccountId_key" ON "OAuthAccount"("provider", "providerAccountId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Invitation_projectId_inviteeUserId_key" ON "Invitation"("projectId", "inviteeUserId");
+CREATE UNIQUE INDEX "Session_userId_deviceIdHash_key" ON "Session"("userId", "deviceIdHash");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ProjectMember_invitationId_key" ON "ProjectMember"("invitationId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Task_googleEventId_key" ON "Task"("googleEventId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Task_id_projectId_key" ON "Task"("id", "projectId");
@@ -195,7 +199,7 @@ ALTER TABLE "ProjectMember" ADD CONSTRAINT "ProjectMember_projectId_fkey" FOREIG
 ALTER TABLE "ProjectMember" ADD CONSTRAINT "ProjectMember_memberId_fkey" FOREIGN KEY ("memberId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ProjectMember" ADD CONSTRAINT "ProjectMember_invitationId_fkey" FOREIGN KEY ("invitationId") REFERENCES "Invitation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "ProjectMember" ADD CONSTRAINT "ProjectMember_invitationId_fkey" FOREIGN KEY ("invitationId") REFERENCES "Invitation"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Task" ADD CONSTRAINT "Task_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
