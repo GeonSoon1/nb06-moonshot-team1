@@ -1,6 +1,5 @@
 import { prisma } from '../lib/prismaClient';
-import { InvitationStatus } from '../dto/dto';
-import { Prisma, Invitation } from '@prisma/client';
+import { Prisma, Invitation, InvitationStatus } from '@prisma/client';
 
 async function getList(projectId: number) {
   return prisma.invitation.findMany({
