@@ -1,5 +1,6 @@
 import { prisma } from '../lib/prismaClient.js';
 
+
 export const createTask = async (data) => {
   const task = await prisma.task.create({
     data,
@@ -29,7 +30,7 @@ export const findById = (id) =>
     include: { assigneeProjectMember: { include: { member: true } }, taskTags: { include: { tag: true } }, attachments: true }
   });
 
-export const updateWithTransaction = async (id, data, tags, newFilePaths) => {
+export const updateWithTransaction = async (id, data, tags, attachments) => {
   const updated = prisma.$transaction(async (tx) => {
     if (tags) await tx.taskTag.deleteMany({ where: { taskId: id } });
     // 삭제 후, 새로 받은 tags를 data 객체에 'create'로 넣어줍니다.
@@ -39,10 +40,10 @@ export const updateWithTransaction = async (id, data, tags, newFilePaths) => {
       }))
     };
 
-    if (newFilePaths) await tx.attachment.deleteMany({ where: { taskId: id } });
+    if (attachments) await tx.attachment.deleteMany({ where: { taskId: id } });
     // 새로 받은 파일 경로들을 data 객체에 'create'로 넣어줍니다.
     data.attachments = {
-      create: newFilePaths.map((url) => ({ url }))
+      create: attachments.map((url) => ({ url }))
     };
 
     return await tx.task.update({

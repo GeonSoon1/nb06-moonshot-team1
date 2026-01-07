@@ -6,7 +6,6 @@ import * as taskControl from '../controllers/task.control.js';
 import { CommentRepository } from '../repositories/comment.repo.js';
 import { CommentService } from '../services/comment.service.js';
 import { CommentController } from '../controllers/comment.control.js';
-import { upload } from '../middlewares/upload.js';
 import { prisma } from '../lib/prismaClient.js';
 
 const taskRouter = express.Router();
@@ -20,7 +19,7 @@ const commentController = new CommentController(commentService);
 taskRouter.get('/:taskId', authenticate, authorize.projectMember, asyncHandler(taskControl.getDetail));
 
 // 할 일 수정
-taskRouter.patch('/:taskId', authenticate, authorize.projectMember, upload.array('files'), asyncHandler(taskControl.update));
+taskRouter.patch('/:taskId', authenticate, authorize.projectMember, asyncHandler(taskControl.update));
 
 // 할 일 삭제
 taskRouter.delete('/:taskId', authenticate, authorize.projectMember, asyncHandler(taskControl.remove));

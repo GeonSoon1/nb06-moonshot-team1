@@ -33,6 +33,7 @@ export const CreateTask = s.object({
   status: s.optional(TaskStatus),
   tags: TagList,
   assigneeId: s.optional(CoerceNumber),
+  attachments: s.optional(s.array(s.string())) 
 });
 
 // [B] 할 일 수정 (PATCH)
