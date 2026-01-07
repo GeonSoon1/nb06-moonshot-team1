@@ -15,7 +15,7 @@ export const UpdateInfoStruct = s.object({
   name: s.optional(Name),
   currentPassword: s.optional(password),
   newPassword: s.optional(password),
-  profileImage: s.optional(s.nullable(s.string()))
+  profileImage: s.optional(s.nullable(s.string())) 
 });
 //일단은 유저에서 사용
 const integerString = s.coerce(s.integer(), s.string(), (value) => parseInt(value));

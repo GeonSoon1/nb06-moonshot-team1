@@ -12,7 +12,7 @@ export const CreateUserBodyStruct = s.object({
   name: Name,
   email: email,
   password: password,
-  profileImage: s.optional(s.nullable(s.string())) //프론트가 null을 보내서 nullable로 처리
+  profileImage: s.optional(s.nullable(s.string()))
 });
 
 export const LoginUserBodyStruct = s.object({

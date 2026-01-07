@@ -29,4 +29,7 @@ const storage = multer.diskStorage({
 // upload = 파일을 지정한 폴더에 저장해주는 “업로드 미들웨어를 만들어내는 객체(upload)”
 //그래서 아래처럼 .single(), .array(), .fields() 같은 메서드를 호출할 수 있게 됨.
 
-export const upload = multer({ storage });
+export const upload = multer({ 
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB 제한
+ });

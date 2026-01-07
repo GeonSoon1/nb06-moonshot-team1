@@ -42,8 +42,8 @@ export class CommentController {
       const userId = req.user.id;
 
       const result = await this.commentService.findAllByTaskId(taskId, userId, page, limit);
-
-      return res.status(200).json(result);
+      const comments = Array.isArray(result) ? result : result?.data ?? [];
+      return res.status(200).json(comments);
     } catch (error) {
       next(error);
     }

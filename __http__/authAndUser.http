@@ -9,9 +9,10 @@ POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-    "email": "user3@test.com",
+    "email": "user5@test.com",
     "name": "user1",
-    "password": "password1"
+    "password": "password1",
+    "profileImage": "http://localhost:3000/uploads/profile-1767753624816-581423953.jpg"
 }
 
 ### 로그인
@@ -19,7 +20,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-    "email": "user1@test.com",
+    "email": "user3@test.com",
     "password": "password1"
 }
 

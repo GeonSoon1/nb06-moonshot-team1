@@ -1,6 +1,7 @@
 ### 사용할 ID들 (본인의 DB 상황에 맞게 수정하세요)
 @baseUrl = http://localhost:3000
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY4OTU3NiwiZXhwIjoxNzY3Nzc1OTc2fQ.FdFe6Rg0CbVRK2lRCQwBkW4WBjBOKUUpbhWFKlxu7Uk
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2Nzc0Nzc0NCwiZXhwIjoxNzY3ODM0MTQ0fQ.Qy6hTRoaGQ3XxC7hG4_BPdPwTOp7HlPXWjjbFRujpL4
+
 
 @subTaskId = 1
 
