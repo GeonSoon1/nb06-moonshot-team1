@@ -6,7 +6,10 @@ import projectRepo from '../repositories/project.repo.js';
 // 초대 승인
 async function accept(invitationId, memberData) {
   // 트렌젝션 사용: Invitation table 수정 AND ProjectMember에 추가
-  const [invitation, member] = await prisma.$transaction([invitationRepo.update(invitationId, 'ACCEPTED'), projectRepo.createMember(memberData)]);
+  const [invitation, member] = await prisma.$transaction([
+    invitationRepo.update(invitationId, 'ACCEPTED'),
+    projectRepo.createMember(memberData)
+  ]);
   return [invitation, member];
 }
 
