@@ -1,4 +1,4 @@
-import { ProjectMember } from '@prisma/client';
+import { Project, ProjectMember } from '@prisma/client';
 
 export type CreateMemberDto = Pick<
   ProjectMember,
@@ -6,3 +6,7 @@ export type CreateMemberDto = Pick<
 >;
 
 export type InvitationStatus = 'PENDING' | 'ACCEPTED' | 'REJECTED' | 'CANCELED' | 'QUIT';
+
+export type CreateProjectDto = Pick<Project, 'name' | 'description' | 'ownerId'>;
+
+export type UpdateProjectDto = Pick<Project, 'name' | 'description'>;

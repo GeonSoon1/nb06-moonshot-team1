@@ -10,7 +10,7 @@ async function getList(projectId: number) {
   });
 }
 
-function findById(id: string) {
+function findById(id: string): Promise<Invitation | null> {
   return prisma.invitation.findUnique({ where: { id } });
 }
 

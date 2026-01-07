@@ -6,10 +6,17 @@ import { CreateMemberDto } from '../dto/dto';
 
 // 초대 승인
 async function accept(invitationId: string, memberData: CreateMemberDto) {
+  const memberDataToRepo = {
+    role: memberData.role,
+    invitaionId: memberData.invitationId,
+    project: { connect: { id: memberData.projectId } },
+    member: { connect: { id: memberData.memberId } }
+  };
+
   // 트렌젝션 사용: Invitation table 수정 AND ProjectMember에 추가
   const [invitation, member] = await prisma.$transaction([
     invitationRepo.update(invitationId, 'ACCEPTED'),
-    projectRepo.createMember(memberData)
+    projectRepo.createMember(memberDataToRepo)
   ]);
   return [invitation, member];
 }
