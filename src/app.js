@@ -11,6 +11,8 @@ import userRouter from './routers/user.router.js';
 import taskRouter from './routers/task.router.js';
 import subtaskRouter from './routers/subtask.router.js';
 import fileRouter from './routers/file.router.js';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './swagger.js';
 
 const app = express();
 
@@ -25,6 +27,7 @@ app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 app.use(cors());
 app.use(express.json());
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/tasks', taskRouter);
 app.use('/projects', projectRouter);
