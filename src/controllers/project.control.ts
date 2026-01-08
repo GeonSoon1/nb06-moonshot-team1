@@ -58,12 +58,15 @@ async function deleteProject(req: Request, res: Response, next: NextFunction) {
 
 // 프로젝트 멤버 조회
 async function getMemberList(req: Request, res: Response, next: NextFunction) {
-  const { projectId } = req.params;
-  const members = await projectService.getMemberList(Number(projectId));
+  const page = req.query.page ? Number(req.query.page) : 1;
+  const limit = req.query.limit ? Number(req.query.limit) : 10;
+  const projectId = Number(req.params.projectId);
+  const members = await projectService.getMemberList(projectId, page, limit);
   console.log(`프로젝트${projectId}의 멤버 목록을 조회합니다`);
   res.status(200).json(members);
 }
 
+// 프로젝트 멤버 제외
 async function deleteMember(req: Request, res: Response, next: NextFunction) {
   const { projectId, userId } = req.params;
   const invitation = await projectService.deleteMember(Number(projectId), Number(userId));
@@ -71,6 +74,7 @@ async function deleteMember(req: Request, res: Response, next: NextFunction) {
   res.status(200).json(invitation);
 }
 
+// 프로젝트 멤버 초대
 async function inviteMember(req: Request, res: Response, next: NextFunction) {
   const { projectId } = req.params;
   const { email } = req.body;

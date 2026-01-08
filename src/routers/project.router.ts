@@ -351,8 +351,8 @@ export default projectRouter;
  *         name: limit
  *         schema:
  *           type: integer
- *           minimum: 0
- *           default: 0
+ *           minimum: 1
+ *           default: 10
  *     responses:
  *       200:
  *         description: 성공
@@ -705,9 +705,8 @@ export default projectRouter;
  *         name: limit
  *         schema:
  *           type: integer
- *           minimum: 0
- *           default: 0
- *         description: 0이면 페이징 없이 조회
+ *           minimum: 1
+ *           default: 10
  *       - in: query
  *         name: status
  *         schema:
