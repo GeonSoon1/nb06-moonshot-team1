@@ -1,3 +1,16 @@
+import { Prisma } from '@prisma/client';
+
+export const taskInclude = {
+  assigneeProjectMember: { include: { member: true } },
+  taskTags: { include: { tag: true } },
+  attachments: true,
+} satisfies Prisma.TaskInclude;
+
+
+// DB에서 꺼낸 타입
+export type TaskWithDetails = Prisma.TaskGetPayload<{ include: typeof taskInclude }>;
+
+
 // task 생성 input 타입
 export interface TaskInput {
   title: string;
@@ -25,4 +38,3 @@ export interface TaskQueryInput {
   order?: 'asc' | 'desc';
   order_by?: 'created_at' | 'name' | 'end_date';
 }
-

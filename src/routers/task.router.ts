@@ -1,12 +1,12 @@
 import express from 'express';
-import { asyncHandler } from '../middlewares/asyncHandler.js';
-import { authenticate } from '../middlewares/authenticate.js';
-import authorize from '../middlewares/authorize.js';
-import * as taskControl from '../controllers/task.control2.js';
-import { CommentRepository } from '../repositories/comment.repo.js';
-import { CommentService } from '../services/comment.service.js';
-import { CommentController } from '../controllers/comment.control.js';
-import { prisma } from '../lib/prismaClient.js';
+import { asyncHandler } from '../middlewares/asyncHandler';
+import { authenticate } from '../middlewares/authenticate';
+import authorize from '../middlewares/authorize';
+import * as taskControl from '../controllers/task.control';
+import { CommentRepository } from '../repositories/comment.repo';
+import { CommentService } from '../services/comment.service';
+import { CommentController } from '../controllers/comment.control';
+import { prisma } from '../lib/prismaClient';
 
 const taskRouter = express.Router();
 
