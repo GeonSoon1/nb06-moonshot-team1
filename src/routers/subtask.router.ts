@@ -1,8 +1,8 @@
 import express from 'express';
-import subTaskControl from '../controllers/subtask.control.js'; // .js 필수
-import { asyncHandler } from '../middlewares/asyncHandler.js';
-import { authenticate } from '../middlewares/authenticate.js';
-import authorize from '../middlewares/authorize.js';
+import subTaskControl from '../controllers/subtask.control'; // .js 필수
+import { asyncHandler } from '../middlewares/asyncHandler';
+import { authenticate } from '../middlewares/authenticate';
+import authorize from '../middlewares/authorize';
 
 const subtaskRouter = express.Router();
 

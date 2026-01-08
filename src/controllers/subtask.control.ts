@@ -1,8 +1,9 @@
-import { assert } from 'superstruct';
-import subTaskService from '../services/subtask.service.js'; // .js 필수
-import { PatchSubTask } from '../structs/subtask.struct.js';
+import { any, assert, string } from 'superstruct';
+import subTaskService from '../services/subtask.service'; // .js 필수
+import { PatchSubTask } from '../structs/subtask.struct';
+import { Request, Response, NextFunction } from 'express';
 
-async function getSubTask(req, res, next) {
+async function getSubTask(req: Request, res: Response, next: NextFunction) {
   const { subTaskId } = req.params;
   const subTask = await subTaskService.getSubTask(Number(subTaskId));
 
@@ -10,7 +11,7 @@ async function getSubTask(req, res, next) {
 }
 
 // 3. 수정
-async function updateSubTask(req, res, next) {
+async function updateSubTask(req: Request, res: Response, next: NextFunction) {
   const { subTaskId } = req.params;
   const { title, status } = req.body;
 
@@ -19,13 +20,13 @@ async function updateSubTask(req, res, next) {
     status: status ?? undefined
   };
   assert(subtaskData, PatchSubTask);
-  const updatedSubTask = await subTaskService.updateSubTask(Number(subTaskId), subtaskData);
+  const updatedSubTask = await subTaskService.updateSubTask(Number(subTaskId), subtaskData as any);
 
   res.status(200).json(updatedSubTask);
 }
 
 // 4. 삭제
-async function deleteSubTask(req, res, next) {
+async function deleteSubTask(req: Request, res: Response, next: NextFunction) {
   const { subTaskId } = req.params;
   await subTaskService.deleteSubTask(Number(subTaskId));
 
