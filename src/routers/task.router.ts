@@ -2,7 +2,7 @@ import express from 'express';
 import { asyncHandler } from '../middlewares/asyncHandler.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import authorize from '../middlewares/authorize.js';
-import * as taskControl from '../controllers/task.control.js';
+import * as taskControl from '../controllers/task.control2.js';
 import { CommentRepository } from '../repositories/comment.repo.js';
 import { CommentService } from '../services/comment.service.js';
 import { CommentController } from '../controllers/comment.control.js';
@@ -24,21 +24,16 @@ taskRouter.patch('/:taskId', authenticate, authorize.projectMember, asyncHandler
 // 할 일 삭제
 taskRouter.delete('/:taskId', authenticate, authorize.projectMember, asyncHandler(taskControl.remove));
 
-
-
 // 하위 할 일 생성 (지민님)
 taskRouter.post('/:taskId/subtasks', authenticate, authorize.projectMember, asyncHandler(taskControl.createSubTask));
 
 // 하위 할 일 목록 조회 (지민님)
 taskRouter.get('/:taskId/subtasks', authenticate, authorize.projectMember, asyncHandler(taskControl.getSubTasks));
 
-
-
 // 댓글 생성 (현우님)
-taskRouter.post('/:taskId/comments', authenticate, authorize.projectMember,commentController.createComment);
+taskRouter.post('/:taskId/comments', authenticate, authorize.projectMember, commentController.createComment);
 
 // 댓글 목록 조회 (현우님)
 taskRouter.get('/:taskId/comments', authenticate, authorize.projectMember, commentController.getComments);
-
 
 export default taskRouter;

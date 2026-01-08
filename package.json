@@ -20,11 +20,13 @@
     "crypto": "^1.0.1",
     "dotenv": "^16.3.1",
     "express": "^5.2.1",
+    "googleapis": "^169.0.0",
     "is-email": "^1.0.2",
     "is-uuid": "^1.0.2",
     "jsonwebtoken": "^9.0.3",
     "lru-cache": "^11.2.4",
     "multer": "^2.0.2",
+    "node-cron": "^4.2.1",
     "superstruct": "^2.0.2"
   },
   "devDependencies": {

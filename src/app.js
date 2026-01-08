@@ -1,6 +1,6 @@
 import express from 'express';
 import { defaultNotFoundHandler, globalErrorHandler } from './middlewares/errorHandler.js';
-import path from 'path'
+import path from 'path';
 import cors from 'cors';
 import { PORT } from './lib/constants.js';
 import projectRouter from './routers/project.router.js';
@@ -9,7 +9,7 @@ import commentRouter from './routers/comment.router.js';
 import authRouter from './routers/auth.router.js';
 import userRouter from './routers/user.router.js';
 import taskRouter from './routers/task.router.js';
-import subtaskRouter from './routers/subtask.router.js'
+import subtaskRouter from './routers/subtask.router.js';
 import fileRouter from './routers/file.router.js';
 
 const app = express();

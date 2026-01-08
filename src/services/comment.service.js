@@ -1,9 +1,5 @@
-import {
-  NotFoundError,
-  BadRequestError,
-  ForbiddenError
-} from '../middlewares/errors/customError.js';
-import { formatComment } from '../lib/util.js';
+import { formatComment } from '../lib/utils/util.js';
+import { NotFoundError, BadRequestError, ForbiddenError } from '../middlewares/errors/customError.js';
 
 export class CommentService {
   constructor(commentRepository) {
@@ -31,9 +27,7 @@ export class CommentService {
       throw new BadRequestError('잘못된 요청 형식');
     }
     // 미들웨어가 이미 멤버십을 확인했으므로 바로 생성
-    return formatComment(
-      await this.commentRepository.createComment(+taskId, +projectId, +userId, content)
-    );
+    return formatComment(await this.commentRepository.createComment(+taskId, +projectId, +userId, content));
   };
 
   // 3. 수정

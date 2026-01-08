@@ -71,6 +71,7 @@ export const getDetail = async (req: Request, res: Response) => {
 
 //   const result = await taskService.updateTaskInfo(Number(req.params.taskId), data, req.user.id);
 
+<<<<<<< HEAD
 //   res.json(result);
 // };
 
@@ -78,6 +79,23 @@ export const getDetail = async (req: Request, res: Response) => {
 export const remove = async (req: Request, res: Response) => {
   await taskService.deleteTask(Number(req.params.taskId));
 
+=======
+  const result = await taskService.updateTaskInfo(
+    Number(req.params.taskId),
+    data,
+    req.user.id,
+    newFilePaths
+  );
+
+  res.json(result);
+};
+
+/**
+ * 삭제
+ */
+export const remove = async (req, res) => {
+  await taskService.deleteTask(Number(req.params.taskId), req.user.id);
+>>>>>>> 99bafc3 (✨ feat : 구글 캘린더 연동)
   res.status(204).end();
 };
 

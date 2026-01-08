@@ -17,6 +17,7 @@ Content-Type: application/json
 
 ### 로그인
 POST {{baseUrl}}/auth/login
+X-Device-Id: dev-rest-123
 Content-Type: application/json
 
 {
@@ -26,6 +27,7 @@ Content-Type: application/json
 
 ### 토큰갱신
 POST {{baseUrl}}/auth/refresh
+X-Device-Id: dev-rest-123
 Authorization: Bearer {{refreshToken}}
 
 ### 내 정보 조회
