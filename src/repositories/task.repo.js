@@ -31,28 +31,37 @@ export const findById = (id) =>
   });
 
 export const updateWithTransaction = async (id, data, tags, attachments) => {
-  const updated = prisma.$transaction(async (tx) => {
-    if (tags) await tx.taskTag.deleteMany({ where: { taskId: id } });
-    // 삭제 후, 새로 받은 tags를 data 객체에 'create'로 넣어줍니다.
-    data.taskTags = {
-      create: tags.map((name) => ({
-        tag: { connectOrCreate: { where: { name }, create: { name } } }
-      }))
-    };
+  return await prisma.$transaction(async (tx) => {
+    
+    // 태그 수정 로직 
+    if (tags) {
+      await tx.taskTag.deleteMany({ where: { taskId: id } });
+      data.taskTags = {
+        create: tags.map((name) => ({
+          tag: { connectOrCreate: { where: { name }, create: { name } } }
+        }))
+      };
+    }
 
-    if (attachments) await tx.attachment.deleteMany({ where: { taskId: id } });
-    // 새로 받은 파일 경로들을 data 객체에 'create'로 넣어줍니다.
-    data.attachments = {
-      create: attachments.map((url) => ({ url }))
-    };
+    // 첨부파일 수정 로직
+    if (attachments) {
+      await tx.attachment.deleteMany({ where: { taskId: id } });
+      data.attachments = {
+        create: attachments.map((url) => ({ url }))
+      };
+    }
 
+    // 최종 업데이트 실행
     return await tx.task.update({
       where: { id },
       data,
-      include: { assigneeProjectMember: { include: { member: true } }, taskTags: { include: { tag: true } }, attachments: true }
+      include: {
+        assigneeProjectMember: { include: { member: true } },
+        taskTags: { include: { tag: true } },
+        attachments: true
+      }
     });
   });
-  return updated;
 };
 
 // projectMember인지 확인하는 부분
