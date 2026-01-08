@@ -1,5 +1,6 @@
-import { prisma } from '../lib/prismaClient.js'; // 본인 환경에 맞게 유지
+import { prisma } from '../lib/prismaClient'; // 본인 환경에 맞게 유지
 import { Prisma, SubTask } from '@prisma/client';
+
 // 2. 하위 할 일 목록 조회 (특정 Task에 속한 것들)
 async function findSubTasksByTaskId(id: number): Promise<SubTask[]> {
   return prisma.subTask.findMany({ where: { taskId: id } });

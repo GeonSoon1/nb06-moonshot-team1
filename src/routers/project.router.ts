@@ -20,7 +20,7 @@ projectRouter.delete('/:projectId/users/:userId', authenticate, authorize.projec
 projectRouter.post('/:projectId/invitations', authenticate, authorize.projectOwner, asyncHandler(projectControl.inviteMember)); // 멤버 초대: 인증, 인가(오너)
 
 // 프로젝트에 할 일 생성 (건순님)
-projectRouter.post('/:projectId/tasks', authenticate, authorize.projectMember, upload.array('files'), asyncHandler(taskControl.create));
+projectRouter.post('/:projectId/tasks', authenticate, authorize.projectMember, asyncHandler(taskControl.create));
 
 // 프로젝트의 할 일 목록 조회 (건순님)
 projectRouter.get('/:projectId/tasks', authenticate, authorize.projectMember, asyncHandler(taskControl.getList));
