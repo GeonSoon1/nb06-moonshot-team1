@@ -43,7 +43,7 @@ Authorization: Bearer {{accessToken}}
 
 
 ### 프로젝트 멤버 목록 조회: 인증, 인가(멤버)
-GET {{baseUrl}}/projects/{{projectId}}/users  
+GET {{baseUrl}}/projects/{{projectId}}/users?page=1&limit=10
 Authorization: Bearer {{accessToken}}
 
 

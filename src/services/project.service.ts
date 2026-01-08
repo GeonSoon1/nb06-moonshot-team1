@@ -90,24 +90,21 @@ async function deleteProject(projectId: number) {
 
 // 프로젝트 멤버 목록 조회
 // 승인/대기중인 멤버만 조회하여 상태와 함께 출력
-async function getMemberList(projectId: number) {
+async function getMemberList(projectId: number, page: number, limit: number) {
   const project = await projectRepo.findById(projectId);
   if (!project) {
     console.log('프로젝트가 존재하지 않습니다');
     throw new BadRequestError('잘못된 요청 형식');
     //throw new NotFoundError('프로젝트가 존재하지 않습니다');
   }
-  const invitations = await invitationRepo.getList(projectId);
-  const selectedInvitations = invitations.filter(
-    (i) => i.status === 'PENDING' || i.status === 'ACCEPTED'
-  );
-  if (!selectedInvitations) {
+  const invitations = await invitationRepo.getList(projectId, page, limit);
+  if (!invitations) {
     console.log('멤버가 존재하지 않습니다');
     throw new BadRequestError('잘못된 요청 형식');
   }
 
   const data = await Promise.all(
-    selectedInvitations.map(async (i) => {
+    invitations.map(async (i) => {
       const { inviteeUserId: id, status, id: invitationId } = i;
       const user = await prisma.user.findUniqueOrThrow({ where: { id } }); // User API로 대체
       const { name, email, profileImage } = user;
@@ -198,22 +195,14 @@ async function inviteMember(projectId: number, email: string) {
 }
 
 //----------------------------------------- 지역 함수
-function isOwner(
-  user: Prisma.UserGetPayload<{ include: { ownedProjects: true } }>,
-  projectId: number
-) {
+function isOwner(user: Prisma.UserGetPayload<{ include: { ownedProjects: true } }>, projectId: number) {
   if (user.ownedProjects.length == 0) return false;
   return user.ownedProjects.some((p) => p.id === projectId);
 }
 
-function okToSendInvitation(
-  user: Prisma.UserGetPayload<{ include: { invitations: true; projectMembers: true } }>,
-  projectId: number
-) {
+function okToSendInvitation(user: Prisma.UserGetPayload<{ include: { invitations: true; projectMembers: true } }>, projectId: number) {
   if (user.invitations.length == 0) return true;
-  const isPendingInvitation = user.invitations.some(
-    (i) => i.projectId === projectId && i.status === 'PENDING'
-  );
+  const isPendingInvitation = user.invitations.some((i) => i.projectId === projectId && i.status === 'PENDING');
   const isMember = user.projectMembers.some((m) => m.projectId === projectId);
   return !isPendingInvitation && !isMember;
 }

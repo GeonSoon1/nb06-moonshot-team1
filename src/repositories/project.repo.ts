@@ -1,9 +1,7 @@
 import { prisma } from '../lib/prismaClient.js';
 import { Prisma, ProjectMember } from '@prisma/client';
 
-async function getProjectList(): Promise<
-  Prisma.ProjectGetPayload<{ include: { projectMembers: true; tasks: true } }>[]
-> {
+async function getProjectList(): Promise<Prisma.ProjectGetPayload<{ include: { projectMembers: true; tasks: true } }>[]> {
   return prisma.project.findMany({
     include: { projectMembers: true, tasks: true }
   });
@@ -40,9 +38,7 @@ async function deleteProject(id: number) {
   });
 }
 
-async function findProjectById(
-  id: number
-): Promise<Prisma.ProjectGetPayload<{ include: { projectMembers: true; tasks: true } }>> {
+async function findProjectById(id: number): Promise<Prisma.ProjectGetPayload<{ include: { projectMembers: true; tasks: true } }>> {
   return prisma.project.findUniqueOrThrow({
     where: { id },
     include: {

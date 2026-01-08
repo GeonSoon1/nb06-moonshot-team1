@@ -27,7 +27,9 @@
     "lru-cache": "^11.2.4",
     "multer": "^2.0.2",
     "node-cron": "^4.2.1",
-    "superstruct": "^2.0.2"
+    "superstruct": "^2.0.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^11.12.0",

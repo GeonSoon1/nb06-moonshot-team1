@@ -1,10 +1,14 @@
 import { prisma } from '../lib/prismaClient';
-import { InvitationStatus } from '../dto/dto';
-import { Prisma, Invitation } from '@prisma/client';
+import { Prisma, Invitation, InvitationStatus } from '@prisma/client';
 
-async function getList(projectId: number) {
+async function getList(projectId: number, page: number, limit: number) {
   return prisma.invitation.findMany({
-    where: { projectId },
+    skip: (page - 1) * limit,
+    take: limit,
+    where: {
+      projectId,
+      status: { in: [InvitationStatus.ACCEPTED, InvitationStatus.PENDING] }
+    },
     orderBy: [{ projectId: 'asc' }, { inviteeUserId: 'asc' }, { respondedAt: 'desc' }],
     distinct: ['projectId', 'inviteeUserId']
   });
