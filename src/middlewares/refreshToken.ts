@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { BadRequestError } from './errors/customError.js';
+import { BadRequestError } from './errors/customError';
 
 export function requireRefresh(req: Request, _res: Response, next: NextFunction) {
   const header = req.headers.authorization;

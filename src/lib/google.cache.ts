@@ -1,8 +1,8 @@
 import { LRUCache } from 'lru-cache';
-import { prisma } from './prismaClient.js';
-import { UnauthorizedError } from '../middlewares/errors/customError.js';
-import { decryptToken } from './crypto.token.js';
-import { CachedGoogleAccessToken } from '../types/oAuth.js';
+import { prisma } from './prismaClient';
+import { UnauthorizedError } from '../middlewares/errors/customError';
+import { decryptToken } from './crypto.token';
+import { CachedGoogleAccessToken } from '../types/oAuth';
 
 export const googleAccessTokenCache = new LRUCache<string, CachedGoogleAccessToken>({
   max: 5000, // 유저 수에 맞게 조절

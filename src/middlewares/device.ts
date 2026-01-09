@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { sha256 } from '../lib/token.js';
-import { BadRequestError } from './errors/customError.js';
-import { firstQuery } from '../lib/utils/oAuth.js';
+import { sha256 } from '../lib/token';
+import { BadRequestError } from './errors/customError';
+import { firstQuery } from '../lib/utils/oAuth';
 
 export function requireDevice(req: Request, _res: Response, next: NextFunction): void {
   const fromHeader = req.get('x-device-id') ?? undefined;
