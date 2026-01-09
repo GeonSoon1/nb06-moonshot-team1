@@ -1,7 +1,7 @@
 import { Response } from 'express';
-import { BadRequestError } from '../../middlewares/errors/customError.js';
-import { GoogleProfile, GoogleTokenResult, SessionTokens } from '../../types/oAuth.js';
-import { QueryParam } from '../../types/session.js';
+import { BadRequestError } from '../../middlewares/errors/customError';
+import { GoogleProfile, GoogleTokenResult, SessionTokens } from '../../types/oAuth';
+import { QueryParam } from '../../types/session';
 
 export function decodeOAuthState(state: unknown): {
   redirectTo: string | undefined;

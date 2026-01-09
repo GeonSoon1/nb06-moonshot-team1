@@ -1,8 +1,8 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { UnauthorizedError } from '../middlewares/errors/customError.js';
+import { UnauthorizedError } from '../middlewares/errors/customError';
 import crypto from 'crypto';
-import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from './constants.js';
-import { AccessTokenPayload, RefreshTokenPayload } from '../types/session.js';
+import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from './constants';
+import { AccessTokenPayload, RefreshTokenPayload } from '../types/session';
 
 export function generateAccessToken(userId: number): string {
   if (!ACCESS_TOKEN_SECRET) throw new Error('Missing ACCESS_TOKEN_SECRET');

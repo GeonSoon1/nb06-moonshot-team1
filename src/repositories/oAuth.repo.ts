@@ -1,5 +1,5 @@
-import { prisma } from '../lib/prismaClient.js';
-import { generateAccessToken, generateRefreshToken, sha256 } from '../lib/token.js';
+import { prisma } from '../lib/prismaClient';
+import { generateAccessToken, generateRefreshToken, sha256 } from '../lib/token';
 import { User } from '@prisma/client';
 import {
   GoogleRefreshTokenRow,

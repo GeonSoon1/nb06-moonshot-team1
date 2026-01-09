@@ -1,8 +1,8 @@
 import { calendar_v3, google } from 'googleapis';
-import { getGoogleAccessToken } from '../google.cache.js';
-import { createCalendarEvent, updateCalendarEvent } from '../../repositories/calendar.repo.js';
-import { setGoogleEventId } from '../../repositories/task.repo.js';
-import { SyncTask } from '../../types/oAuth.js';
+import { getGoogleAccessToken } from '../google.cache';
+import { createCalendarEvent, updateCalendarEvent } from '../../repositories/calendar.repo';
+import { setGoogleEventId } from '../../repositories/task.repo';
+import { SyncTask } from '../../types/oAuth';
 
 export async function getCalendarClient(userId: number): Promise<calendar_v3.Calendar> {
   const clientId = process.env.GOOGLE_CLIENT_ID;
