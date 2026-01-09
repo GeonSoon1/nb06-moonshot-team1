@@ -31,9 +31,7 @@ export default projectRouter;
  * /projects:
  *   get:
  *     summary: 프로젝트 목록 조회
- *     tags: [Project]
- *     security:
- *       - bearerAuth: []
+ *     tags: [프로젝트]
  *     responses:
  *       200:
  *         description: 성공
@@ -78,9 +76,7 @@ export default projectRouter;
  *
  *   post:
  *     summary: 프로젝트 생성
- *     tags: [Project]
- *     security:
- *       - bearerAuth: []
+ *     tags: [프로젝트]
  *     requestBody:
  *       required: true
  *       content:
@@ -139,10 +135,8 @@ export default projectRouter;
  *
  * /projects/{projectId}:
  *   get:
- *     summary: 프로젝트 상세 조회
- *     tags: [Project]
- *     security:
- *       - bearerAuth: []
+ *     summary: 프로젝트 조회
+ *     tags: [프로젝트]
  *     parameters:
  *       - in: path
  *         name: projectId
@@ -207,9 +201,7 @@ export default projectRouter;
  *
  *   patch:
  *     summary: 프로젝트 수정
- *     tags: [Project]
- *     security:
- *       - bearerAuth: []
+ *     tags: [프로젝트]
  *     parameters:
  *       - in: path
  *         name: projectId
@@ -283,9 +275,7 @@ export default projectRouter;
  *
  *   delete:
  *     summary: 프로젝트 삭제
- *     tags: [Project]
- *     security:
- *       - bearerAuth: []
+ *     tags: [프로젝트]
  *     parameters:
  *       - in: path
  *         name: projectId
@@ -331,9 +321,7 @@ export default projectRouter;
  * /projects/{projectId}/users:
  *   get:
  *     summary: 프로젝트 멤버 조회
- *     tags: [ProjectMember]
- *     security:
- *       - bearerAuth: []
+ *     tags: [멤버]
  *     parameters:
  *       - in: path
  *         name: projectId
@@ -420,10 +408,8 @@ export default projectRouter;
  *
  * /projects/{projectId}/users/{userId}:
  *   delete:
- *     summary: 프로젝트에서 유저 제외
- *     tags: [ProjectMember]
- *     security:
- *       - bearerAuth: []
+ *     summary: 프로젝트에서 유저 제외하기
+ *     tags: [멤버]
  *     parameters:
  *       - in: path
  *         name: projectId
@@ -473,10 +459,8 @@ export default projectRouter;
  *
  * /projects/{projectId}/invitations:
  *   post:
- *     summary: 프로젝트 멤버 초대
- *     tags: [Invitation]
- *     security:
- *       - bearerAuth: []
+ *     summary: 프로젝트에 멤버 초대
+ *     tags: [멤버]
  *     parameters:
  *       - in: path
  *         name: projectId
@@ -529,10 +513,8 @@ export default projectRouter;
  *                   type: string
  *
  *   post:
- *     summary: 프로젝트 할 일 생성 (파일 업로드 포함)
- *     tags: [Task]
- *     security:
- *       - bearerAuth: []
+ *     summary: 프로젝트에 할 일 생성
+ *     tags: [할 일]
  *     parameters:
  *       - in: path
  *         name: projectId
@@ -684,10 +666,8 @@ export default projectRouter;
  *
  * /projects/{projectId}/tasks:
  *   get:
- *     summary: 프로젝트 할 일 목록 조회
- *     tags: [Task]
- *     security:
- *       - bearerAuth: []
+ *     summary: 프로젝트의 할 일 목록 조회
+ *     tags: [할 일]
  *     parameters:
  *       - in: path
  *         name: projectId

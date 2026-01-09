@@ -21,9 +21,7 @@ export default subtaskRouter;
  * /subtasks/{subtaskId}:
  *   get:
  *     summary: 하위 할 일 조회
- *     tags: [Subtask]
- *     security:
- *       - bearerAuth: []
+ *     tags: [하위 할 일]
  *     parameters:
  *       - in: path
  *         name: subtaskId
@@ -96,9 +94,7 @@ export default subtaskRouter;
  *
  *   patch:
  *     summary: 하위 할 일 수정
- *     tags: [Subtask]
- *     security:
- *       - bearerAuth: []
+ *     tags: [하위 할 일]
  *     parameters:
  *       - in: path
  *         name: subtaskId
@@ -180,9 +176,7 @@ export default subtaskRouter;
  *
  *   delete:
  *     summary: 하위 할 일 삭제
- *     tags: [Subtask]
- *     security:
- *       - bearerAuth: []
+ *     tags: [하위 할 일]
  *     parameters:
  *       - in: path
  *         name: subtaskId

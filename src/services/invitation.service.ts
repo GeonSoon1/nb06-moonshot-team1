@@ -2,7 +2,7 @@ import { BadRequestError } from '../middlewares/errors/customError';
 import { prisma } from '../lib/prismaClient';
 import invitationRepo from '../repositories/invitation.repo';
 import projectRepo from '../repositories/project.repo';
-import { CreateMemberDto } from '../dto/dto';
+import { CreateMemberDto } from '../dto/projectDto';
 
 // 초대 승인
 async function accept(invitationId: string, memberData: CreateMemberDto) {

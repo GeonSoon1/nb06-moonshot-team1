@@ -2,7 +2,7 @@ import projectRepo from '../repositories/project.repo';
 import invitationRepo from '../repositories/invitation.repo';
 import { BadRequestError } from '../middlewares/errors/customError';
 import { prisma } from '../lib/prismaClient';
-import { CreateProjectDto, UpdateProjectDto } from '../dto/dto';
+import { CreateProjectDto, UpdateProjectDto } from '../dto/projectDto';
 import { Prisma, MemberRole } from '@prisma/client';
 
 // 프로젝트 목록 조회: 부가 기능
