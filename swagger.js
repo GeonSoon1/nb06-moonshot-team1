@@ -14,7 +14,8 @@ const options = {
       securitySchemes: {
         bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }
       }
-    }
+    },
+    security: [{ bearerAuth: [] }]
   },
   apis: ['./src/routes/**/*.js', './src/**/*.js'] // 너 프로젝트 구조에 맞게 수정
 };

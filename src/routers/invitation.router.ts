@@ -17,9 +17,7 @@ export default invitationRouter;
  * /invitations/{invitationId}/accept:
  *   post:
  *     summary: 멤버 초대 수락
- *     tags: [Invitation]
- *     security:
- *       - bearerAuth: []
+ *     tags: [멤버]
  *     parameters:q
  *       - in: path
  *         name: invitationId
@@ -45,9 +43,7 @@ export default invitationRouter;
  * /invitations/{invitationId}/reject:
  *   post:
  *     summary: 멤버 초대 거절
- *     tags: [Invitation]
- *     security:
- *       - bearerAuth: []
+ *     tags: [멤버]
  *     parameters:
  *       - in: path
  *         name: invitationId
@@ -73,10 +69,8 @@ export default invitationRouter;
  * /invitations/{invitationId}:
  *   delete:
  *     summary: 멤버 초대 삭제
- *     tags: [Invitation]
+ *     tags: [멤버]
  *     description: 프로젝트 관리자만 취소(삭제) 가능
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: invitationId

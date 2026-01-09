@@ -37,11 +37,7 @@ export class CommentController {
       const userId = req.user.id;
 
       const result = await this.commentService.findAllByTaskId(taskId, userId, page, limit);
-<<<<<<< HEAD
-      const comments = Array.isArray(result) ? result : result?.data ?? [];
-=======
       const comments = Array.isArray(result) ? result : result?.data ?? []; //프론트
->>>>>>> 99bafc3 (✨ feat : 구글 캘린더 연동)
       return res.status(200).json(comments);
     } catch (error) {
       next(error);
