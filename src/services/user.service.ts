@@ -1,18 +1,31 @@
 import bcrypt from 'bcrypt';
-import { BadRequestError, ForbiddenError } from '../middlewares/errors/customError.js';
-import { userRepo } from '../repositories/user.repo.js';
-import { dateParts, STATUS, toEndOfDay, toStartOfDay } from '../lib/utils/util.js';
+import { BadRequestError, ForbiddenError } from '../middlewares/errors/customError';
+import { userRepo } from '../repositories/user.repo';
+import { dateParts, STATUS, toEndOfDay, toStartOfDay } from '../lib/utils/util';
+import { Prisma, User } from '@prisma/client';
+import {
+  ListMyTasksQuery,
+  MyProjectsQuery,
+  MyProjectsWithCount,
+  MyTasks,
+  Paginated,
+  PublicUser,
+  UpdateMyInfoInput
+} from '../types/user';
 
 export class UserService {
-  async updateMyInfo(user, input) {
+  async updateMyInfo(
+    user: Pick<User, 'id' | 'passwordHashed'>,
+    input: UpdateMyInfoInput
+  ): Promise<PublicUser> {
     const { email, name, profileImage, currentPassword, newPassword } = input;
     // 비번 변경 의사 (둘 중 하나라도 오면 "변경하려는 것"으로 봄)
     const passwordChange = currentPassword != null || newPassword != null;
     // 하나만 오면 400
-    if (passwordChange && (!currentPassword || !newPassword)) {
+    if (typeof passwordChange !== 'string' || typeof newPassword !== 'string') {
       throw new BadRequestError('잘못된 데이터 형식');
     }
-    const patch = {};
+    const patch: Prisma.UserUpdateInput = {};
     if (email !== undefined) patch.email = email;
     if (name !== undefined) patch.name = name;
     if (profileImage !== undefined) patch.profileImage = profileImage;
@@ -20,7 +33,7 @@ export class UserService {
       if (!user.passwordHashed) {
         throw new ForbiddenError('소셜 로그인 계정은 비밀번호를 변경할 수 없습니다.');
       }
-      const ok = await bcrypt.compare(currentPassword, user.passwordHashed);
+      const ok = await bcrypt.compare(currentPassword!, user.passwordHashed);
       if (!ok) {
         throw new ForbiddenError('이메일 또는 비밀번호가 올바르지 않습니다.');
       }
@@ -30,7 +43,11 @@ export class UserService {
   }
 
   //내가 참여한 프로젝트 조회
-  async getMyProjects(userId, { page, limit, order, order_by }) {
+  async getMyProjects(
+    userId: number,
+    query: MyProjectsQuery
+  ): Promise<Paginated<MyProjectsWithCount>> {
+    const { page, limit, order, order_by } = query;
     const skip = (page - 1) * limit;
     const take = limit;
     const dir = order ?? 'desc';
@@ -73,13 +90,13 @@ export class UserService {
   }
 
   //참여 중인 모든 프로젝트의 할 일 목록 조회
-  async listMyTasks(userId, query) {
+  async listMyTasks(userId: number, query: ListMyTasksQuery): Promise<MyTasks[]> {
     const { from, to, project_id, status, assignee_id, keyword } = query;
     // 1) 내가 접근 가능한 프로젝트 ID들 확보 (멤버 + 오너)
     const projectIds = await userRepo.getMyProjectIds(userId);
     if (projectIds.length === 0) return [];
     // 2) where 조립
-    const where = { projectId: { in: projectIds } };
+    const where: Prisma.TaskWhereInput = { projectId: { in: projectIds } };
     if (project_id != null) {
       // in 조건을 "교체"해서 단일 프로젝트만 조회
       if (!projectIds.includes(project_id)) throw new BadRequestError('잘못된 요청 형식');
@@ -101,7 +118,12 @@ export class UserService {
         throw new BadRequestError('잘못된 요청 형식');
       }
       // 기존 AND 유지하면서 기간 조건만 추가
-      where.AND = [...(where.AND ?? []), ...(toDate ? [{ startDate: { lte: toDate } }] : []), ...(fromDate ? [{ endDate: { gte: fromDate } }] : [])];
+      const previousAnd = Array.isArray(where.AND) ? where.AND : where.AND ? [where.AND] : [];
+      where.AND = [
+        ...previousAnd,
+        ...(toDate ? [{ startDate: { lte: toDate } }] : []),
+        ...(fromDate ? [{ endDate: { gte: fromDate } }] : [])
+      ];
     }
     // 3) DB 조회 (repo)
     const tasks = await userRepo.findMyTasks(where);
@@ -109,7 +131,8 @@ export class UserService {
     return tasks.map((t) => {
       const s = dateParts(t.startDate);
       const e = dateParts(t.endDate);
-      const statusLower = t.status === 'TODO' ? 'todo' : t.status === 'IN_PROGRESS' ? 'in_progress' : 'done';
+      const statusLower =
+        t.status === 'TODO' ? 'todo' : t.status === 'IN_PROGRESS' ? 'in_progress' : 'done';
       return {
         id: t.id,
         projectId: t.projectId,

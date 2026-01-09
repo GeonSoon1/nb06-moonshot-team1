@@ -5,7 +5,7 @@ import crypto from 'crypto';
 // 256: 키 길이가 256비트(=32바이트)
 // GCM: “암호화 + 위변조 검증”을 같이 해주는 모드
 // → 누가 암호문을 조금이라도 바꾸면 복호화가 실패하게 만들어 줌
-function getKey() {
+function getKey(): Buffer {
   const b64 = process.env.GOOGLE_TOKEN_ENC_KEY;
   if (!b64) throw new Error('Missing GOOGLE_TOKEN_ENC_KEY');
   const key = Buffer.from(b64, 'base64'); //실제 암호화에 쓸 수 있는 바이트배열로 변환
@@ -13,7 +13,7 @@ function getKey() {
   return key;
 }
 //plain은 암호화할 "평문", 여기서는 토큰 문자열
-export function encryptToken(plain) {
+export function encryptToken(plain: string | null | undefined): string | null {
   if (!plain) return null;
   const key = getKey();
   const iv = crypto.randomBytes(12);
@@ -37,7 +37,7 @@ export function encryptToken(plain) {
 // iv, tag, ciphertext를 각각 base64 문자열로 변환,
 // 그리고 .로 이어붙여서 한 칸에 저장하기 좋은 문자열을 만들어 반환.
 
-export function decryptToken(payload) {
+export function decryptToken(payload: string | null | undefined): string | null {
   if (!payload) return null;
 
   const [ivB64, tagB64, ctB64] = payload.split('.');

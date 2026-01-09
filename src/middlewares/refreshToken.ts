@@ -1,6 +1,7 @@
-import { BadRequestError } from '../middlewares/errors/customError.js';
+import { NextFunction, Request, Response } from 'express';
+import { BadRequestError } from './errors/customError.js';
 
-export function requireRefresh(req, _res, next) {
+export function requireRefresh(req: Request, _res: Response, next: NextFunction) {
   const header = req.headers.authorization;
   if (!header || !header.startsWith('Bearer ')) {
     throw new BadRequestError();

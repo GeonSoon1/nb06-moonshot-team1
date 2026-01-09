@@ -1,10 +1,28 @@
-import { encryptToken } from '../lib/crypto.token.js';
 import { prisma } from '../lib/prismaClient.js';
 import { generateAccessToken, generateRefreshToken, sha256 } from '../lib/token.js';
+import { User } from '@prisma/client';
+import {
+  GoogleRefreshTokenRow,
+  GoogleUpsertSessionInput,
+  SessionTokens,
+  Tx,
+  UpsertGoogleAccountInput
+} from '../types/oAuth.js';
+import { encryptToken } from '../lib/crypto.token';
 
 //구글 유저 정보 업서트
 export class OAuthRepository {
-  async upsertGoogleAccount(tx, { email, name, profileImage, providerAccountId, googleRefreshToken, scopes }) {
+  async upsertGoogleAccount(
+    tx: Tx,
+    {
+      email,
+      name,
+      profileImage,
+      providerAccountId,
+      googleRefreshToken,
+      scopes
+    }: UpsertGoogleAccountInput
+  ): Promise<User> {
     const user = await tx.user.upsert({
       where: { email },
       update: {
@@ -41,7 +59,10 @@ export class OAuthRepository {
     return user;
   }
   //구글 유저 세션 업서트
-  async googleUpsertSession(tx, { userId, deviceIdHash }) {
+  async googleUpsertSession(
+    tx: Tx,
+    { userId, deviceIdHash }: GoogleUpsertSessionInput
+  ): Promise<SessionTokens> {
     const accessToken = generateAccessToken(userId);
     const refreshToken = generateRefreshToken(userId);
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
@@ -62,7 +83,7 @@ export class OAuthRepository {
     });
     return { accessToken, refreshToken };
   }
-  async findGoogleToken(userId) {
+  async findGoogleToken(userId: number): Promise<GoogleRefreshTokenRow | null> {
     return prisma.oAuthAccount.findFirst({
       where: { userId, provider: 'GOOGLE' },
       select: { refreshTokenEnc: true }

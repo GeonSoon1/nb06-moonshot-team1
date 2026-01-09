@@ -4,34 +4,28 @@ import { formatTask } from '../lib/utils/util';
 import { oAuthRepo } from '../repositories/oAuth.repo';
 import { getCalendarClient, syncCalendarEvent, taskToEvent } from '../lib/utils/calendar';
 import { createCalendarEvent, deleteCalendarEvent } from '../repositories/calendar.repo';
-import { Prisma, TaskStatus } from '@prisma/client'
+import { Prisma, TaskStatus } from '@prisma/client';
 import { TaskInput, TaskQueryInput } from '../types/task';
 import { FormattedTask, TaskListResponse } from '../dto/taskResponseDTO';
 import { TaskWithDetails } from '../types/task';
 import { CreateSubTaskInput } from '../types/subtask';
-import { FormattedSubTask } from '../dto/subTaskResponseDTO'
+import { FormattedSubTask } from '../dto/subTaskResponseDTO';
 
 // 생성
-export const createNewTask = async (
-  projectId: number, 
-  userId: number, 
-  body: TaskInput
-): Promise<FormattedTask> => {
+export const createNewTask = async (projectId: number, userId: number, body: TaskInput): Promise<FormattedTask> => {
+  const { title, description, startYear, startMonth, startDay, endYear, endMonth, endDay, status, tags, attachments } = body;
 
-  const { title, description, startYear, startMonth, startDay, 
-    endYear, endMonth, endDay, status, tags, attachments } = body;
-  
   if (isNaN(Number(startYear))) {
     throw new BadRequestError('잘못된 요청 형식');
   }
   const data = {
     title: title,
     description: description,
-    status: (status?.toUpperCase()as TaskStatus) || 'TODO',
+    status: (status?.toUpperCase() as TaskStatus) || 'TODO',
 
-    startDate: new Date(Number(startYear), Number(startMonth)- 1, Number(startDay)),
+    startDate: new Date(Number(startYear), Number(startMonth) - 1, Number(startDay)),
     endDate: new Date(Number(endYear), Number(endMonth) - 1, Number(endDay)),
-    
+
     projectId: projectId, //controller에서 Number()처리 했는지 확인해야함.
     taskCreatorId: userId,
     assigneeProjectMemberId: userId,
@@ -42,8 +36,7 @@ export const createNewTask = async (
         }
       }))
     },
-    attachments: { create: attachments?.map((url) => ({ url })) || []
-    }
+    attachments: { create: attachments?.map((url) => ({ url })) || [] }
   };
   // 1) 민수 추가 - Task 먼저 생성
   const createdTask = await taskRepo.createTask(data);
@@ -72,26 +65,13 @@ export const createNewTask = async (
   }
 };
 
-
 // 조회
-export const getTaskList = async (
-  projectId: number, 
-  query: TaskQueryInput
-): Promise<TaskListResponse> => {
-
-  const { 
-    page = 1, 
-    limit = 10, 
-    status, 
-    assignee, 
-    keyword, 
-    order = 'desc', 
-    order_by = 'created_at' 
-  } = query;
+export const getTaskList = async (projectId: number, query: TaskQueryInput): Promise<TaskListResponse> => {
+  const { page = 1, limit = 10, status, assignee, keyword, order = 'desc', order_by = 'created_at' } = query;
 
   const where: Prisma.TaskWhereInput = {
     projectId,
-    ...(status && { status: status.toUpperCase() as TaskStatus}),
+    ...(status && { status: status.toUpperCase() as TaskStatus }),
     ...(assignee && { assigneeProjectMemberId: Number(assignee) }),
     ...(keyword && { title: { contains: keyword, mode: 'insensitive' as const } })
   };
@@ -102,20 +82,16 @@ export const getTaskList = async (
   else if (order_by === 'name') orderBy.title = order;
   else if (order_by === 'end_date') orderBy.endDate = order;
 
-  const [tasks, total] = await Promise.all([
+  const [tasks, total] = (await Promise.all([
     taskRepo.findMany(where, (Number(page) - 1) * Number(limit), Number(limit), orderBy),
     taskRepo.count(where)
-  ]) as [TaskWithDetails[], number];
+  ])) as [TaskWithDetails[], number];
 
   return { data: tasks.map((t) => formatTask(t)), total };
 };
 
-
 // 상세 조회
-export const getTaskDetail = async (
-  id: number
-): Promise<FormattedTask> => {
-
+export const getTaskDetail = async (id: number): Promise<FormattedTask> => {
   const task = await taskRepo.findById(id);
 
   if (!task) {
@@ -124,28 +100,18 @@ export const getTaskDetail = async (
   return formatTask(task);
 };
 
-
 // 수정
-export const updateTaskInfo = async (
-  id: number, 
-  body: TaskInput, 
-  userId: number
-): Promise<FormattedTask> => {
+export const updateTaskInfo = async (id: number, body: TaskInput, userId: number): Promise<FormattedTask> => {
   // 1. 기존 할 일 조회
   const task = await taskRepo.findById(id);
   if (!task) {
     throw new NotFoundError();
   }
-  
+
   // (attachments 포함)
-  const { 
-    title, description, status, 
-    startYear, startMonth, startDay, 
-    endYear, endMonth, endDay, 
-    assigneeId, tags, attachments 
-  } = body;
-  
-  // 2. 권한 확인 
+  const { title, description, status, startYear, startMonth, startDay, endYear, endMonth, endDay, assigneeId, tags, attachments } = body;
+
+  // 2. 권한 확인
   const requester = await taskRepo.findProjectMember(task.projectId, userId);
   if (!requester) throw new ForbiddenError('프로젝트 멤버가 아닙니다');
 
@@ -160,7 +126,7 @@ export const updateTaskInfo = async (
   if (title) updateData.title = title;
   if (description !== undefined) updateData.description = description;
   if (status) updateData.status = status.toUpperCase() as TaskStatus;
-  
+
   if (startYear && startMonth && startDay) {
     updateData.startDate = new Date(Number(startYear), Number(startMonth) - 1, Number(startDay));
   }
@@ -169,11 +135,11 @@ export const updateTaskInfo = async (
   }
   if (assigneeId) {
     updateData.assigneeProjectMember = {
-      connect: { 
-        projectId_memberId: { 
-          projectId: task.projectId, 
-          memberId: Number(assigneeId) 
-        } 
+      connect: {
+        projectId_memberId: {
+          projectId: task.projectId,
+          memberId: Number(assigneeId)
+        }
       }
     };
   }
@@ -184,19 +150,21 @@ export const updateTaskInfo = async (
   const googleAccount = await oAuthRepo.findGoogleToken(syncUserId);
   if (googleAccount?.refreshTokenEnc) {
     // 비동기로 날림 처리 → 실패해도 전체 흐름엔 영향 없음
-    syncCalendarEvent(updatedTask, syncUserId).catch((err:any) => // any 사용함
-      console.warn('calendar sync failed (update)', {
-        err: String(err),
-        taskId: updatedTask.id,
-        userId: syncUserId,
-        googleEventId: updatedTask.googleEventId ?? null
-      })
+    syncCalendarEvent(updatedTask, syncUserId).catch(
+      (
+        err: any // any 사용함
+      ) =>
+        console.warn('calendar sync failed (update)', {
+          err: String(err),
+          taskId: updatedTask.id,
+          userId: syncUserId,
+          googleEventId: updatedTask.googleEventId ?? null
+        })
     );
   }
 
   return formatTask(updatedTask);
 };
-
 
 // 삭제
 export async function deleteTask(id: number, userId: number): Promise<void> {
@@ -210,14 +178,15 @@ export async function deleteTask(id: number, userId: number): Promise<void> {
   await taskRepo.remove(id);
   // 4) 캘린더 이벤트 삭제
   const syncUserId = task.taskCreatorId;
-  if (task.googleEventId) {
+  const eventId = task.googleEventId ?? undefined;
+  if (eventId) {
     (async () => {
       const googleAccount = await oAuthRepo.findGoogleToken(syncUserId);
       if (!googleAccount?.refreshTokenEnc) return;
       const calendar = await getCalendarClient(syncUserId);
       await deleteCalendarEvent(calendar, {
         calendarId: 'primary',
-        eventId: task.googleEventId
+        eventId
       });
     })().catch((err) => {
       console.warn('calendar sync failed (delete)', {
@@ -231,10 +200,7 @@ export async function deleteTask(id: number, userId: number): Promise<void> {
 }
 
 // 하위 할 일 생성
-export async function createSubTask(
-  subTaskData: CreateSubTaskInput
-): Promise<FormattedSubTask> {
-
+export async function createSubTask(subTaskData: CreateSubTaskInput): Promise<FormattedSubTask> {
   const subtask = await taskRepo.createSubTask({
     ...subTaskData,
     status: subTaskData.status as TaskStatus
@@ -247,7 +213,7 @@ export async function createSubTask(
 // 하위 할 일 목록 조회
 export async function getSubTasks(taskId: number): Promise<FormattedSubTask[]> {
   const subTasks = await taskRepo.findSubTasksByTaskId(taskId);
-  
+
   const newSubTasks = subTasks.map((s) => {
     const { id, title, taskId, status, createdAt, updatedAt } = s;
     return { id, title, taskId, status: status.toLowerCase(), createdAt, updatedAt };

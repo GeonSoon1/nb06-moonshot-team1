@@ -7,7 +7,7 @@ import {
 } from './errors/customError';
 import { Prisma } from '@prisma/client';
 import { ErrorRequestHandler, Request, Response, NextFunction } from 'express';
-//import { isSyntaxJsonError } from "../lib/errors/errorUtils";
+import { isSyntaxJsonError } from './errors/error.util';
 
 //404 처리 미들웨어
 export function defaultNotFoundHandler(req: Request, res: Response, next: NextFunction) {
@@ -26,7 +26,7 @@ export function globalErrorHandler(
   if (err instanceof BadRequestError) {
     return res.status(400).send({ message: err.message });
   }
-  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+  if (isSyntaxJsonError(err)) {
     console.log(err);
     return res.status(400).send({ message: '잘못된 요청입니다' });
   }
