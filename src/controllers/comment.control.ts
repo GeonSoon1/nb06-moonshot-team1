@@ -1,6 +1,6 @@
-import { prisma } from '../lib/prismaClient.js';
+import { prisma } from '../lib/prismaClient';
 import { create } from 'superstruct';
-import * as CommentStruct from '../structs/comment.structs.js';
+import * as CommentStruct from '../structs/comment.structs';
 export class CommentController {
   constructor(commentService) {
     this.commentService = commentService;

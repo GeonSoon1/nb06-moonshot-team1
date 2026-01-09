@@ -1,18 +1,18 @@
 import express from 'express';
-import { defaultNotFoundHandler, globalErrorHandler } from './middlewares/errorHandler.js';
+import { defaultNotFoundHandler, globalErrorHandler } from './middlewares/errorHandler';
 import path from 'path';
 import cors from 'cors';
-import { PORT } from './lib/constants.js';
-import projectRouter from './routers/project.router.js';
-import invitationRouter from './routers/invitation.router.js';
-import commentRouter from './routers/comment.router.js';
-import authRouter from './routers/auth.router.js';
-import userRouter from './routers/user.router.js';
-import taskRouter from './routers/task.router.js';
-import subtaskRouter from './routers/subtask.router.js';
-import fileRouter from './routers/file.router.js';
-import swaggerUi from 'swagger-ui-express';
-import { swaggerSpec } from './swagger.js';
+import { PORT } from './lib/constants';
+import projectRouter from './routers/project.router';
+import invitationRouter from './routers/invitation.router';
+import commentRouter from './routers/comment.router';
+import authRouter from './routers/auth.router';
+import userRouter from './routers/user.router';
+import taskRouter from './routers/task.router';
+import subtaskRouter from './routers/subtask.router';
+import fileRouter from './routers/file.router';
+import * as swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './swagger';
 
 const app = express();
 

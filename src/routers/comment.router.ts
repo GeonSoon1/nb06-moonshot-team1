@@ -1,10 +1,10 @@
 import express from 'express';
-import { prisma } from '../lib/prismaClient.js';
-import { CommentRepository } from '../repositories/comment.repo.js';
-import { CommentService } from '../services/comment.service.js';
-import { CommentController } from '../controllers/comment.control.js';
-import { authenticate } from '../middlewares/authenticate.js';
-import authorize from '../middlewares/authorize.js'; // 팀원 미들웨어
+import { prisma } from '../lib/prismaClient';
+import { CommentRepository } from '../repositories/comment.repo';
+import { CommentService } from '../services/comment.service';
+import { CommentController } from '../controllers/comment.control';
+import { authenticate } from '../middlewares/authenticate';
+import authorize from '../middlewares/authorize'; // 팀원 미들웨어
 // const tempAuth = (req, res, next) => {
 //   req.user = { id: 1 }; // DB에 존재하는 유저 ID 1번으로 가정
 //   next();
