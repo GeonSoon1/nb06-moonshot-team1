@@ -1,8 +1,10 @@
-import { Prisma, ProjectMember, SubTask } from '@prisma/client';
+import { Prisma, ProjectMember, SubTask, Comment } from '@prisma/client';
 import { TaskDelete, TaskWithDetails, taskInclude } from '../types/task';
 import { prisma } from '../lib/prismaClient.js';
 
-export const createTask = async (data: Prisma.TaskUncheckedCreateInput): Promise<TaskWithDetails> => {
+export const createTask = async (
+  data: Prisma.TaskUncheckedCreateInput
+): Promise<TaskWithDetails> => {
   const task = await prisma.task.create({
     data,
     include: taskInclude
@@ -76,7 +78,10 @@ export const updateWithTransaction = async (
 };
 
 // projectMember인지 확인하는 부분
-export const findProjectMember = async (projectId: number, memberId: number): Promise<ProjectMember | null> => {
+export const findProjectMember = async (
+  projectId: number,
+  memberId: number
+): Promise<ProjectMember | null> => {
   const member = await prisma.projectMember.findUnique({
     where: { projectId_memberId: { projectId, memberId } }
   });
@@ -128,3 +133,17 @@ export const findDeleteMetaById = (id: number): Promise<TaskDelete | null> =>
       googleEventId: true
     }
   });
+
+export async function createComment(data: Prisma.CommentCreateManyInput): Promise<Comment> {
+  return prisma.comment.create({ data });
+}
+
+export async function findAllByTaskId(taskId: number, skip: number, limit: number) {
+  return prisma.comment.findMany({
+    where: { taskId },
+    skip,
+    take: limit,
+    orderBy: { createdAt: 'desc' },
+    include: { author: { include: { member: true } } } // util에서 member 필요해서 이중 include
+  });
+}

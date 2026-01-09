@@ -10,10 +10,27 @@ import { FormattedTask, TaskListResponse } from '../dto/taskResponseDTO';
 import { TaskWithDetails } from '../types/task';
 import { CreateSubTaskInput } from '../types/subtask';
 import { FormattedSubTask } from '../dto/subTaskResponseDTO';
+import { formatComment } from '../lib/utils/util';
 
 // 생성
-export const createNewTask = async (projectId: number, userId: number, body: TaskInput): Promise<FormattedTask> => {
-  const { title, description, startYear, startMonth, startDay, endYear, endMonth, endDay, status, tags, attachments } = body;
+export const createNewTask = async (
+  projectId: number,
+  userId: number,
+  body: TaskInput
+): Promise<FormattedTask> => {
+  const {
+    title,
+    description,
+    startYear,
+    startMonth,
+    startDay,
+    endYear,
+    endMonth,
+    endDay,
+    status,
+    tags,
+    attachments
+  } = body;
 
   if (isNaN(Number(startYear))) {
     throw new BadRequestError('잘못된 요청 형식');
@@ -66,8 +83,19 @@ export const createNewTask = async (projectId: number, userId: number, body: Tas
 };
 
 // 조회
-export const getTaskList = async (projectId: number, query: TaskQueryInput): Promise<TaskListResponse> => {
-  const { page = 1, limit = 10, status, assignee, keyword, order = 'desc', order_by = 'created_at' } = query;
+export const getTaskList = async (
+  projectId: number,
+  query: TaskQueryInput
+): Promise<TaskListResponse> => {
+  const {
+    page = 1,
+    limit = 10,
+    status,
+    assignee,
+    keyword,
+    order = 'desc',
+    order_by = 'created_at'
+  } = query;
 
   const where: Prisma.TaskWhereInput = {
     projectId,
@@ -101,7 +129,11 @@ export const getTaskDetail = async (id: number): Promise<FormattedTask> => {
 };
 
 // 수정
-export const updateTaskInfo = async (id: number, body: TaskInput, userId: number): Promise<FormattedTask> => {
+export const updateTaskInfo = async (
+  id: number,
+  body: TaskInput,
+  userId: number
+): Promise<FormattedTask> => {
   // 1. 기존 할 일 조회
   const task = await taskRepo.findById(id);
   if (!task) {
@@ -109,7 +141,20 @@ export const updateTaskInfo = async (id: number, body: TaskInput, userId: number
   }
 
   // (attachments 포함)
-  const { title, description, status, startYear, startMonth, startDay, endYear, endMonth, endDay, assigneeId, tags, attachments } = body;
+  const {
+    title,
+    description,
+    status,
+    startYear,
+    startMonth,
+    startDay,
+    endYear,
+    endMonth,
+    endDay,
+    assigneeId,
+    tags,
+    attachments
+  } = body;
 
   // 2. 권한 확인
   const requester = await taskRepo.findProjectMember(task.projectId, userId);
@@ -219,4 +264,17 @@ export async function getSubTasks(taskId: number): Promise<FormattedSubTask[]> {
     return { id, title, taskId, status: status.toLowerCase(), createdAt, updatedAt };
   });
   return newSubTasks;
+}
+
+// 댓글 생성 (내용 검증 유지)
+export async function createComment(commentData: Prisma.CommentCreateManyInput) {
+  return await taskRepo.createComment(commentData);
+}
+
+// 특정 테스크의 댓글  목록 조회
+export async function findAllByTaskId(taskId: number, userId: number, page: number, limit: number) {
+  const skip = (Number(page) - 1) * Number(limit); // skip 계산 추가
+  const comments = await taskRepo.findAllByTaskId(taskId, skip, limit);
+  const formattedData = comments.map((c) => formatComment(c));
+  return { formattedData, total: formattedData.length };
 }

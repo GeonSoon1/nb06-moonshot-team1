@@ -1,5 +1,5 @@
-import { formatComment } from '../lib/utils/util.js';
-import { NotFoundError, BadRequestError, ForbiddenError } from '../middlewares/errors/customError.js';
+import { formatComment } from '../lib/utils/util';
+import { NotFoundError, BadRequestError, ForbiddenError } from '../middlewares/errors/customError';
 
 export class CommentService {
   constructor(commentRepository) {

@@ -15,9 +15,9 @@ const options = {
         bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }
       }
     },
-    security: [{ bearerAuth: [] }]
+    security: [{ bearerAuth: [] }] // 글로벌하게 인증
   },
-  apis: ['./src/routes/**/*.js', './src/**/*.js'] // 너 프로젝트 구조에 맞게 수정
+  apis: ['./src/routes/**/*.js', './src/**/*.js']
 };
 
 export const swaggerSpec = swaggerJSDoc(options);
