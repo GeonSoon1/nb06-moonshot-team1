@@ -1,11 +1,7 @@
-import {
-  PageParamsStruct,
-  TaskLIstQueryStruct,
-  UpdateInfoStruct
-} from '../structs/user.structs.js';
+import { PageParamsStruct, TaskLIstQueryStruct, UpdateInfoStruct } from '../structs/user.structs';
 import { create } from 'superstruct';
-import { stripPassword } from '../lib/utils/oAuth.js';
-import { userService } from '../services/user.service.js';
+import { stripPassword } from '../lib/utils/oAuth';
+import { userService } from '../services/user.service';
 import { Request, Response } from 'express';
 
 //내 정보 조회

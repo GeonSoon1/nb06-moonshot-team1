@@ -11,7 +11,7 @@ import userRouter from './routers/user.router';
 import taskRouter from './routers/task.router';
 import subtaskRouter from './routers/subtask.router';
 import fileRouter from './routers/file.router';
-import * as swaggerUi from 'swagger-ui-express';
+import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger';
 
 const app = express();

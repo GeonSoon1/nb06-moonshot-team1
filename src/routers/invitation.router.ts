@@ -6,9 +6,22 @@ import { authenticate } from '../middlewares/authenticate';
 
 const invitationRouter = express.Router();
 
-invitationRouter.post('/:invitationId/accept', authenticate, asyncHandler(invitationControl.accept));
-invitationRouter.post('/:invitationId/reject', authenticate, asyncHandler(invitationControl.reject));
-invitationRouter.delete('/:invitationId', authenticate, authorize.projectOwner, asyncHandler(invitationControl.cancel));
+invitationRouter.post(
+  '/:invitationId/accept',
+  authenticate,
+  asyncHandler(invitationControl.accept)
+);
+invitationRouter.post(
+  '/:invitationId/reject',
+  authenticate,
+  asyncHandler(invitationControl.reject)
+);
+invitationRouter.delete(
+  '/:invitationId',
+  authenticate,
+  authorize.projectOwner,
+  asyncHandler(invitationControl.cancel)
+);
 
 export default invitationRouter;
 
@@ -18,7 +31,7 @@ export default invitationRouter;
  *   post:
  *     summary: 멤버 초대 수락
  *     tags: [멤버]
- *     parameters:q
+ *     parameters:
  *       - in: path
  *         name: invitationId
  *         required: true

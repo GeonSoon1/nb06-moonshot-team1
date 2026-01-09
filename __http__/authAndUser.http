@@ -21,7 +21,7 @@ X-Device-Id: dev-rest-123
 Content-Type: application/json
 
 {
-    "email": "user3@test.com",
+    "email": "user1@test.com",
     "password": "password1"
 }
 

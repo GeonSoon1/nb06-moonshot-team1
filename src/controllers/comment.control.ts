@@ -1,7 +1,7 @@
 import { create } from 'superstruct';
 import { UpdateComment } from '../structs/comment.structs';
 import { Request, Response, NextFunction } from 'express';
-import commentService from '../services/comment.service.js';
+import commentService from '../services/comment.service';
 
 // 1. 댓글 조회 (GET)
 async function getCommentById(req: Request, res: Response, next: NextFunction) {

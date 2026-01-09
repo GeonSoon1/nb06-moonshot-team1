@@ -7,7 +7,7 @@ import { TaskInput, TaskQueryInput } from '../types/task';
 import { CreateSubTaskInput } from '../types/subtask';
 import { FormattedSubTask } from '../dto/subTaskResponseDTO';
 import projectRepo from '../repositories/project.repo';
-import { findById } from '../repositories/task.repo.js';
+import { findById } from '../repositories/task.repo';
 import { BadRequestError } from '../middlewares/errors/customError';
 import { CreateComment } from '../structs/comment.structs';
 

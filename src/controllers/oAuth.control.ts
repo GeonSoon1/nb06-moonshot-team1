@@ -1,8 +1,8 @@
-import { CreateUserBodyStruct, LoginUserBodyStruct } from '../structs/oAuth.structs.js';
+import { CreateUserBodyStruct, LoginUserBodyStruct } from '../structs/oAuth.structs';
 import { create } from 'superstruct';
-import { BadRequestError } from '../middlewares/errors/customError.js';
-import { oAuthService } from '../services/oAuth.service.js';
-import { firstQuery, requireQuery, setAuthCookies } from '../lib/utils/oAuth.js';
+import { BadRequestError } from '../middlewares/errors/customError';
+import { oAuthService } from '../services/oAuth.service';
+import { firstQuery, requireQuery, setAuthCookies } from '../lib/utils/oAuth';
 import { Request, Response } from 'express';
 
 //auth/google  (브라우저에서 눌렀을 때 구글 로그인으로 보내기)

@@ -3,21 +3,23 @@ import { uploadProfile, uploadTaskFile } from '../middlewares/upload';
 import * as fileControl from '../controllers/file.control';
 import { asyncHandler } from '../middlewares/asyncHandler';
 
-
-
 const fileRouter = express.Router();
 
 // 할 일 첨부파일 업로드 (name="image"로 약속)
 fileRouter.post('/', uploadTaskFile.single('image'), asyncHandler(fileControl.uploadSingleFile));
 
 // 프로필 이미지 업로드 (name="image"로 약속)
-fileRouter.post('/profile', uploadProfile.single('image'), asyncHandler(fileControl.uploadSingleFile));
+fileRouter.post(
+  '/profile',
+  uploadProfile.single('image'),
+  asyncHandler(fileControl.uploadSingleFile)
+);
 
 export default fileRouter;
 
 /**
  * @openapi
- * /files/public:
+ * /files/profile:
  *   post:
  *     summary: 이미지 1장 업로드
  *     tags: [파일 업로드]
@@ -54,7 +56,7 @@ export default fileRouter;
  *                 message:
  *                   type: string
  *
- * /files/projects/{projectId}:
+ * /files:
  *   post:
  *     summary: 프로젝트 이미지 다중 업로드
  *     tags: [파일 업로드]

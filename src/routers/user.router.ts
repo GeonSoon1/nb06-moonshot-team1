@@ -32,7 +32,7 @@ export default userRouter;
  *                 email:
  *                   type: string
  *                   format: email
- *                 name
+ *                 name:
  *                   type: string
  *                 profileImage:
  *                   type: string
@@ -119,7 +119,7 @@ export default userRouter;
  *                 email:
  *                   type: string
  *                   format: email
- *                 name
+ *                 name:
  *                   type: string
  *                 profileImage:
  *                   type: string
