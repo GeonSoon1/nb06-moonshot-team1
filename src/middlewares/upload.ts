@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
 
 // 1. 회원가입시_프로필 이미지
 const profileFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
-  if (file.mimetype.startsWith('files/')) {
+  if (file.mimetype.startsWith('image/')) {
     cb(null, true);
   } else {
     cb(new Error('프로필은 이미지 파일만 업로드 가능합니다.'));
