@@ -3,7 +3,7 @@ import { asyncHandler } from '../middlewares/asyncHandler';
 import { authenticate } from '../middlewares/authenticate';
 import authorize from '../middlewares/authorize';
 import * as taskControl from '../controllers/task.control';
-import { CommentRepository } from '../repositories/comment.repo';
+import { CommentRepository } from '../repositories/comment.repo_HW';
 import { CommentService } from '../services/comment.service';
 import { CommentController } from '../controllers/comment.control';
 import { prisma } from '../lib/prismaClient';

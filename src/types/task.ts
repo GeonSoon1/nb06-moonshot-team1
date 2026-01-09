@@ -44,3 +44,13 @@ export type TaskDelete = Prisma.TaskGetPayload<{
     googleEventId: true;
   };
 }>;
+
+// 수영 추가
+// task 생성 input 타입
+export type TaskForFormat = Prisma.TaskGetPayload<{
+  include: {
+    assigneeProjectMember: { include: { member: true } };
+    taskTags: { include: { tag: true } };
+    attachments: true;
+  };
+}>;

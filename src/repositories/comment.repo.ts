@@ -1,61 +1,46 @@
-export class CommentRepository {
-  constructor(prisma) {
-    this.prisma = prisma;
-  }
+import { CommentWithAuthorMember } from '../dto/commentDto';
+import { prisma } from '../lib/prismaClient';
+import { Prisma, Comment } from '@prisma/client';
 
-  commentInclude = {
-    author: {
-      select: {
-        member: {
-          // ProjectMember를 거쳐 User 정보를 가져와야 함
-          select: { id: true, name: true, email: true, profileImage: true }
-        }
-      }
-    }
-  };
-
-  createComment = async (taskId, projectId, authorId, content) => {
-    return await this.prisma.comment.create({
-      data: {
-        taskId: +taskId,
-        projectId: +projectId, // 추가됨
-        authorId: +authorId,
-        content
-      },
-      include: this.commentInclude
-    });
-  };
-
-  findCommentById = async (commentId) => {
-    return await this.prisma.comment.findUnique({
-      where: { id: +commentId },
-      include: this.commentInclude
-    });
-  };
-
-  findAllByTaskId = async (taskId, skip, limit) => {
-    const [data, total] = await Promise.all([
-      this.prisma.comment.findMany({
-        where: { taskId: +taskId },
-        include: this.commentInclude,
-        skip: +skip,
-        take: +limit,
-        orderBy: { createdAt: 'desc' }
-      }),
-      this.prisma.comment.count({ where: { taskId: +taskId } })
-    ]);
-    return { data, total };
-  };
-
-  updateComment = async (commentId, content) => {
-    return await this.prisma.comment.update({
-      where: { id: +commentId },
-      data: { content },
-      include: this.commentInclude
-    });
-  };
-
-  deleteComment = async (commentId) => {
-    return await this.prisma.comment.delete({ where: { id: +commentId } });
-  };
+async function createComment(data: Prisma.CommentCreateManyInput): Promise<Comment> {
+  return prisma.comment.create({ data });
 }
+
+async function findCommentById(id: number) {
+  return prisma.comment.findUnique({
+    where: { id }
+  });
+}
+
+async function findAllByTaskId(taskId: number, skip: number, limit: number) {
+  return prisma.comment.findMany({
+    where: { taskId },
+    skip,
+    take: limit,
+    orderBy: { createdAt: 'desc' },
+    include: { author: { include: { member: true } } } // util에서 member 필요해서 이중 include
+  });
+}
+
+async function updateComment(
+  id: number,
+  data: Prisma.CommentUpdateInput
+): Promise<CommentWithAuthorMember> {
+  return prisma.comment.update({
+    where: { id },
+    data,
+    include: { author: { include: { member: true } } } // util에서 member 필요해서 이중 include
+  });
+}
+
+async function deleteComment(id: number): Promise<Comment> {
+  return prisma.comment.delete({ where: { id } });
+}
+
+export default {
+  createComment,
+  findCommentById,
+  findAllByTaskId,
+  updateComment,
+  deleteComment
+};

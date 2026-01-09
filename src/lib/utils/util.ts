@@ -1,5 +1,9 @@
 import { TaskStatus } from '@prisma/client';
 import { ymdKst } from './calendar';
+import { Prisma } from '@prisma/client';
+import { PrismaVersion } from '../../generated/prisma/internal/prismaNamespace';
+import { CommentWithAuthorMember } from '../../dto/commentDto';
+import { TaskForFormat } from '../../types/task';
 
 export const STATUS = {
   todo: 'TODO',
@@ -30,7 +34,7 @@ export function dateParts(d: Date): { year: number; month: number; day: number }
   return { year, month, day };
 }
 
-export const formatTask = (task) => ({
+export const formatTask = (task: TaskForFormat) => ({
   id: task.id,
   projectId: task.projectId,
   title: task.title,
@@ -60,7 +64,7 @@ export const formatTask = (task) => ({
  * DB에서 조회된 중첩된 댓글 데이터를 명세서 규격에 맞게 가공합니다.
  *
  */
-export const formatComment = (comment) => {
+export function formatComment(comment: CommentWithAuthorMember) {
   if (!comment) return null;
 
   return {
@@ -76,4 +80,4 @@ export const formatComment = (comment) => {
     createdAt: comment.createdAt,
     updatedAt: comment.updatedAt
   };
-};
+}
