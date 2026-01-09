@@ -1,9 +1,15 @@
+import { Response } from 'express';
 import { BadRequestError } from '../../middlewares/errors/customError.js';
+import { GoogleProfile, GoogleTokenResult, SessionTokens } from '../../types/oAuth.js';
+import { QueryParam } from '../../types/session.js';
 
-export function decodeOAuthState(state) {
+export function decodeOAuthState(state: unknown): {
+  redirectTo: string | undefined;
+  deviceId: string | null;
+} {
   const fallback = process.env.FRONTEND_OAUTH_REDIRECT_URL;
   let redirectTo = fallback;
-  let deviceId = null;
+  let deviceId: string | null = null;
   const raw = state;
   if (!raw || typeof raw !== 'string') return { redirectTo, deviceId };
   try {
@@ -16,7 +22,7 @@ export function decodeOAuthState(state) {
   return { redirectTo, deviceId };
 }
 
-export async function getGoogleToken(code) {
+export async function getGoogleToken(code: string | string[]): Promise<GoogleTokenResult> {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
   const redirectUri = process.env.GOOGLE_REDIRECT_URI;
@@ -46,7 +52,7 @@ export async function getGoogleToken(code) {
   };
 }
 
-export async function getGoogleProfile(googleAccessToken) {
+export async function getGoogleProfile(googleAccessToken: string): Promise<GoogleProfile> {
   const userinfoRes = await fetch('https://openidconnect.googleapis.com/v1/userinfo', {
     headers: { Authorization: `Bearer ${googleAccessToken}` }
   });
@@ -58,7 +64,7 @@ export async function getGoogleProfile(googleAccessToken) {
   return profile;
 }
 
-export function setAuthCookies(res, { accessToken, refreshToken }) {
+export function setAuthCookies(res: Response, { accessToken, refreshToken }: SessionTokens) {
   res.cookie('access-token', accessToken, {
     httpOnly: true,
     sameSite: 'lax',
@@ -75,7 +81,26 @@ export function setAuthCookies(res, { accessToken, refreshToken }) {
   });
 }
 
-export function stripPassword(user) {
+// 제네릭 활용한 타입선언...이렇게도 할 수 있구나
+export function stripPassword<T extends { passwordHashed?: unknown }>(
+  user: T
+): Omit<T, 'passwordHashed'> {
   const { passwordHashed: _passwordHashed, ...rest } = user;
   return rest;
+}
+
+export function firstQuery(v: unknown): string | undefined {
+  if (typeof v === 'string') return v;
+  if (Array.isArray(v)) return typeof v[0] === 'string' ? v[0] : undefined;
+  return undefined;
+}
+
+export function requireQuery(value: QueryParam, name: string): string {
+  const v = Array.isArray(value) ? value[0] : value;
+  // qs가 객체로 파싱한 케이스(ParsedQs)는 문자열로 쓸 수 없으니 거절
+  if (typeof v !== 'string' || v.trim() === '') {
+    throw new BadRequestError(`${name}가 필요합니다`);
+  }
+
+  return v;
 }

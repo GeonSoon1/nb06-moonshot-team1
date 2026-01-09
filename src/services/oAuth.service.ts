@@ -1,21 +1,50 @@
-import { prisma } from '../lib/prismaClient.js';
+import { prisma } from '../lib/prismaClient';
 import bcrypt from 'bcrypt';
-import { oAuthRepo } from '../repositories/oAuth.repo.js';
-import { userRepo } from '../repositories/user.repo.js';
-import { sessionRepo } from '../repositories/session.repo.js';
-import { generateAccessToken, generateRefreshToken, sha256, verifyRefreshToken } from '../lib/token.js';
-import { decodeOAuthState, getGoogleProfile, getGoogleToken, stripPassword } from '../lib/utils/oAuth.js';
-import { BadRequestError, NotFoundError, UnauthorizedError } from '../middlewares/errors/customError.js';
+import { oAuthRepo } from '../repositories/oAuth.repo';
+import { userRepo } from '../repositories/user.repo';
+import { sessionRepo } from '../repositories/session.repo';
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  sha256,
+  verifyRefreshToken
+} from '../lib/token';
+import {
+  decodeOAuthState,
+  getGoogleProfile,
+  getGoogleToken,
+  stripPassword
+} from '../lib/utils/oAuth';
+import {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError
+} from '../middlewares/errors/customError';
+import {
+  BuildGoogleAuthUrlInput,
+  GoogleCallbackInput,
+  RefreshJwtPayload,
+  RefreshTokensInput,
+  SessionTokens,
+  Tx
+} from '../types/oAuth';
+import { LoginInput, RegisterInput } from '../types/user';
+import { User } from '@prisma/client';
 
 export class OAuthService {
   //구글 로그인
-  buildGoogleAuthUrl({ redirectTo, deviceId }) {
+  buildGoogleAuthUrl({ redirectTo, deviceId }: BuildGoogleAuthUrlInput): string {
     const clientId = process.env.GOOGLE_CLIENT_ID;
     const redirectUri = process.env.GOOGLE_REDIRECT_URI;
     if (!clientId || !redirectUri) {
       throw new Error('구글 클라이언트 아이디와 리다이렉트 URI를 확인해주세요'); //백엔드 역할, 콘솔로 출력되게 warn
     }
-    const scope = ['openid', 'email', 'profile', 'https://www.googleapis.com/auth/calendar.events'].join(' ');
+    const scope = [
+      'openid',
+      'email',
+      'profile',
+      'https://www.googleapis.com/auth/calendar.events'
+    ].join(' ');
     const state = Buffer.from(
       JSON.stringify({
         redirectTo: redirectTo || process.env.FRONTEND_REDIRECT_URI || 'http://localhost:3000',
@@ -39,7 +68,10 @@ export class OAuthService {
   //구글 콜백
   //구글 콜백에서 던지는 에러메세지는 우리 서버가 아니라 인가서버에서 보는 것
   //디버깅에 쓰려한다면 console로 찍히도록 할 것
-  async googleCallback({ code, state }) {
+  async googleCallback({
+    code,
+    state
+  }: GoogleCallbackInput): Promise<{ redirectTo: string | undefined } & SessionTokens> {
     if (!code) throw new BadRequestError('잘못된 요청입니다');
     const { redirectTo, deviceId } = decodeOAuthState(state);
     if (!deviceId || typeof deviceId !== 'string') {
@@ -56,7 +88,7 @@ export class OAuthService {
       throw new BadRequestError('잘못된 요청입니다');
     }
     const scopes = String(scopeStr).split(' ').filter(Boolean);
-    const tokens = await prisma.$transaction(async (tx) => {
+    const tokens = await prisma.$transaction(async (tx: Tx) => {
       const user = await oAuthRepo.upsertGoogleAccount(tx, {
         email,
         name,
@@ -71,7 +103,12 @@ export class OAuthService {
   }
 
   //회원가입
-  async register({ name, email, password, profileImage }) {
+  async register({
+    name,
+    email,
+    password,
+    profileImage
+  }: RegisterInput): Promise<Omit<User, 'passwordHashed'>> {
     const findEmail = await userRepo.findByUserEmail(email);
     if (findEmail) {
       throw new BadRequestError('이미 가입한 이메일입니다');
@@ -82,7 +119,7 @@ export class OAuthService {
   }
 
   //로그인
-  async login({ email, password, deviceIdHash }) {
+  async login({ email, password, deviceIdHash }: LoginInput): Promise<SessionTokens> {
     const user = await userRepo.findByUserEmail(email);
     if (!user || !user.passwordHashed) {
       throw new NotFoundError('존재하지 않거나 비밀번호가 일치하지 않습니다');
@@ -105,8 +142,9 @@ export class OAuthService {
   }
 
   //리프레시
-  async refreshTokens({ refreshToken, deviceIdHash }) {
-    const payload = verifyRefreshToken(refreshToken);
+  async refreshTokens(input: RefreshTokensInput): Promise<SessionTokens> {
+    const { refreshToken, deviceIdHash } = input;
+    const payload = verifyRefreshToken(refreshToken) as RefreshJwtPayload;
     const userId = payload?.userId;
     if (!userId) throw new UnauthorizedError('토큰 만료');
     const now = new Date();
@@ -115,8 +153,11 @@ export class OAuthService {
     const newRefreshToken = generateRefreshToken(userId);
     const newHash = sha256(newRefreshToken);
     const newExpiresAt = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-    const result = await prisma.$transaction(async (tx) => {
-      const updated = await sessionRepo.rotateSession({ userId, deviceIdHash, oldHash, newHash, newExpiresAt, now }, tx);
+    const result = await prisma.$transaction(async (tx: Tx) => {
+      const updated = await sessionRepo.rotateSession(
+        { userId, deviceIdHash, oldHash, newHash, newExpiresAt, now },
+        tx
+      );
       if (updated.count !== 1) {
         await sessionRepo.revokeSessions({ userId, deviceIdHash, now }, tx);
         return { status: 'RELOGIN' };

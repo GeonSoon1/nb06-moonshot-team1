@@ -1,8 +1,15 @@
 import express from 'express';
+<<<<<<< HEAD:src/routers/auth.router.js
 import { asyncHandler } from '../middlewares/asyncHandler.js';
 import { requireRefresh } from '../middlewares/refreshToken.js';
 import { googleAuth, googleCallback, login, refresh, register } from '../controllers/oAuth.control.js';
 import { requireDevice } from '../middlewares/device.js';
+=======
+import { asyncHandler } from '../middlewares/asyncHandler';
+import { requireRefresh } from '../middlewares/refreshToken';
+import { googleAuth, googleCallback, login, refresh, register } from '../controllers/oAuth.control';
+import { requireDevice } from '../middlewares/device';
+>>>>>>> 395abaf (🛠️ refactor : auth_and_user_ts변환):src/routers/auth.router.ts
 
 const authRouter = express.Router();
 

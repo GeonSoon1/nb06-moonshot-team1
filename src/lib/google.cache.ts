@@ -1,9 +1,10 @@
 import { LRUCache } from 'lru-cache';
-import { prisma } from '../lib/prismaClient.js';
+import { prisma } from './prismaClient.js';
 import { UnauthorizedError } from '../middlewares/errors/customError.js';
 import { decryptToken } from './crypto.token.js';
+import { CachedGoogleAccessToken } from '../types/oAuth.js';
 
-export const googleAccessTokenCache = new LRUCache({
+export const googleAccessTokenCache = new LRUCache<string, CachedGoogleAccessToken>({
   max: 5000, // 유저 수에 맞게 조절
   ttlAutopurge: true
 });
@@ -22,7 +23,11 @@ const inFlightRefresh = new Map(); // key -> Promise<string>, 불필요한 중�
 // 오래된 것 자동 삭제 없음
 // 언제 쓰나: 간단히 테스트/소규모, 직접 만료 로직을 짤 때
 
-async function refreshGoogleAccessToken(refreshToken) {
+async function refreshGoogleAccessToken(refreshToken: string): Promise<{
+  accessToken: string;
+  expiresInSec: number;
+  scope?: string;
+}> {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
   if (!clientId || !clientSecret) throw new Error('Missing GOOGLE_CLIENT_ID/SECRET');
@@ -63,7 +68,7 @@ async function refreshGoogleAccessToken(refreshToken) {
 //
 
 //==============================================
-async function setCacheGoogleToken(userId, cacheKey) {
+async function setCacheGoogleToken(userId: number, cacheKey: string): Promise<string> {
   const account = await prisma.oAuthAccount.findFirst({
     where: { userId, provider: 'GOOGLE' },
     select: { refreshTokenEnc: true }
@@ -106,7 +111,7 @@ async function setCacheGoogleToken(userId, cacheKey) {
 // 구글에 grant_type=refresh_token으로 요청해서 새 access token 발급
 // 그걸 캐시에 set 하고 반환!
 
-export async function getGoogleAccessToken(userId) {
+export async function getGoogleAccessToken(userId: number): Promise<string> {
   const cacheKey = `google:access:${userId}`;
   const cached = googleAccessTokenCache.get(cacheKey);
   // 캐시에 저장할 때는 “키(key)”가 필요함. (사물함 번호 같은)

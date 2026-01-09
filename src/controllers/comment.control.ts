@@ -19,7 +19,12 @@ export class CommentController {
       const { content } = create(req.body, CommentStruct.CreateComment);
       const userId = req.user.id;
       // req.user.id; // 인증 미들웨어(Bearer token)에서 가져온 정보
-      const newComment = await this.commentService.createComment(taskId, task.projectId, userId, content);
+      const newComment = await this.commentService.createComment(
+        taskId,
+        task.projectId,
+        userId,
+        content
+      );
 
       // 성공 시 명세서에 정의된 200 OK 응답
       return res.status(200).json(newComment);

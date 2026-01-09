@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction, RequestHandler } from 'express';
+import { RequestHandler } from 'express';
 
-export function asyncHandler(handler: RequestHandler) {
-  return async function (req: Request, res: Response, next: NextFunction) {
+export function asyncHandler(handler: RequestHandler): RequestHandler {
+  return async function (req, res, next) {
     try {
       await handler(req, res, next);
     } catch (e) {

@@ -4,9 +4,10 @@ declare global {
   namespace Express {
     interface Request {
       user: User;
-      // cookies?: { [key: string]: string };
+      deviceId?: string;
+      deviceIdHash?: string;
+      // requireRefresh에서 세팅
+      refreshToken?: string;
     }
   }
 }
-
-export {};

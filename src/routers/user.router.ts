@@ -1,7 +1,7 @@
 import express from 'express';
-import { asyncHandler } from '../middlewares/asyncHandler.js';
-import { getMyProjects, listMyTasks, myInfo, updateMyInfo } from '../controllers/user.control.js';
-import { authenticate } from '../middlewares/authenticate.js';
+import { asyncHandler } from '../middlewares/asyncHandler';
+import { getMyProjects, listMyTasks, myInfo, updateMyInfo } from '../controllers/user.control';
+import { authenticate } from '../middlewares/authenticate';
 
 const userRouter = express.Router();
 

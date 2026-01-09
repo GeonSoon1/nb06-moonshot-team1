@@ -1,9 +1,10 @@
-import { google } from 'googleapis';
+import { calendar_v3, google } from 'googleapis';
 import { getGoogleAccessToken } from '../google.cache.js';
 import { createCalendarEvent, updateCalendarEvent } from '../../repositories/calendar.repo.js';
 import { setGoogleEventId } from '../../repositories/task.repo.js';
+import { SyncTask } from '../../types/oAuth.js';
 
-export async function getCalendarClient(userId) {
+export async function getCalendarClient(userId: number): Promise<calendar_v3.Calendar> {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
   const redirectUri = process.env.GOOGLE_REDIRECT_URI;
@@ -16,7 +17,7 @@ export async function getCalendarClient(userId) {
   return google.calendar({ version: 'v3', auth: oauth2 });
 }
 
-function ymdKst(date) {
+export function ymdKst(date: Date): string {
   return new Intl.DateTimeFormat('en-CA', {
     timeZone: 'Asia/Seoul',
     year: 'numeric',
@@ -25,13 +26,13 @@ function ymdKst(date) {
   }).format(date); // YYYY-MM-DD
 }
 
-function addDays(date, days) {
+function addDays(date: Date, days: number) {
   return new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
 }
 
-export function taskToEvent(task) {
+export function taskToEvent(task: SyncTask): calendar_v3.Schema$Event {
   const start = ymdKst(task.startDate);
-  const endExclusive = ymdKst(addDays(task.endDate, 1)); // ✅ all-day end는 exclusive
+  const endExclusive = ymdKst(addDays(task.endDate, 1));
   return {
     summary: task.title,
     description: task.description ?? '',
@@ -40,7 +41,7 @@ export function taskToEvent(task) {
   };
 }
 
-export async function syncCalendarEvent(updatedTask, syncUserId) {
+export async function syncCalendarEvent(updatedTask: SyncTask, syncUserId: number): Promise<void> {
   const calendar = await getCalendarClient(syncUserId);
   const event = taskToEvent(updatedTask);
   if (updatedTask.googleEventId) {
