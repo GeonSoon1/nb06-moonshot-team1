@@ -8,9 +8,9 @@ import { CreateMemberDto } from '../dto/projectDto';
 async function accept(invitationId: string, memberData: CreateMemberDto) {
   const memberDataToRepo = {
     role: memberData.role,
-    invitaionId: memberData.invitationId,
     project: { connect: { id: memberData.projectId } },
-    member: { connect: { id: memberData.memberId } }
+    member: { connect: { id: memberData.memberId } },
+    invitation: { connect: { id: invitationId } }
   };
 
   // 트렌젝션 사용: Invitation table 수정 AND ProjectMember에 추가

@@ -21,7 +21,17 @@ const options = {
                 bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }
             }
         },
-        security: [{ bearerAuth: [] }] // 글로벌하게 인증
+        security: [{ bearerAuth: [] }], // 글로벌하게 인증
+        tags: [
+            { name: '인증', description: 'Auth' },
+            { name: '유저', description: 'User' },
+            { name: '프로젝트', description: 'Project' },
+            { name: '멤버', description: 'ProjectMember' },
+            { name: '할 일', description: 'Task' },
+            { name: '하위 할 일', description: 'Subtask' },
+            { name: '댓글', description: 'Comment' },
+            { name: '파일 업로드', description: 'Files' }
+        ]
     },
     apis: [path_1.default.join(process.cwd(), 'dist', 'routers', '**', '*.js')]
 };

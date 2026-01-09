@@ -18,7 +18,7 @@ async function getProjectList() {
 
     return { id, name, description, memberCount, todoCount, inProgressCount, doneCount };
   });
-  return projectListWithCounts;
+  return { data: projectListWithCounts, total: projectListWithCounts.length };
 }
 
 // 프로젝트 생성

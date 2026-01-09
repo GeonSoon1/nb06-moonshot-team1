@@ -38,25 +38,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const upload_1 = require("../middlewares/upload");
-const authenticate_1 = require("../middlewares/authenticate");
-const authorize_1 = __importDefault(require("../middlewares/authorize"));
 const fileControl = __importStar(require("../controllers/file.control"));
 const asyncHandler_1 = require("../middlewares/asyncHandler");
 const fileRouter = express_1.default.Router();
-/**
- * [1] 회원가입용 (단일 파일, 인증 없음)
- * POST /files/public
- */
-fileRouter.post('/public', upload_1.upload.single('image'), (0, asyncHandler_1.asyncHandler)(fileControl.uploadSingle));
-/**
- * [2] 할 일 첨부용 (다중 파일, 인증+권한 필수)
- * POST /files/projects/:projectId
- */
-fileRouter.post('/projects/:projectId', authenticate_1.authenticate, authorize_1.default.projectMember, upload_1.upload.array('image'), (0, asyncHandler_1.asyncHandler)(fileControl.uploadMultiple));
+// 할 일 첨부파일 업로드 (name="image"로 약속)
+fileRouter.post('/', upload_1.uploadTaskFile.single('image'), (0, asyncHandler_1.asyncHandler)(fileControl.uploadSingleFile));
+// 프로필 이미지 업로드 (name="image"로 약속)
+fileRouter.post('/profile', upload_1.uploadProfile.single('image'), (0, asyncHandler_1.asyncHandler)(fileControl.uploadSingleFile));
 exports.default = fileRouter;
 /**
  * @openapi
- * /files/public:
+ * /files/profile:
  *   post:
  *     summary: 이미지 1장 업로드
  *     tags: [파일 업로드]
@@ -93,7 +85,7 @@ exports.default = fileRouter;
  *                 message:
  *                   type: string
  *
- * /files/projects/{projectId}:
+ * /files:
  *   post:
  *     summary: 프로젝트 이미지 다중 업로드
  *     tags: [파일 업로드]

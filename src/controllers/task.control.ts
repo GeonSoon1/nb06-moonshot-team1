@@ -10,6 +10,7 @@ import projectRepo from '../repositories/project.repo';
 import { findById } from '../repositories/task.repo';
 import { BadRequestError } from '../middlewares/errors/customError';
 import { CreateComment } from '../structs/comment.structs';
+import { TaskStatus } from '@prisma/client';
 
 // 생성
 export const createtask = async (req: Request, res: Response): Promise<void> => {
@@ -106,15 +107,13 @@ export async function createSubTask(req: Request, res: Response, next: NextFunct
   const { taskId } = create(req.params, TaskStruct.TaskIdParam) as { taskId: number };
 
   const subTaskData: CreateSubTaskInput = {
-    taskId,
+    taskId: Number(taskId),
     title: req.body.title,
-    status: 'TODO'
+    status: TaskStatus.TODO
   };
 
   assert(subTaskData, CreateSubTask);
-
   const newSubTask = await taskService.createSubTask(subTaskData);
-
   res.status(201).json(newSubTask);
 }
 
@@ -160,11 +159,6 @@ export async function getComments(req: Request, res: Response, next: NextFunctio
   const { page = 1, limit = 10 } = req.query; // 쿼리 스트링에서 페이지 정보 추출
   const userId = req.user.id;
 
-  const result = await taskService.findAllByTaskId(
-    Number(taskId),
-    userId,
-    Number(page),
-    Number(limit)
-  );
+  const result = await taskService.findAllByTaskId(Number(taskId), userId, Number(page), Number(limit));
   return res.status(200).json(result);
 }

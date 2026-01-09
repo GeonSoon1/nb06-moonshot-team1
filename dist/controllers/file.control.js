@@ -42,30 +42,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadMultiple = exports.uploadSingle = void 0;
-const customError_1 = require("../middlewares/errors/customError");
+exports.uploadSingleFile = void 0;
 const fileService = __importStar(require("../services/file.service"));
-// 이미지 하나(프로필)
-const uploadSingle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const customError_1 = require("../middlewares/errors/customError");
+const uploadSingleFile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // 💡 Multer가 성공하면 req.file에 데이터가 담깁니다.
     if (!req.file) {
-        throw new customError_1.BadRequestError("파일이 없습니다");
+        throw new customError_1.BadRequestError("업로드할 파일이 없습니다.");
     }
-    // req.get('host')는 undefined일 수도 있어서 '!'를 붙여 "확실히 있다"고 알려줍니다.
-    const host = req.get('host');
-    const protocol = req.protocol;
-    const url = fileService.generateFileUrls(protocol, host, req.file);
-    res.status(201).json({ url });
+    const result = fileService.getFileResponse(req, req.file);
+    res.status(201).json(result);
 });
-exports.uploadSingle = uploadSingle;
-// 여러개 이미지(task 첨부파일)
-const uploadMultiple = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const files = req.files;
-    if (!req.files || req.files.length === 0) {
-        throw new customError_1.BadRequestError("파일이 없습니다");
-    }
-    const host = req.get('host');
-    const protocol = req.protocol;
-    const urls = fileService.generateFileUrls(protocol, host, files);
-    res.status(201).json({ urls });
-});
-exports.uploadMultiple = uploadMultiple;
+exports.uploadSingleFile = uploadSingleFile;

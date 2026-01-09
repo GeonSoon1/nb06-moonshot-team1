@@ -25,7 +25,7 @@ VALUES
   (2, 2, 'OWNER', now(), now()),
   (3, 3, 'OWNER', now(), now()), 
   (4, 4, 'OWNER', now(), now()),
-  (5, 8, 'OWNER', now(), now());;
+  (5, 8, 'OWNER', now(), now());
 
 INSERT INTO "Task" ("title", description, "startDate", "endDate", "projectId", "taskCreatorId", "assigneeProjectMemberId", "createdAt", "updatedAt")
 VALUES

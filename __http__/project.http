@@ -1,7 +1,5 @@
 @baseUrl = http://localhost:3000
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2Nzc0NzczMiwiZXhwIjoxNzY3ODM0MTMyfQ.ZTpIjiJLsspBHRMrzCnr1k2vFJZuNmnFqZfC6eLbr38
-
-
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2Nzk2MjQ0MSwiZXhwIjoxNzY4MDQ4ODQxfQ.hpXbH3S3hJX7VZd_RlyeDAOWrMTMpFXxVCo7sDu9X1w
 @projectId = 1
 
 ### 프로젝트 목록 조회: 인증, 부가기능
@@ -21,12 +19,12 @@ Content-Type: application/json
 
 
 ### 프로젝트 상세 조회: 인증, 인가(멤버)
-GET {{baseUrl}}/projects/{{projectId}}
+GET {{baseUrl}}/projects/6
 Authorization: Bearer {{accessToken}}
 
 
 ### 프로젝트 수정: 인증, 인가(관리자)
-PATCH {{baseUrl}}/projects/{{projectId}}
+PATCH {{baseUrl}}/projects/6
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
@@ -37,30 +35,30 @@ Content-Type: application/json
 
 
 ### 프로젝트 삭제: 인증, 인가(관리자)
-DELETE {{baseUrl}}/projects/{{projectId}}
+DELETE {{baseUrl}}/projects/7
 Authorization: Bearer {{accessToken}}
 
 
 
 ### 프로젝트 멤버 목록 조회: 인증, 인가(멤버)
-GET {{baseUrl}}/projects/{{projectId}}/users?page=1&limit=10
+GET {{baseUrl}}/projects/1/users?page=1&limit=10
 Authorization: Bearer {{accessToken}}
 
 
 
 ### 프로젝트 멤버 제외: 인증, 인가(관리자)
-DELETE {{baseUrl}}/projects/{{projectId}}/users/7
+DELETE {{baseUrl}}/projects/1/users/7
 Authorization: Bearer {{accessToken}}
 
 
 
 ### 프로젝트 멤버 초대: 인증, 인가(관리자)
-POST {{baseUrl}}/projects/{{projectId}}/invitations
+POST {{baseUrl}}/projects/1/invitations
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-  "email":"user3@test.com"
+  "email":"user2@test.com"
 }
 
 
@@ -72,7 +70,7 @@ Content-Type: application/json
 
 
 ### [1] 프로젝트에 할 일 생성 (2단계 업로드 방식 - JSON)
-POST {{baseUrl}}/projects/{{projectId}}/tasks
+POST {{baseUrl}}/projects/2/tasks
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
@@ -95,12 +93,12 @@ Content-Type: application/json
 
 
 ### [2] 프로젝트의 할 일 목록 조회 (기본)
-GET {{baseUrl}}/projects/{{projectId}}/tasks?page=1&limit=10
+GET {{baseUrl}}/projects/2/tasks?page=1&limit=2
 Authorization: Bearer {{accessToken}}
 
 
 
 ### [3] 프로젝트의 할 일 목록 조회 (필터링 및 정렬)
 # 상태: todo, 담당자ID: 2, 검색어: Prisma, 정렬: 마감기한순
-GET {{baseUrl}}/projects/{{projectId}}/tasks?status=todo&assignee={{assigneeId}}&order=asc&order_by=end_date
+GET {{baseUrl}}/projects/2/tasks?status=todo&assignee=2&order=desc&order_by=end_date
 Authorization: Bearer {{accessToken}}

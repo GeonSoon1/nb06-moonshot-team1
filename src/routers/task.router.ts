@@ -7,52 +7,22 @@ import * as taskControl from '../controllers/task.control';
 const taskRouter = express.Router();
 
 // 할 일 조회
-taskRouter.get(
-  '/:taskId',
-  authenticate,
-  authorize.projectMember,
-  asyncHandler(taskControl.getDetail)
-);
+taskRouter.get('/:taskId', authenticate, authorize.projectMember, asyncHandler(taskControl.getDetail));
 
 // 할 일 수정
-taskRouter.patch(
-  '/:taskId',
-  authenticate,
-  authorize.projectMember,
-  asyncHandler(taskControl.update)
-);
+taskRouter.patch('/:taskId', authenticate, authorize.projectMember, asyncHandler(taskControl.update));
 
 // 할 일 삭제
-taskRouter.delete(
-  '/:taskId',
-  authenticate,
-  authorize.projectMember,
-  asyncHandler(taskControl.remove)
-);
+taskRouter.delete('/:taskId', authenticate, authorize.projectMember, asyncHandler(taskControl.remove));
 
 // 하위 할 일 생성 (지민님)
-taskRouter.post(
-  '/:taskId/subtasks',
-  authenticate,
-  authorize.projectMember,
-  asyncHandler(taskControl.createSubTask)
-);
+taskRouter.post('/:taskId/subtasks', authenticate, authorize.projectMember, asyncHandler(taskControl.createSubTask));
 
 // 하위 할 일 목록 조회 (지민님)
-taskRouter.get(
-  '/:taskId/subtasks',
-  authenticate,
-  authorize.projectMember,
-  asyncHandler(taskControl.getSubTasks)
-);
+taskRouter.get('/:taskId/subtasks', authenticate, authorize.projectMember, asyncHandler(taskControl.getSubTasks));
 
 // 댓글 생성 (현우님)
-taskRouter.post(
-  '/:taskId/comments',
-  authenticate,
-  authorize.projectMember,
-  taskControl.createComment
-);
+taskRouter.post('/:taskId/comments', authenticate, authorize.projectMember, taskControl.createComment);
 
 // 댓글 목록 조회 (현우님)
 taskRouter.get('/:taskId/comments', authenticate, authorize.projectMember, taskControl.getComments);

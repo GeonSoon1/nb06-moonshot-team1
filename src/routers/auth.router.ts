@@ -16,86 +16,32 @@ export default authRouter;
 
 /**
  * @openapi
- * /auth/register:
- *   post:
- *     summary: 회원가입
- *     tags: [인증]
- *     security: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required: [email, password, name, profileImage]
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *               password:
- *                 type: string
- *               name:
- *                 type: string
- *               profileImage:
- *                 type: string
- *                 nullable: true
- *     responses:
- *       201:
- *         description: 등록
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               required: [id, email, name, profileImage, createdAt, updatedAt]
- *               properties:
- *                 id:
- *                   type: integer
- *                 email:
- *                   type: string
- *                   format: email
- *                 name:
- *                   type: string
- *                 profileImage:
- *                   type: string
- *                   nullable: true
- *                 createdAt:
- *                   type: string
- *                   format: date-time
- *                 updatedAt:
- *                   type: string
- *                   format: date-time
- *       400:
- *         description: 잘못된 요청
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               required: [message]
- *               properties:
- *                 message:
- *                   type: string
- *           examples:
- *             duplicatedEmail:
- *               summary: 이미 등록된 유저
- *               value:
- *                 message: 이미 가입한 이메일입니다.
- *             invalidFormat:
- *               summary: 잘못된 데이터 형식
- *               value:
- *                 message: 잘못된 데이터 형식
- *
  * /auth/login:
  *   post:
  *     summary: 로그인
- *     tags: [인증]
+ *     tags:
+ *       - 인증
  *     security: []
+ *     parameters:
+ *       - in: header
+ *         name: X-Device-Id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           default: dev-rest-123
+ *         description: 디바이스 식별자
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
+ *           example:
+ *             email: user2@test.com
+ *             password: password2
  *           schema:
  *             type: object
- *             required: [email, password]
+ *             required:
+ *               - email
+ *               - password
  *             properties:
  *               email:
  *                 type: string
@@ -135,7 +81,9 @@ export default authRouter;
  *               properties:
  *                 message:
  *                   type: string
- *
+ */
+/**
+ * @openapi
  * /auth/refresh:
  *   post:
  *     summary: 토큰 갱신
@@ -183,7 +131,9 @@ export default authRouter;
  *               summary: 토큰 만료
  *               value:
  *                 message: "토큰 만료"
- *
+ */
+/**
+ * @openapi
  * /auth/google:
  *   get:
  *     tags: [인증]
@@ -202,7 +152,9 @@ export default authRouter;
  *             schema:
  *               type: string
  *               example: "https://accounts.google.com/o/oauth2/v2/auth?...&redirect_uri=https://api.example.com/auth/google/callback"
- *
+ */
+/**
+ * @openapi
  * /auth/google/callback:
  *   get:
  *     tags: [인증]

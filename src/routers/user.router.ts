@@ -2,6 +2,7 @@ import express from 'express';
 import { asyncHandler } from '../middlewares/asyncHandler';
 import { getMyProjects, listMyTasks, myInfo, updateMyInfo } from '../controllers/user.control';
 import { authenticate } from '../middlewares/authenticate';
+import { Request, Response, NextFunction } from 'express';
 
 const userRouter = express.Router();
 
@@ -9,6 +10,11 @@ userRouter.patch('/me', authenticate, asyncHandler(updateMyInfo));
 userRouter.get('/me', authenticate, asyncHandler(myInfo));
 userRouter.get('/me/projects', authenticate, asyncHandler(getMyProjects));
 userRouter.get('/me/tasks', authenticate, asyncHandler(listMyTasks));
+
+function printMe(req: Request, res: Response, next: NextFunction) {
+  console.log('Me');
+  next();
+}
 
 export default userRouter;
 

@@ -28,7 +28,7 @@ const options = {
       { name: '파일 업로드', description: 'Files' }
     ]
   },
-  apis: [path.join(process.cwd(), 'dist', 'routers', '**', '*.js')]
+  apis: [path.join(process.cwd(), 'src', 'routers', '**', '*.ts')]
 };
 
 export const swaggerSpec = swaggerJSDoc(options);

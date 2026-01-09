@@ -1,38 +1,38 @@
 
 ### 사용할 ID들 (본인의 DB 상황에 맞게 수정하세요)
 @baseUrl = http://localhost:3000
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2Nzc0Nzc0NCwiZXhwIjoxNzY3ODM0MTQ0fQ.Qy6hTRoaGQ3XxC7hG4_BPdPwTOp7HlPXWjjbFRujpL4
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2Nzk2MjQ0MSwiZXhwIjoxNzY4MDQ4ODQxfQ.hpXbH3S3hJX7VZd_RlyeDAOWrMTMpFXxVCo7sDu9X1w
 
 
 
 @taskId = 1
 
 ### [1] 할 일 상세 조회
-GET {{baseUrl}}/tasks/{{taskId}}
+GET {{baseUrl}}/tasks/3
 Authorization: Bearer {{accessToken}}
 
 
 ### [2] 할 일 수정 (담당자 및 상태 변경)
 # 담당자를 다른 멤버(예: ID 4)로 바꾸고 상태를 '진행중'으로 변경
-PATCH {{baseUrl}}/tasks/{{taskId}}
+PATCH {{baseUrl}}/tasks/3
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
   "title": "Prisma 마스",
-  "assigneeId": 3,
+  "assigneeId": 6,
   "status": "in_progress",
   "tags": ["백엔드", "공부중"]
 }
 
 
 ### [3] 할 일 삭제 (DELETE)
-DELETE {{baseUrl}}/tasks/{{taskId}}
+DELETE {{baseUrl}}/tasks/12
 Authorization: Bearer {{accessToken}}
 
 
 ### [4] 삭제 확인 
-GET {{baseUrl}}/tasks/{{taskId}}
+GET {{baseUrl}}/tasks/12
 Authorization: Bearer {{accessToken}}
 
 
@@ -42,18 +42,18 @@ Authorization: Bearer {{accessToken}}
 
 ### 1. 댓글 생성 (POST)
 # 주소의 /tasks/1 부분의 1이 생성된 Task ID입니다. (tasks/:taskId)
-POST {{baseUrl}}/tasks/{{taskId}}/comments
+POST {{baseUrl}}/tasks/8/comments
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-    "content": "문샷 댓글 생성 테스트"
+    "content": "살사댄스 굿"
 }
 
 
 ### 2. 댓글 목록 조회 (GET)
 # 생성한 댓글이 잘 불러와지는지 확인합니다. (tasks/:taskId)
-GET {{baseUrl}}/tasks/{{taskId}}/comments?page=1&limit=5
+GET {{baseUrl}}/tasks/8/comments?page=1&limit=5
 Authorization: Bearer {{accessToken}}
 ###
 
@@ -63,14 +63,14 @@ Authorization: Bearer {{accessToken}}
 ######## 하위 할 일 (지민님)
 
 ### [5] 하위 할 일 생성 
-POST {{baseUrl}}/tasks/{{taskId}}/subtasks
+POST {{baseUrl}}/tasks/9/subtasks
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 { 
-  "title": "재료 준비하기: 강력분과 물, 뚜껑있는 용기 (0.5L 전후)"
+  "title": "심박 측정하기"
 }
 
 ### [9] 하위 할 일 목록 조회 
-GET {{baseUrl}}/tasks/{{taskId}}/subtasks
+GET {{baseUrl}}/tasks/9/subtasks
 Authorization: Bearer {{accessToken}}
