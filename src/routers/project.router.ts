@@ -38,7 +38,7 @@ export default projectRouter;
  *     tags: [프로젝트]
  *     responses:
  *       200:
- *         description: 성공
+ *         description: OK
  *         content:
  *           application/json:
  *             schema:
@@ -68,16 +68,23 @@ export default projectRouter;
  *                 total:
  *                   type: integer
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
  *               properties:
  *                 message:
  *                   type: string
- *
+ *       404:
+ *         description: Not Found
+ */
+/**
+ * @openapi
+ * /projects:
  *   post:
  *     summary: 프로젝트 생성
  *     tags: [프로젝트]
@@ -85,6 +92,9 @@ export default projectRouter;
  *       required: true
  *       content:
  *         application/json:
+ *           example:
+ *             name: 저자되기 프로젝트
+ *             description: 에세이, 소설, 자서전 등 저자되기
  *           schema:
  *             type: object
  *             required: [name, description]
@@ -117,9 +127,11 @@ export default projectRouter;
  *                 doneCount:
  *                   type: integer
  *       400:
- *         description: 잘못된 데이터 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 데이터 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -127,16 +139,20 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
  *               properties:
  *                 message:
  *                   type: string
- *
+ */
+/**
+ * @openapi
  * /projects/{projectId}:
  *   get:
  *     summary: 프로젝트 조회
@@ -170,20 +186,12 @@ export default projectRouter;
  *                   type: integer
  *                 doneCount:
  *                   type: integer
- *       400:
- *         description: 잘못된 데이터 형식
- *         content:
- *           application/json:
- *             schema:
- *               required: [message]
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -191,9 +199,11 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       403:
- *         description: 인가(멤버) 필요
+ *         description: Forbidden
  *         content:
  *           application/json:
+ *             example:
+ *               message: 프로젝트 멤버가 아닙니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -201,8 +211,11 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       404:
- *         description: 없음
- *
+ *         description: Not Found
+ */
+/**
+ * @openapi
+ * /projects/{projectId}:
  *   patch:
  *     summary: 프로젝트 수정
  *     tags: [프로젝트]
@@ -216,6 +229,9 @@ export default projectRouter;
  *       required: true
  *       content:
  *         application/json:
+ *           example:
+ *             name: 글쓰기 (수정)
+ *             description: 매일 무엇인가를 써보는 습관에서 출발하는 저자되기 프로젝트
  *           schema:
  *             type: object
  *             properties:
@@ -225,7 +241,7 @@ export default projectRouter;
  *                 type: string
  *     responses:
  *       200:
- *         description: 성공
+ *         description: OK
  *         content:
  *           application/json:
  *             schema:
@@ -247,9 +263,11 @@ export default projectRouter;
  *                 doneCount:
  *                   type: integer
  *       400:
- *         description: 잘못된 데이터 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 데이터 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -257,9 +275,11 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -267,16 +287,21 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       403:
- *         description: 인가(멤버) 필요
+ *         description: Forbidden
  *         content:
  *           application/json:
+ *             example:
+ *               message: 프로젝트 멤버가 아닙니다
  *             schema:
  *               required: [message]
  *               type: object
  *               properties:
  *                 message:
  *                   type: string
- *
+ */
+/**
+ * @openapi
+ * /projects/{projectId}:
  *   delete:
  *     summary: 프로젝트 삭제
  *     tags: [프로젝트]
@@ -288,11 +313,13 @@ export default projectRouter;
  *           type: integer
  *     responses:
  *       204:
- *         description: 삭제
+ *         description: No Content
  *       400:
- *         description: 잘못된 데이터 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 데이터 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -300,9 +327,11 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -310,9 +339,11 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       403:
- *         description: 인가(관리자) 필요
+ *         description: Forbidden
  *         content:
  *           application/json:
+ *             example:
+ *               message: 프로젝트 관리자가 아닙니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -320,12 +351,14 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       404:
- *         description: 없음
- *
+ *         description: Not Found
+ */
+/**
+ * @openapi
  * /projects/{projectId}/users:
  *   get:
  *     summary: 프로젝트 멤버 조회
- *     tags: [멤버]
+ *     tags: [프로젝트]
  *     parameters:
  *       - in: path
  *         name: projectId
@@ -380,9 +413,11 @@ export default projectRouter;
  *                 total:
  *                   type: integer
  *       400:
- *         description: 잘못된 요청 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -390,9 +425,11 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -400,20 +437,24 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       403:
- *         description: 인가(멤버) 필요
+ *         description: Forbidden
  *         content:
  *           application/json:
+ *             example:
+ *               message: 프로젝트 멤버가 아닙니다
  *             schema:
  *               required: [message]
  *               type: object
  *               properties:
  *                 message:
  *                   type: string
- *
+ */
+/**
+ * @openapi
  * /projects/{projectId}/users/{userId}:
  *   delete:
  *     summary: 프로젝트에서 유저 제외하기
- *     tags: [멤버]
+ *     tags: [프로젝트]
  *     parameters:
  *       - in: path
  *         name: projectId
@@ -427,11 +468,13 @@ export default projectRouter;
  *           type: integer
  *     responses:
  *       204:
- *         description: 제외
+ *         description: No Content
  *       400:
- *         description: 잘못된 요청 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -439,9 +482,11 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -449,9 +494,11 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       403:
- *         description: 인가(멤버) 필요
+ *         description: Forbidden
  *         content:
  *           application/json:
+ *             example:
+ *               message: 프로젝트 관리자가 아닙니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -459,12 +506,14 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       404:
- *         description: 없음
- *
+ *         description: Not Found
+ */
+/**
+ * @openapi
  * /projects/{projectId}/invitations:
  *   post:
  *     summary: 프로젝트에 멤버 초대
- *     tags: [멤버]
+ *     tags: [프로젝트]
  *     parameters:
  *       - in: path
  *         name: projectId
@@ -475,6 +524,8 @@ export default projectRouter;
  *       required: true
  *       content:
  *         application/json:
+ *           example:
+ *             email: user7@test.com
  *           schema:
  *             type: object
  *             required: [email]
@@ -484,11 +535,13 @@ export default projectRouter;
  *                 format: email
  *     responses:
  *       201:
- *         description: 초대 생성
+ *         description: Created
  *       400:
- *         description: 잘못된 요청 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -496,9 +549,11 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -506,20 +561,24 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       403:
- *         description: 인가(멤버) 필요
+ *         description: Forbidden
  *         content:
  *           application/json:
+ *             example:
+ *               message: 프로젝트 관리자가 아닙니다
  *             schema:
  *               required: [message]
  *               type: object
  *               properties:
  *                 message:
  *                   type: string
- *
+ */
+/**
+ * @openapi
  * /projects/{projectId}/tasks:
  *   post:
  *     summary: 프로젝트에 할 일 생성
- *     tags: [할 일]
+ *     tags: [프로젝트]
  *     parameters:
  *       - in: path
  *         name: projectId
@@ -530,6 +589,15 @@ export default projectRouter;
  *       required: true
  *       content:
  *         application/json:
+ *           example:
+ *             title: 매일 일기 쓰기
+ *             startYear: 2026
+ *             startMonth: 1
+ *             startDay: 15
+ *             endYear: 2026
+ *             endMonth: 12
+ *             endDay: 31
+ *             status: todo
  *           schema:
  *             type: object
  *             required: [title, startYear, startMonth, startDay, endYear, endMonth, endDay, status]
@@ -570,7 +638,7 @@ export default projectRouter;
  *                   description: "File URL/path/key (e.g., S3 URL, CDN URL, storage key)"
  *     responses:
  *       201:
- *         description: 생성
+ *         description: OK
  *         content:
  *           application/json:
  *             schema:
@@ -639,9 +707,11 @@ export default projectRouter;
  *                   type: string
  *                   format: date-time
  *       400:
- *         description: 잘못된 요청 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -649,9 +719,11 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -659,19 +731,24 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       403:
- *         description: 인가(멤버) 필요
+ *         description: Forbidden
  *         content:
  *           application/json:
+ *             example:
+ *               message: 프로젝트 멤버가 아닙니다
  *             schema:
  *               required: [message]
  *               type: object
  *               properties:
  *                 message:
  *                   type: string
- *
+ */
+/**
+ * @openapi
+ * /projects/{projectId}/tasks:
  *   get:
  *     summary: 프로젝트의 할 일 목록 조회
- *     tags: [할 일]
+ *     tags: [프로젝트]
  *     parameters:
  *       - in: path
  *         name: projectId
@@ -721,7 +798,7 @@ export default projectRouter;
  *         description: 정렬 기준
  *     responses:
  *       200:
- *         description: 성공
+ *         description: OK
  *         content:
  *           application/json:
  *             schema:
@@ -796,9 +873,11 @@ export default projectRouter;
  *                   type: integer
  *                   description: 필터 적용 후 전체 개수
  *       400:
- *         description: 잘못된 요청 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -806,9 +885,11 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -816,9 +897,11 @@ export default projectRouter;
  *                 message:
  *                   type: string
  *       403:
- *         description: 인가(멤버) 필요
+ *         description: Forbidden
  *         content:
  *           application/json:
+ *             example:
+ *               message: 프로젝트 멤버가 아닙니다
  *             schema:
  *               required: [message]
  *               type: object

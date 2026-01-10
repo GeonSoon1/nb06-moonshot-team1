@@ -6,14 +6,16 @@ const options = {
   definition: {
     openapi: '3.0.3',
     info: {
-      title: 'My API',
+      title: 'MoonShot',
       version: '1.0.0',
-      description: 'API documentation'
+      description: '1팀: 박건순(팀장), 이지민, 이현우, 정수영, 최민수'
     },
     servers: [{ url: 'http://localhost:3000', description: 'local' }],
     components: {
       securitySchemes: {
-        bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }
+        bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+        refreshToken: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+        deviceId: { type: 'apiKey', in: 'header', name: 'X-Device-Id' }
       }
     },
     security: [{ bearerAuth: [] }], // 글로벌하게 인증

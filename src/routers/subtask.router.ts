@@ -30,7 +30,7 @@ export default subtaskRouter;
  *           type: integer
  *     responses:
  *       200:
- *         description: 성공
+ *         description: OK
  *         content:
  *           application/json:
  *             schema:
@@ -60,9 +60,11 @@ export default subtaskRouter;
  *               createdAt: "2026-01-08T05:12:34.000Z"
  *               updatedAt: "2026-01-08T06:01:10.000Z"
  *       400:
- *         description: 잘못된 요청 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -70,9 +72,11 @@ export default subtaskRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -80,9 +84,11 @@ export default subtaskRouter;
  *                 message:
  *                   type: string
  *       403:
- *         description: 인가(멤버) 필요
+ *         description: Forbidden
  *         content:
  *           application/json:
+ *             example:
+ *               message: 프로젝트 멤버가 아닙니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -90,8 +96,11 @@ export default subtaskRouter;
  *                 message:
  *                   type: string
  *       404:
- *         description: 없음
- *
+ *         description: Not Found
+ */
+/**
+ * @openapi
+ * /subtasks/{subtaskId}:
  *   patch:
  *     summary: 하위 할 일 수정
  *     tags: [하위 할 일]
@@ -105,6 +114,8 @@ export default subtaskRouter;
  *       required: true
  *       content:
  *         application/json:
+ *           example:
+ *             title: 장 보기
  *           schema:
  *             type: object
  *             properties:
@@ -112,7 +123,7 @@ export default subtaskRouter;
  *                 type: string
  *     responses:
  *       200:
- *         description: 성공
+ *         description: OK
  *         content:
  *           application/json:
  *             schema:
@@ -142,9 +153,11 @@ export default subtaskRouter;
  *               createdAt: "2026-01-08T05:12:34.000Z"
  *               updatedAt: "2026-01-08T06:01:10.000Z"
  *       400:
- *         description: 잘못된 요청 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -152,9 +165,11 @@ export default subtaskRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -162,9 +177,11 @@ export default subtaskRouter;
  *                 message:
  *                   type: string
  *       403:
- *         description: 인가(멤버) 필요
+ *         description: Forbidden
  *         content:
  *           application/json:
+ *             example:
+ *               message: 프로젝트 멤버가 아닙니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -172,8 +189,11 @@ export default subtaskRouter;
  *                 message:
  *                   type: string
  *       404:
- *         description: 없음
- *
+ *         description: Not Found
+ */
+/**
+ * @openapi
+ * /subtasks/{subtaskId}:
  *   delete:
  *     summary: 하위 할 일 삭제
  *     tags: [하위 할 일]
@@ -185,11 +205,13 @@ export default subtaskRouter;
  *           type: integer
  *     responses:
  *       204:
- *         description: 삭제
+ *         description: No Content
  *       400:
- *         description: 잘못된 요청 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -197,9 +219,11 @@ export default subtaskRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -207,9 +231,11 @@ export default subtaskRouter;
  *                 message:
  *                   type: string
  *       403:
- *         description: 인가(멤버) 필요
+ *         description: Forbidden
  *         content:
  *           application/json:
+ *             example:
+ *               message: 프로젝트 멤버가 아닙니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -217,5 +243,5 @@ export default subtaskRouter;
  *                 message:
  *                   type: string
  *       404:
- *         description: 없음
+ *         description: Not Found
  */
