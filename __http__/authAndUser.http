@@ -1,5 +1,5 @@
-@baseUrl = http://localhost:3000
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY5MjI5OSwiZXhwIjoxNzY3Nzc4Njk5fQ.qQe_E9sLauxaICp4kX018zoyVfEmweClpgTROyWEYq8
+@baseUrl = http://localhost:3001
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE2LCJpYXQiOjE3NjgwMzk1NDEsImV4cCI6MTc2ODEyNTk0MX0.H8CamOk4mhlPIFI3Anz-NYYimIiZtIokIgy7zptrk7I
 
 @refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY5MjI5OSwiZXhwIjoxNzY4Mjk3MDk5fQ.vAaXnY-jAZUAG-8TrlgvRSWFBt60dCJfqPVC81f62RI
 
@@ -21,7 +21,7 @@ X-Device-Id: dev-rest-123
 Content-Type: application/json
 
 {
-    "email": "user3@test.com",
+    "email": "user2@test.com",
     "password": "password1"
 }
 
@@ -40,10 +40,10 @@ Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-  "email": "user3@test.com",
+  "email": "user2@test.com",
   "name": "빙수",
   "currentPassword": "password1",
-  "newPassword": "alstn1234",
+  "newPassword": "password1",
   "profileImage": "https://example.com"
 }
 

@@ -101,7 +101,11 @@ export class UserService {
         throw new BadRequestError('잘못된 요청 형식');
       }
       // 기존 AND 유지하면서 기간 조건만 추가
-      where.AND = [...(where.AND ?? []), ...(toDate ? [{ startDate: { lte: toDate } }] : []), ...(fromDate ? [{ endDate: { gte: fromDate } }] : [])];
+      where.AND = [
+        ...(where.AND ?? []),
+        ...(toDate ? [{ startDate: { lte: toDate } }] : []),
+        ...(fromDate ? [{ endDate: { gte: fromDate } }] : [])
+      ];
     }
     // 3) DB 조회 (repo)
     const tasks = await userRepo.findMyTasks(where);
@@ -109,7 +113,8 @@ export class UserService {
     return tasks.map((t) => {
       const s = dateParts(t.startDate);
       const e = dateParts(t.endDate);
-      const statusLower = t.status === 'TODO' ? 'todo' : t.status === 'IN_PROGRESS' ? 'in_progress' : 'done';
+      const statusLower =
+        t.status === 'TODO' ? 'todo' : t.status === 'IN_PROGRESS' ? 'in_progress' : 'done';
       return {
         id: t.id,
         projectId: t.projectId,

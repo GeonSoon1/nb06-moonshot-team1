@@ -1,5 +1,5 @@
 import { LRUCache } from 'lru-cache';
-import { prisma } from '../lib/prismaClient.js';
+import { prisma } from './prismaClient.js';
 import { UnauthorizedError } from '../middlewares/errors/customError.js';
 import { decryptToken } from './crypto.token.js';
 

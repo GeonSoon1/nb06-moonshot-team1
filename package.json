@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/app.js",
-    "dev": "nodemon --watch src --exec ts-node src/app.ts"
+    "dev": "nodemon src/app.js"
   },
   "author": "",
   "license": "ISC",
@@ -43,6 +43,9 @@
     "prisma": "^6.18.0",
     "prisma-erd-generator": "^2.3.0",
     "typescript": "^5.9.3"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   },
   "repository": {
     "type": "git",

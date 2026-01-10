@@ -1,5 +1,9 @@
 import * as taskRepo from '../repositories/task.repo.js';
-import { NotFoundError, BadRequestError, ForbiddenError } from '../middlewares/errors/customError.js';
+import {
+  NotFoundError,
+  BadRequestError,
+  ForbiddenError
+} from '../middlewares/errors/customError.js';
 import { formatTask } from '../lib/utils/util.js';
 import { oAuthRepo } from '../repositories/oAuth.repo.js';
 import { getCalendarClient, syncCalendarEvent, taskToEvent } from '../lib/utils/calendar.js';
@@ -55,7 +59,15 @@ export const createNewTask = async (projectId, userId, body, filePaths) => {
 };
 
 export const getTaskList = async (projectId, query) => {
-  const { page = 1, limit = 10, status, assignee, keyword, order = 'desc', order_by = 'created_at' } = query;
+  const {
+    page = 1,
+    limit = 10,
+    status,
+    assignee,
+    keyword,
+    order = 'desc',
+    order_by = 'created_at'
+  } = query;
   const where = {
     projectId,
     ...(status && { status: status.toUpperCase() }),
@@ -80,8 +92,9 @@ export const getTaskDetail = async (id) => {
   if (!task) throw new NotFoundError();
   return formatTask(task);
 };
-
-export const updateTaskInfo = async (id, body, userId, newFilePaths) => {
+//민수 수정
+export const updateTaskInfo = async (id, body, userId) => {
+  //export const updateTaskInfo = async (id, body, userId, newFilePaths) => {
   // 1. 먼저 기존 할 일을 조회해서 어떤 프로젝트에 속해 있는지 알아내기
   const task = await taskRepo.findById(id);
   if (!task) {
@@ -94,30 +107,77 @@ export const updateTaskInfo = async (id, body, userId, newFilePaths) => {
     throw new ForbiddenError('프로젝트 멤버가 아닙니다');
   }
 
+  //민수 추가------------------------------
+  const {
+    title,
+    description,
+    status,
+    startYear,
+    startMonth,
+    startDay,
+    endYear,
+    endMonth,
+    endDay,
+    assigneeId,
+    tags,
+    attachments // URL 배열
+  } = body;
+
+  //-------------------------------------
+  //-------------------------------아래 수정 주석
   // 2. 담당자를 바꾸려고 할때(assigneeId가 있을 때)만 검사 실행
   // 이 프로젝트id를 가지고 assigneeId가 projectMember인지 알아보기
-  if (body.assigneeId) {
-    const targetAssigneeId = Number(body.assigneeId);
+  // if (body.assigneeId) {
+  //   const targetAssigneeId = Number(body.assigneeId);
 
-    // repo에서 데이터를 가져온다.(찾으면 객체, 못 찾으면 null)
-    const member = await taskRepo.findProjectMember(task.projectId, targetAssigneeId);
+  //   // repo에서 데이터를 가져온다.(찾으면 객체, 못 찾으면 null)
+  //   const member = await taskRepo.findProjectMember(task.projectId, targetAssigneeId);
 
-    if (!member) {
-      // console.log('담당자 후보가 프로젝트 멤버가 아닙니다.')
-      throw new ForbiddenError('프로젝트 멤버가 아닙니다');
-    }
+  //   if (!member) {
+  //     // console.log('담당자 후보가 프로젝트 멤버가 아닙니다.')
+  //     throw new ForbiddenError('프로젝트 멤버가 아닙니다');
+  //   }
+  // }
+
+  // const updateData = {};
+  // if (body.title) updateData.title = body.title;
+  // if (body.description !== undefined) updateData.description = body.description;
+  // if (body.status) updateData.status = body.status.toUpperCase();
+  // if (body.startYear)
+  //   updateData.startDate = new Date(body.startYear, body.startMonth - 1, body.startDay);
+  // if (body.endYear) updateData.endDate = new Date(body.endYear, body.endMonth - 1, body.endDay);
+  // if (body.assigneeId) updateData.assigneeProjectMemberId = Number(body.assigneeId);
+
+  // //민수 추가
+  // let updatedTask = await taskRepo.updateWithTransaction(id, updateData, body.tags, newFilePaths);
+
+  //---------------------------------윗 수정 주석
+  if (assigneeId) {
+    const member = await taskRepo.findProjectMember(task.projectId, Number(assigneeId));
+    if (!member) throw new ForbiddenError('프로젝트 멤버가 아닙니다');
   }
 
   const updateData = {};
-  if (body.title) updateData.title = body.title;
-  if (body.description !== undefined) updateData.description = body.description;
-  if (body.status) updateData.status = body.status.toUpperCase();
-  if (body.startYear) updateData.startDate = new Date(body.startYear, body.startMonth - 1, body.startDay);
-  if (body.endYear) updateData.endDate = new Date(body.endYear, body.endMonth - 1, body.endDay);
-  if (body.assigneeId) updateData.assigneeProjectMemberId = Number(body.assigneeId);
+  if (title) updateData.title = title;
+  if (description !== undefined) updateData.description = description;
+  if (status) updateData.status = status.toUpperCase();
 
-  //민수 추가
-  let updatedTask = await taskRepo.updateWithTransaction(id, updateData, body.tags, newFilePaths);
+  if (startYear && startMonth && startDay) {
+    updateData.startDate = new Date(Number(startYear), Number(startMonth) - 1, Number(startDay));
+  }
+  if (endYear && endMonth && endDay) {
+    updateData.endDate = new Date(Number(endYear), Number(endMonth) - 1, Number(endDay));
+  }
+
+  if (assigneeId) updateData.assigneeProjectMemberId = Number(assigneeId);
+
+  // attachments(URL 배열)도 updateWithTransaction에 전달
+  const updatedTask = await taskRepo.updateWithTransaction(
+    id,
+    updateData,
+    tags,
+    attachments // <-- 여기
+  );
   // 6) 캘린더 동기화 (비차단 방식)
   const syncUserId = task.taskCreatorId;
   const googleAccount = await oAuthRepo.findGoogleToken(syncUserId);

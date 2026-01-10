@@ -1,28 +1,24 @@
 import express from 'express';
-import { upload } from '../middlewares/upload.js';
-import { authenticate } from '../middlewares/authenticate.js';
-import authorize from '../middlewares/authorize.js';
+import { uploadProfile, uploadTaskFile } from '../middlewares/upload.js';
 import * as fileControl from '../controllers/file.control.js';
 import { asyncHandler } from '../middlewares/asyncHandler.js';
 
 const fileRouter = express.Router();
 
 /**
- * [1] 회원가입용 (단일 파일, 인증 없음)
- * POST /files/public
+ * 할 일 첨부파일 업로드 (범용: 모든 파일 허용)
+ * 주소: POST /files
  */
-fileRouter.post('/public', upload.single('image'), asyncHandler(fileControl.uploadSingle));
+fileRouter.post('/', uploadTaskFile.single('files'), asyncHandler(fileControl.uploadSingleFile));
 
 /**
- * [2] 할 일 첨부용 (다중 파일, 인증+권한 필수)
- * POST /files/projects/:projectId
+ * 회원가입용 프로필 업로드 (제한: 이미지만 허용)
+ * 주소: POST /files/profile
  */
 fileRouter.post(
-  '/projects/:projectId', 
-  authenticate, 
-  authorize.projectMember, 
-  upload.array('image'), 
-  asyncHandler(fileControl.uploadMultiple)
+  '/register',
+  uploadProfile.single('files'),
+  asyncHandler(fileControl.uploadSingleFile)
 );
 
 export default fileRouter;

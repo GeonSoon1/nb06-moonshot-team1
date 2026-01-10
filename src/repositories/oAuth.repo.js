@@ -4,7 +4,10 @@ import { generateAccessToken, generateRefreshToken, sha256 } from '../lib/token.
 
 //구글 유저 정보 업서트
 export class OAuthRepository {
-  async upsertGoogleAccount(tx, { email, name, profileImage, providerAccountId, googleRefreshToken, scopes }) {
+  async upsertGoogleAccount(
+    tx,
+    { email, name, profileImage, providerAccountId, googleRefreshToken, scopes }
+  ) {
     const user = await tx.user.upsert({
       where: { email },
       update: {

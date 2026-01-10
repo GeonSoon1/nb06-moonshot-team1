@@ -1,19 +1,16 @@
 import { prisma } from '../lib/prismaClient.js';
-import { Prisma, ProjectMember } from '@prisma/client';
 
-async function getProjectList(): Promise<
-  Prisma.ProjectGetPayload<{ include: { projectMembers: true; tasks: true } }>[]
-> {
+async function getProjectList() {
   return prisma.project.findMany({
     include: { projectMembers: true, tasks: true }
   });
 }
 
-async function countProjects(userId: number) {
+async function countProjects(userId) {
   return prisma.project.count({ where: { ownerId: userId } });
 }
 
-async function createProject(name: string, description: string, userId: number) {
+async function createProject(name, description, userId) {
   return prisma.project.create({
     data: {
       name,
@@ -23,7 +20,7 @@ async function createProject(name: string, description: string, userId: number) 
   });
 }
 
-async function updateProject(id: number, data: Prisma.ProjectUpdateInput) {
+async function updateProject(id, data) {
   return prisma.project.update({
     where: { id },
     data,
@@ -34,16 +31,14 @@ async function updateProject(id: number, data: Prisma.ProjectUpdateInput) {
   });
 }
 
-async function deleteProject(id: number) {
+async function deleteProject(id) {
   return await prisma.project.delete({
     where: { id }
   });
 }
 
-async function findProjectById(
-  id: number
-): Promise<Prisma.ProjectGetPayload<{ include: { projectMembers: true; tasks: true } }>> {
-  return prisma.project.findUniqueOrThrow({
+async function findProjectById(id) {
+  return prisma.project.findUnique({
     where: { id },
     include: {
       projectMembers: true,
@@ -52,23 +47,23 @@ async function findProjectById(
   });
 }
 
-function findMemberByIds(projectId: number, memberId: number): Promise<ProjectMember | null> {
+function findMemberByIds(projectId, memberId) {
   return prisma.projectMember.findUnique({
     where: { projectId_memberId: { projectId, memberId } }
   });
 }
 
-function deleteMember(projectId: number, memberId: number) {
+function deleteMember(projectId, memberId) {
   return prisma.projectMember.delete({
     where: { projectId_memberId: { projectId, memberId } }
   });
 }
 
-function createMember(data: Prisma.ProjectMemberCreateInput): Prisma.PrismaPromise<ProjectMember> {
+function createMember(data) {
   return prisma.projectMember.create({ data });
 }
 
-function findById(id: number) {
+function findById(id) {
   return prisma.project.findUnique({
     where: { id },
     include: { owner: true }

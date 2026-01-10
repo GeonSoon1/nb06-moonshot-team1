@@ -3,6 +3,7 @@ import { create } from 'superstruct';
 import { BadRequestError } from '../middlewares/errors/customError.js';
 import { oAuthService } from '../services/oAuth.service.js';
 import { setAuthCookies } from '../lib/utils/oAuth.js';
+import * as fileService from '../services/file.service.js';
 
 //auth/google  (브라우저에서 눌렀을 때 구글 로그인으로 보내기)
 export async function googleAuth(req, res) {
@@ -23,9 +24,14 @@ export async function googleCallback(req, res) {
   return res.redirect(307, redirectTo);
 }
 
-//회원가입
+//회원가입 ------민수 수정
 export async function register(req, res) {
-  const { name, email, password, profileImage } = create(req.body, CreateUserBodyStruct);
+  const profileUrl = req.file ? fileService.getFileResponse(req, req.file).url : null;
+  const body = {
+    ...req.body,
+    profileImage: profileUrl ?? req.body.profileImage ?? null
+  };
+  const { name, email, password, profileImage } = create(body, CreateUserBodyStruct);
   const userWithoutPassword = await oAuthService.register({
     name,
     email,

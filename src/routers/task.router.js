@@ -2,7 +2,7 @@ import express from 'express';
 import { asyncHandler } from '../middlewares/asyncHandler.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import authorize from '../middlewares/authorize.js';
-import * as taskControl from '../controllers/task.control2.js';
+import * as taskControl from '../controllers/task.control.js';
 import { CommentRepository } from '../repositories/comment.repo.js';
 import { CommentService } from '../services/comment.service.js';
 import { CommentController } from '../controllers/comment.control.js';
@@ -16,24 +16,59 @@ const commentService = new CommentService(commentRepository);
 const commentController = new CommentController(commentService);
 
 // 할 일 조회
-taskRouter.get('/:taskId', authenticate, authorize.projectMember, asyncHandler(taskControl.getDetail));
+taskRouter.get(
+  '/:taskId',
+  authenticate,
+  authorize.projectMember,
+  asyncHandler(taskControl.getDetail)
+);
 
 // 할 일 수정
-taskRouter.patch('/:taskId', authenticate, authorize.projectMember, asyncHandler(taskControl.update));
+taskRouter.patch(
+  '/:taskId',
+  authenticate,
+  authorize.projectMember,
+  asyncHandler(taskControl.update)
+);
 
 // 할 일 삭제
-taskRouter.delete('/:taskId', authenticate, authorize.projectMember, asyncHandler(taskControl.remove));
+taskRouter.delete(
+  '/:taskId',
+  authenticate,
+  authorize.projectMember,
+  asyncHandler(taskControl.remove)
+);
 
 // 하위 할 일 생성 (지민님)
-taskRouter.post('/:taskId/subtasks', authenticate, authorize.projectMember, asyncHandler(taskControl.createSubTask));
+taskRouter.post(
+  '/:taskId/subtasks',
+  authenticate,
+  authorize.projectMember,
+  asyncHandler(taskControl.createSubTask)
+);
 
 // 하위 할 일 목록 조회 (지민님)
-taskRouter.get('/:taskId/subtasks', authenticate, authorize.projectMember, asyncHandler(taskControl.getSubTasks));
+taskRouter.get(
+  '/:taskId/subtasks',
+  authenticate,
+  authorize.projectMember,
+  asyncHandler(taskControl.getSubTasks)
+);
 
 // 댓글 생성 (현우님)
-taskRouter.post('/:taskId/comments', authenticate, authorize.projectMember, commentController.createComment);
+taskRouter.post(
+  '/:taskId/comments',
+  authenticate,
+  authorize.projectMember,
+  commentController.createComment
+);
 
 // 댓글 목록 조회 (현우님)
-taskRouter.get('/:taskId/comments', authenticate, authorize.projectMember, commentController.getComments);
+taskRouter.get(
+  '/:taskId/comments',
+  authenticate,
+  authorize.projectMember,
+  commentController.getComments
+);
 
 export default taskRouter;

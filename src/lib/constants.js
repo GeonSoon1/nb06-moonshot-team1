@@ -6,7 +6,7 @@ dotenv.config();
 // console.log(process.env.NODE_ENV);
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const ACCESS_TOKEN_COOKIE_NAME = 'access-token';
 const REFRESH_TOKEN_COOKIE_NAME = 'refresh-token';
 

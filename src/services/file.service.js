@@ -1,9 +1,14 @@
+export const getFileResponse = (req, file) => {
+  // 브라우저에서 접근 가능한 전체 URL 생성
+  const url = `${req.protocol}://${req.get('host')}/uploads/${file.filename}`;
 
-export const generateFileUrls = (reqProtocol, reqHost, files) => {
-  // 다중 파일인 경우 (req.files)
-  if (Array.isArray(files)) {
-    return files.map(file => `${reqProtocol}://${reqHost}/uploads/${file.filename}`);
-  }
-  // 단일 파일인 경우 (req.file)
-  return `${reqProtocol}://${reqHost}/uploads/${files.filename}`;
+  return {
+    fileName: file.filename,
+    url: url
+  };
 };
+
+//민수 추가
+// export const getFileUrl = (req, file) => {
+//   return `${req.protocol}://${req.get('host')}/uploads/${file.filename}`;
+// };

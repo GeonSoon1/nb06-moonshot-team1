@@ -8,11 +8,12 @@ const password = s.refine(
   (value) => value.length >= 8 && value.length <= 16
 );
 
+// 민수 수정 회원가입 파일 업로드
 export const CreateUserBodyStruct = s.object({
   name: Name,
   email: email,
   password: password,
-  profileImage: s.optional(s.nullable(s.string()))
+  profileImage: s.optional(s.union([s.nullable(s.string()), s.array(s.string())]))
 });
 
 export const LoginUserBodyStruct = s.object({

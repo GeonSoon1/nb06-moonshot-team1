@@ -1,37 +1,29 @@
-import { BadRequestError } from '../middlewares/errors/customError';
-import { prisma } from '../lib/prismaClient';
-import invitationRepo from '../repositories/invitation.repo';
-import projectRepo from '../repositories/project.repo';
-import { CreateMemberDto } from '../dto/dto';
+import { BadRequestError, NotFoundError } from '../middlewares/errors/customError.js';
+import { prisma } from '../lib/prismaClient.js';
+import invitationRepo from '../repositories/invitation.repo.js';
+import projectRepo from '../repositories/project.repo.js';
 
 // 초대 승인
-async function accept(invitationId: string, memberData: CreateMemberDto) {
-  const memberDataToRepo = {
-    role: memberData.role,
-    invitaionId: memberData.invitationId,
-    project: { connect: { id: memberData.projectId } },
-    member: { connect: { id: memberData.memberId } }
-  };
-
+async function accept(invitationId, memberData) {
   // 트렌젝션 사용: Invitation table 수정 AND ProjectMember에 추가
   const [invitation, member] = await prisma.$transaction([
     invitationRepo.update(invitationId, 'ACCEPTED'),
-    projectRepo.createMember(memberDataToRepo)
+    projectRepo.createMember(memberData)
   ]);
   return [invitation, member];
 }
 
-async function reject(invitationId: string) {
+async function reject(invitationId) {
   await checkPending(invitationId);
   return await invitationRepo.update(invitationId, 'REJECTED');
 }
 
-async function cancel(invitationId: string) {
+async function cancel(invitationId) {
   await checkPending(invitationId);
   return await invitationRepo.update(invitationId, 'CANCELED');
 }
 
-async function checkPending(invitationId: string) {
+async function checkPending(invitationId) {
   const invitation = await invitationRepo.findById(invitationId);
   if (!invitation) {
     console.log('초대 기록이 없습니다');

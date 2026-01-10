@@ -14,16 +14,14 @@ import fileRouter from './routers/file.router.js';
 
 const app = express();
 
-// app.use(
-//   cors({
-//     origin: 'http://localhost:3000',
-//     allowedHeaders: ['Content-Type', 'Authorization']
-//   })
-// );
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    allowedHeaders: ['Content-Type', 'Authorization']
+  })
+);
 
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
-
-app.use(cors());
 app.use(express.json());
 
 app.use('/tasks', taskRouter);
@@ -38,4 +36,6 @@ app.use('/files', fileRouter);
 app.use(defaultNotFoundHandler);
 app.use(globalErrorHandler);
 
-app.listen(PORT, () => console.log('Server Start'));
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
+});

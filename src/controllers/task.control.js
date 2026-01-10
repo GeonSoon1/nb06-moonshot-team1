@@ -1,4 +1,4 @@
-import * as taskService from '../services/task.service2.js';
+import * as taskService from '../services/task.service.js';
 import * as TaskStruct from '../structs/task.structs.js';
 import { CreateSubTask } from '../structs/subtask.struct.js';
 import { assert } from 'superstruct';
@@ -28,15 +28,15 @@ export const create = async (req, res) => {
   TaskStruct.CreateTask.assert(data);
 
   // 4. [파일 처리] multer가 저장한 파일 경로들을 추출합니다.
-  const filePaths = req.files?.map((file) => `/uploads/${file.filename}`) || [];
-
+  // const filePaths = req.files?.map((file) => `/uploads/${file.filename}`) || [];//민수 수정
+  const attachmentUrls = Array.isArray(data.attachments) ? data.attachments : []; //민수 추가
   // 5. 서비스 호출
 
   const result = await taskService.createNewTask(
     Number(projectId),
     userId,
     data, // 검증 완료된 데이터
-    filePaths
+    attachmentUrls
   );
 
   res.status(200).json(result);
@@ -87,19 +87,39 @@ export const update = async (req, res) => {
       .map((t) => t.trim()) // 앞뒤 공백 제거
       .filter((t) => t !== ''); // 빈 문자열 제외
   }
-
+  //민수 주석으로 수정
   // 일부 수정(PATCH)이므로 UpdateTask(partial)로 검사
+  // TaskStruct.UpdateTask.assert(data);
+
+  // // 새롭게 업로드된 파일들 추출 //민수 수정
+  // const newFilePaths = req.files ? req.files.map((f) => `/uploads/${f.filename}`) : undefined;
+
+  // const result = await taskService.updateTaskInfo(
+  //   Number(req.params.taskId),
+  //   data,
+  //   req.user.id,
+  //   newFilePaths
+  // );
+
+  // res.json(result);
+
+  //민수 수정 추가
+  if (typeof data.attachments === 'string') {
+    try {
+      const parsed = JSON.parse(data.attachments);
+      data.attachments = Array.isArray(parsed) ? parsed : [data.attachments];
+    } catch {
+      // "a,b,c" 같은 케이스 방어
+      data.attachments = data.attachments
+        .split(',')
+        .map((x) => x.trim())
+        .filter(Boolean);
+    }
+  }
+
   TaskStruct.UpdateTask.assert(data);
 
-  // 새롭게 업로드된 파일들 추출
-  const newFilePaths = req.files?.map((file) => `/uploads/${file.filename}`) || [];
-
-  const result = await taskService.updateTaskInfo(
-    Number(req.params.taskId),
-    data,
-    req.user.id,
-    newFilePaths
-  );
+  const result = await taskService.updateTaskInfo(Number(req.params.taskId), data, req.user.id);
 
   res.json(result);
 };
