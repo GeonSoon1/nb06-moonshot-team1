@@ -130,8 +130,10 @@ export class OAuthService {
     }
     const accessToken = generateAccessToken(user.id);
     const refreshToken = generateRefreshToken(user.id);
+
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     const refreshTokenHash = sha256(refreshToken);
+    console.log(refreshTokenHash);
     await sessionRepo.upsertSession({
       userId: user.id,
       deviceIdHash,

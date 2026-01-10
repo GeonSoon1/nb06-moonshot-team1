@@ -3,8 +3,6 @@ import { uploadProfile, uploadTaskFile } from '../middlewares/upload';
 import * as fileControl from '../controllers/file.control';
 import { asyncHandler } from '../middlewares/asyncHandler';
 
-
-
 const fileRouter = express.Router();
 
 // 할 일 첨부파일 업로드 (name="image"로 약속)
@@ -17,7 +15,7 @@ export default fileRouter;
 
 /**
  * @openapi
- * /files/public:
+ * /files/profile:
  *   post:
  *     summary: 이미지 1장 업로드
  *     tags: [파일 업로드]
@@ -34,9 +32,11 @@ export default fileRouter;
  *                 format: binary
  *     responses:
  *       201:
- *         description: 업로드 성공
+ *         description: Created
  *         content:
  *           application/json:
+ *             example:
+ *               url: http://localhost:3000/image.png
  *             schema:
  *               type: object
  *               required: [url]
@@ -44,27 +44,26 @@ export default fileRouter;
  *                 url:
  *                   type: string
  *       400:
- *         description: 잘못된 요청
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               type: object
  *               required: [message]
  *               properties:
  *                 message:
  *                   type: string
- *
- * /files/projects/{projectId}:
+ *       404:
+ *         description: Not Found
+ */
+/**
+ * @openapi
+ * /files:
  *   post:
  *     summary: 프로젝트 이미지 다중 업로드
  *     tags: [파일 업로드]
- *     parameters:
- *       - in: path
- *         name: projectId
- *         required: true
- *         schema:
- *           type: integer
- *         description: 프로젝트 ID
  *     requestBody:
  *       required: true
  *       content:
@@ -80,7 +79,7 @@ export default fileRouter;
  *                   format: binary
  *     responses:
  *       201:
- *         description: 업로드 성공
+ *         description: Created
  *         content:
  *           application/json:
  *             schema:
@@ -92,9 +91,11 @@ export default fileRouter;
  *                   items:
  *                     type: string
  *       400:
- *         description: 잘못된 요청
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               type: object
  *               required: [message]
@@ -102,9 +103,11 @@ export default fileRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               type: object
  *               required: [message]
@@ -112,9 +115,11 @@ export default fileRouter;
  *                 message:
  *                   type: string
  *       403:
- *         description: 프로젝트 멤버만 가능
+ *         description: Forbidden
  *         content:
  *           application/json:
+ *             example:
+ *               message: 프로젝트 멤버가 아닙니다
  *             schema:
  *               type: object
  *               required: [message]

@@ -1,6 +1,6 @@
 import { Prisma, ProjectMember, SubTask, Comment } from '@prisma/client';
 import { TaskDelete, TaskWithDetails, taskInclude } from '../types/task';
-import { prisma } from '../lib/prismaClient.js';
+import { prisma } from '../lib/prismaClient';
 
 export const createTask = async (
   data: Prisma.TaskUncheckedCreateInput

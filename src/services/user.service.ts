@@ -3,21 +3,10 @@ import { BadRequestError, ForbiddenError } from '../middlewares/errors/customErr
 import { userRepo } from '../repositories/user.repo';
 import { dateParts, STATUS, toEndOfDay, toStartOfDay } from '../lib/utils/util';
 import { Prisma, User } from '@prisma/client';
-import {
-  ListMyTasksQuery,
-  MyProjectsQuery,
-  MyProjectsWithCount,
-  MyTasks,
-  Paginated,
-  PublicUser,
-  UpdateMyInfoInput
-} from '../types/user';
+import { ListMyTasksQuery, MyProjectsQuery, MyProjectsWithCount, MyTasks, Paginated, PublicUser, UpdateMyInfoInput } from '../types/user';
 
 export class UserService {
-  async updateMyInfo(
-    user: Pick<User, 'id' | 'passwordHashed'>,
-    input: UpdateMyInfoInput
-  ): Promise<PublicUser> {
+  async updateMyInfo(user: Pick<User, 'id' | 'passwordHashed'>, input: UpdateMyInfoInput): Promise<PublicUser> {
     const { email, name, profileImage, currentPassword, newPassword } = input;
     // 비번 변경 의사 (둘 중 하나라도 오면 "변경하려는 것"으로 봄)
     const passwordChange = currentPassword != null || newPassword != null;
@@ -43,10 +32,7 @@ export class UserService {
   }
 
   //내가 참여한 프로젝트 조회
-  async getMyProjects(
-    userId: number,
-    query: MyProjectsQuery
-  ): Promise<Paginated<MyProjectsWithCount>> {
+  async getMyProjects(userId: number, query: MyProjectsQuery): Promise<Paginated<MyProjectsWithCount>> {
     const { page, limit, order, order_by } = query;
     const skip = (page - 1) * limit;
     const take = limit;
@@ -119,11 +105,7 @@ export class UserService {
       }
       // 기존 AND 유지하면서 기간 조건만 추가
       const previousAnd = Array.isArray(where.AND) ? where.AND : where.AND ? [where.AND] : [];
-      where.AND = [
-        ...previousAnd,
-        ...(toDate ? [{ startDate: { lte: toDate } }] : []),
-        ...(fromDate ? [{ endDate: { gte: fromDate } }] : [])
-      ];
+      where.AND = [...previousAnd, ...(toDate ? [{ startDate: { lte: toDate } }] : []), ...(fromDate ? [{ endDate: { gte: fromDate } }] : [])];
     }
     // 3) DB 조회 (repo)
     const tasks = await userRepo.findMyTasks(where);
@@ -131,8 +113,7 @@ export class UserService {
     return tasks.map((t) => {
       const s = dateParts(t.startDate);
       const e = dateParts(t.endDate);
-      const statusLower =
-        t.status === 'TODO' ? 'todo' : t.status === 'IN_PROGRESS' ? 'in_progress' : 'done';
+      const statusLower = t.status === 'TODO' ? 'todo' : t.status === 'IN_PROGRESS' ? 'in_progress' : 'done';
       return {
         id: t.id,
         projectId: t.projectId,

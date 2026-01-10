@@ -20,7 +20,7 @@ export default userRouter;
  *     tags: [유저]
  *     responses:
  *       200:
- *         description: 성공
+ *         description: OK
  *         content:
  *           application/json:
  *             schema:
@@ -32,7 +32,7 @@ export default userRouter;
  *                 email:
  *                   type: string
  *                   format: email
- *                 name
+ *                 name:
  *                   type: string
  *                 profileImage:
  *                   type: string
@@ -44,9 +44,11 @@ export default userRouter;
  *                   type: string
  *                   format: date-time
  *       400:
- *         description: 잘못된 요청
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청입니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -57,32 +59,35 @@ export default userRouter;
  *         description: Unauthorized
  *         content:
  *           application/json:
+ *             examples:
+ *               notLoggedIn:
+ *                 value:
+ *                   message: 로그인이 필요합니다
+ *               expiredToken:
+ *                 value:
+ *                   message: 토큰 만료
  *             schema:
  *               required: [message]
  *               type: object
  *               properties:
  *                 message:
  *                   type: string
- *           examples:
- *             notLoggedIn:
- *               summary: 인증(로그인) 필요
- *               value:
- *                 message: 로그인이 필요합니다
- *             expiredToken:
- *               summary: 토큰 만료
- *               value:
- *                 message: 토큰 만료
  *       404:
- *         description: 존재하지 않는 유저
+ *         description: Not Found
  *         content:
  *           application/json:
+ *             example:
+ *               message: 존재하지 않는 유저입니다
  *             schema:
  *               required: [message]
  *               type: object
  *               properties:
  *                 message:
  *                   type: string
- *
+ */
+/**
+ * @openapi
+ * /users/me:
  *   patch:
  *     summary: 내 정보 수정
  *     tags: [유저]
@@ -90,6 +95,12 @@ export default userRouter;
  *       required: true
  *       content:
  *         application/json:
+ *           example:
+ *             email: babo@test.com
+ *             name: 김코드
+ *             currentPassword: password1
+ *             newPassword: password11
+ *             profileImage: handsomeMe.png
  *           schema:
  *             type: object
  *             properties:
@@ -107,7 +118,7 @@ export default userRouter;
  *                 nullable: true
  *     responses:
  *       200:
- *         description: 성공
+ *         description: OK
  *         content:
  *           application/json:
  *             schema:
@@ -119,7 +130,7 @@ export default userRouter;
  *                 email:
  *                   type: string
  *                   format: email
- *                 name
+ *                 name:
  *                   type: string
  *                 profileImage:
  *                   type: string
@@ -131,9 +142,11 @@ export default userRouter;
  *                   type: string
  *                   format: date-time
  *       400:
- *         description: 잘못된 데이터 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 데이터 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -141,16 +154,20 @@ export default userRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
  *               properties:
  *                 message:
  *                   type: string
- *
+ */
+/**
+ * @openapi
  * /users/me/projects:
  *   get:
  *     summary: 참여 중인 프로젝트 조회
@@ -173,16 +190,18 @@ export default userRouter;
  *         schema:
  *           type: string
  *           enum: [asc, desc]
+ *           default: asc
  *         description: 정렬 방향
  *       - in: query
  *         name: order_by
  *         schema:
  *           type: string
  *           enum: [created_at, name]
+ *           default: created_at
  *         description: 정렬 기준
- *     response:
+ *     responses:
  *       200:
- *         description: 성공
+ *         description: OK
  *         content:
  *           application/json:
  *             schema:
@@ -222,9 +241,11 @@ export default userRouter;
  *                   type: integer
  *                   description: 필터 적용 후 전체 개수
  *       400:
- *         description: 잘못된 요청
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청입니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -232,16 +253,20 @@ export default userRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
  *               properties:
  *                 message:
  *                   type: string
- *
+ */
+/**
+ * @openapi
  * /users/me/tasks:
  *   get:
  *     summary: 참여 중인 모든 프로젝트의 할 일 목록 조회
@@ -281,9 +306,9 @@ export default userRouter;
  *         schema:
  *           type: string
  *         description: 제목 검색어
- *     response:
+ *     responses:
  *       200:
- *         description: 성공
+ *         description: OK
  *         content:
  *           application/json:
  *             schema:
@@ -359,9 +384,11 @@ export default userRouter;
  *                   type: integer
  *                   description: 필터 적용 후 전체 개수
  *       400:
- *         description: 잘못된 요청 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -369,9 +396,11 @@ export default userRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object

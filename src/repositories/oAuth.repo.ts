@@ -7,7 +7,7 @@ import {
   SessionTokens,
   Tx,
   UpsertGoogleAccountInput
-} from '../types/oAuth.js';
+} from '../types/oAuth';
 import { encryptToken } from '../lib/crypto.token';
 
 //구글 유저 정보 업서트

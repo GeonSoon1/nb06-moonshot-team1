@@ -1,17 +1,16 @@
 @baseUrl = http://localhost:3000
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY5MjI5OSwiZXhwIjoxNzY3Nzc4Njk5fQ.qQe_E9sLauxaICp4kX018zoyVfEmweClpgTROyWEYq8
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2Nzk1NzMxOSwiZXhwIjoxNzY4MDQzNzE5fQ.rzdj2oh-us3Jy0GXJrzKXJELo2DdAVRXTrAguGcU4mQ
 
-@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzY5MjI5OSwiZXhwIjoxNzY4Mjk3MDk5fQ.vAaXnY-jAZUAG-8TrlgvRSWFBt60dCJfqPVC81f62RI
-
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2Nzk0OTkwNSwiZXhwIjoxNzY4NTU0NzA1fQ.iQZjQNSa-fTP08bF5Ge-FS7otqMAozPQ4RdmGwSbDR0
 
 ### 회원가입
 POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-    "email": "user5@test.com",
-    "name": "user1",
-    "password": "password1",
+    "email": "user11@test.com",
+    "name": "user11",
+    "password": "password11",
     "profileImage": "http://localhost:3000/uploads/profile-1767753624816-581423953.jpg"
 }
 
@@ -21,8 +20,8 @@ X-Device-Id: dev-rest-123
 Content-Type: application/json
 
 {
-    "email": "user3@test.com",
-    "password": "password1"
+    "email": "user2@test.com",
+    "password": "password2"
 }
 
 ### 토큰갱신
@@ -40,13 +39,11 @@ Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-  "email": "user3@test.com",
-  "name": "빙수",
-  "currentPassword": "password1",
-  "newPassword": "alstn1234",
-  "profileImage": "https://example.com"
+  "email": "babo@test.com",
+  "currentPassword": "password11",
+  "newPassword": "password1",
+  "profileImage": "http://localhost:3000/uploads/myimage.jpg"
 }
-
 
 ### 내가 참여중인 프로젝트 조회
 GET {{baseUrl}}/users/me/projects
@@ -57,7 +54,7 @@ GET {{baseUrl}}/users/me/tasks
 Authorization: Bearer {{accessToken}}
 
 ### 쿼리 추가 버전
-GET {{baseUrl}}/users/me/tasks?from=2026-01-01&to=2026-01-31&project_id=1&status=todo&assignee_id=1&keyword=TODO
+GET {{baseUrl}}/users/me/tasks?from=2025-01-01&to=2027-01-31&project_id=1&status=todo&assignee_id=1&keyword=기르기
 Authorization: Bearer {{accessToken}}
 
 //날짜, 키워드 : ?from=2026-01-01&to=2026-01-31&keyword=진행

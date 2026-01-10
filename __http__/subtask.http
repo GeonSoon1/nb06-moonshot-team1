@@ -1,18 +1,18 @@
 ### 사용할 ID들 (본인의 DB 상황에 맞게 수정하세요)
 @baseUrl = http://localhost:3000
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2Nzc0Nzc0NCwiZXhwIjoxNzY3ODM0MTQ0fQ.Qy6hTRoaGQ3XxC7hG4_BPdPwTOp7HlPXWjjbFRujpL4
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2Nzk2MjQ0MSwiZXhwIjoxNzY4MDQ4ODQxfQ.hpXbH3S3hJX7VZd_RlyeDAOWrMTMpFXxVCo7sDu9X1w
 
 
 @subTaskId = 1
 
 ###하위할일 상세조회
-GET {{baseUrl}}/subtasks/{{subTaskId}}
+GET {{baseUrl}}/subtasks/1
 Authorization: Bearer {{accessToken}}
 
 
 ### 2-3. [수정] 하위 할 일 완료 처리 및 제목 수정
 # 주소 맨 끝의 숫자(1)를 수정할 SubTask ID로 바꾸세요.
-PATCH {{baseUrl}}/subtasks/{{subTaskId}}
+PATCH {{baseUrl}}/subtasks/1
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
@@ -23,5 +23,5 @@ Authorization: Bearer {{accessToken}}
 
 ### 2-4. [삭제] 하위 할 일 삭제
 # 주소 맨 끝의 숫자(1)를 삭제할 SubTask ID로 바꾸세요.
-DELETE {{baseUrl}}/subtasks/{{subTaskId}}
+DELETE {{baseUrl}}/subtasks/8
 Authorization: Bearer {{accessToken}}

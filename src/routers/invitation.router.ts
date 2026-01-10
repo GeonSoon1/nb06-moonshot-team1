@@ -18,7 +18,7 @@ export default invitationRouter;
  *   post:
  *     summary: 멤버 초대 수락
  *     tags: [멤버]
- *     parameters:q
+ *     parameters:
  *       - in: path
  *         name: invitationId
  *         required: true
@@ -26,11 +26,13 @@ export default invitationRouter;
  *           type: string
  *     responses:
  *       200:
- *         description: 수락
+ *         description: OK
  *       400:
- *         description: 잘못된 요청 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -38,8 +40,10 @@ export default invitationRouter;
  *                 message:
  *                   type: string
  *       404:
- *         description: 없음
- *
+ *         description: Not Found
+ */
+/**
+ * @openapi
  * /invitations/{invitationId}/reject:
  *   post:
  *     summary: 멤버 초대 거절
@@ -51,12 +55,14 @@ export default invitationRouter;
  *         schema:
  *           type: string
  *     responses:
- *       200:
- *         description: 거절
+ *       204:
+ *         description: No Content
  *       400:
- *         description: 잘못된 요청 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -64,8 +70,10 @@ export default invitationRouter;
  *                 message:
  *                   type: string
  *       404:
- *         description: 없음
- *
+ *         description: Not Found
+ */
+/**
+ * @openapi
  * /invitations/{invitationId}:
  *   delete:
  *     summary: 멤버 초대 삭제
@@ -79,11 +87,13 @@ export default invitationRouter;
  *           type: string
  *     responses:
  *       204:
- *         description: 삭제
+ *         description: No Content
  *       400:
- *         description: 잘못된 요청 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -91,9 +101,11 @@ export default invitationRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -101,9 +113,11 @@ export default invitationRouter;
  *                 message:
  *                   type: string
  *       403:
- *         description: 인가(관리자) 필요
+ *         description: Forbidden
  *         content:
  *           application/json:
+ *             example:
+ *               message: 권한이 없습니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -111,5 +125,5 @@ export default invitationRouter;
  *                 message:
  *                   type: string
  *       404:
- *         description: 없음
+ *         description: Not Found
  */

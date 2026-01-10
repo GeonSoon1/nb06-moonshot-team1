@@ -30,7 +30,7 @@ export default commentRouter;
  *           type: integer
  *     responses:
  *       200:
- *         description: 성공
+ *         description: OK
  *         content:
  *           application/json:
  *             schema:
@@ -64,9 +64,11 @@ export default commentRouter;
  *                   type: string
  *                   format: date-time
  *       400:
- *         description: 잘못된 요청 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -74,9 +76,11 @@ export default commentRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -84,9 +88,11 @@ export default commentRouter;
  *                 message:
  *                   type: string
  *       403:
- *         description: 인가(멤버) 필요
+ *         description: Forbidden
  *         content:
  *           application/json:
+ *             example:
+ *               message: 프로젝트 멤버가 아닙니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -94,8 +100,11 @@ export default commentRouter;
  *                 message:
  *                   type: string
  *       404:
- *         description: 없음
- *
+ *         description: Not Found
+ */
+/**
+ * @openapi
+ * /comments/{commentId}:
  *   patch:
  *     summary: 댓글 수정
  *     tags: [댓글]
@@ -109,6 +118,8 @@ export default commentRouter;
  *       required: true
  *       content:
  *         application/json:
+ *           example:
+ *             content: 화아팅!
  *           schema:
  *             type: object
  *             required: [content]
@@ -117,7 +128,7 @@ export default commentRouter;
  *                 type: string
  *     responses:
  *       200:
- *         description: 성공
+ *         description: OK
  *         content:
  *           application/json:
  *             schema:
@@ -151,9 +162,11 @@ export default commentRouter;
  *                   type: string
  *                   format: date-time
  *       400:
- *         description: 잘못된 요청 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -161,9 +174,11 @@ export default commentRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -171,9 +186,16 @@ export default commentRouter;
  *                 message:
  *                   type: string
  *       403:
- *         description: 인가(저자) 필요
+ *         description: Forbidden
  *         content:
  *           application/json:
+ *             example:
+ *               noProjectMember:
+ *                 value:
+ *                   message: 프로젝트 멤버가 아닙니다
+ *               noAuthor:
+ *                 value:
+ *                   message: 자신이 작성한 댓글만 수정할 수 있습니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -181,8 +203,11 @@ export default commentRouter;
  *                 message:
  *                   type: string
  *       404:
- *         description: 없음
- *
+ *         description: Not Found
+ */
+/**
+ * @openapi
+ * /comments/{commentId}:
  *   delete:
  *     summary: 댓글 삭제
  *     tags: [댓글]
@@ -194,11 +219,13 @@ export default commentRouter;
  *           type: integer
  *     responses:
  *       204:
- *         description: 삭제
+ *         description: No Content
  *       400:
- *         description: 잘못된 요청 형식
+ *         description: Bad Request
  *         content:
  *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
  *             schema:
  *               required: [message]
  *               type: object
@@ -206,9 +233,11 @@ export default commentRouter;
  *                 message:
  *                   type: string
  *       401:
- *         description: 인증(로그인) 필요
+ *         description: Unauthorized
  *         content:
  *           application/json:
+ *             example:
+ *               message: 로그인이 필요합니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -216,9 +245,16 @@ export default commentRouter;
  *                 message:
  *                   type: string
  *       403:
- *         description: 인가(멤버) 필요
+ *         description: Forbidden
  *         content:
  *           application/json:
+ *             example:
+ *               noProjectMember:
+ *                 value:
+ *                   message: 프로젝트 멤버가 아닙니다
+ *               noAuthor:
+ *                 value:
+ *                   message: 자신이 작성한 댓글만 삭제할 수 있습니다
  *             schema:
  *               required: [message]
  *               type: object
@@ -226,5 +262,5 @@ export default commentRouter;
  *                 message:
  *                   type: string
  *       404:
- *         description: 없음
+ *         description: Not Found
  */

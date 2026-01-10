@@ -1,4 +1,4 @@
-import { prisma } from '../lib/prismaClient.js';
+import { prisma } from '../lib/prismaClient';
 import { Prisma, User } from '@prisma/client';
 import {
   CreateUserInput,

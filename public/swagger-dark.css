@@ -1,0 +1,345 @@
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap');
+
+/* =========================================================
+   1) Global
+   ========================================================= */
+body {
+  background-color: #fcfefd;
+}
+
+/* Swagger 전체 기본 글자색만 설정 (자식 요소까지 강제하지 않음) */
+.swagger-ui {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', Arial,
+    sans-serif !important;
+  color: #0d0d0d;
+}
+
+/* 코드 블록(JSON, Example, Response)은 Swagger 기본 색을 쓰게 둠 */
+.swagger-ui pre,
+.swagger-ui code,
+.swagger-ui .microlight {
+  color: inherit;
+}
+/* =========================================================
+   2) Spacing / layout (원래 값 유지, 중복만 제거)
+   ========================================================= */
+/* 전체 API 블록 세로 폭 압축 */
+.swagger-ui .opblock {
+  margin: 4px 0 !important;
+}
+
+/* 파라미터, 바디, 응답 섹션 사이 간격 */
+.swagger-ui .opblock-body,
+.swagger-ui .opblock-section {
+  padding: 6px 8px !important;
+}
+
+/* Request body, Responses 같은 제목 아래 여백 */
+.swagger-ui .opblock-section-header {
+  padding: 6px 8px !important;
+  min-height: unset !important;
+}
+
+/* Example / Schema 박스 위아래 */
+.swagger-ui .example,
+.swagger-ui .responses-wrapper {
+  margin-top: 6px !important;
+}
+
+/* Response 블록 전체 */
+.swagger-ui .responses-inner {
+  padding: 6px 8px !important;
+}
+
+/* Execute 버튼 아래 공백 */
+.swagger-ui .execute-wrapper {
+  margin-top: 8px !important;
+}
+
+/* =========================================================
+   3) Topbar
+   ========================================================= */
+.swagger-ui .topbar {
+  background-color: #121212;
+  border-bottom: 1px solid #0c0c0c;
+}
+
+.swagger-ui .topbar .link span {
+  color: #dfe4e7;
+  font-weight: 700;
+}
+
+/* =========================================================
+   4) Info description
+   ========================================================= */
+.swagger-ui .info .description,
+.swagger-ui .info .description .markdown,
+.swagger-ui .info .description .markdown p {
+  font-size: 30px !important;
+  line-height: 2 !important;
+  color: #0b0b0b !important;
+}
+
+.swagger-ui .info .description {
+  max-width: 800px;
+  margin-top: 8px;
+}
+
+/* API 제목 아래 불필요한 여백 */
+.swagger-ui .info {
+  margin-bottom: 12px !important;
+}
+
+/* =========================================================
+   5) Servers / Authorize bar
+   ========================================================= */
+.swagger-ui .scheme-container {
+  margin: 8px 0 0 0 !important;
+  padding: 10px 0 20px 0 !important; /* px 누락 버그 수정 */
+}
+
+.swagger-ui select {
+  font-size: 13px !important;
+  padding: 6px 10px !important;
+  height: auto !important;
+}
+
+.swagger-ui option {
+  font-size: 13px !important;
+}
+
+.swagger-ui .scheme-container .schemes-title {
+  font-size: 15px !important;
+  font-weight: 600;
+}
+
+.swagger-ui .btn.authorize {
+  font-size: 15px !important;
+  padding: 6px 14px !important;
+  height: auto !important;
+}
+
+/* =========================================================
+   6) Authorize modal (크기만, 기존 의도 유지)
+   ========================================================= */
+.swagger-ui .auth-container,
+.swagger-ui .auth-container * {
+  font-size: 15px !important;
+}
+
+.swagger-ui .auth-container input {
+  font-size: 13px !important;
+  padding: 6px 8px !important;
+}
+
+/* 모달 크게 (기존 의도: 크게. max-width 100px는 오타/버그로 보임) */
+.swagger-ui .dialog-ux .modal-ux {
+  width: 90vw !important;
+  max-width: 100px !important; /* 100px -> 1100px (오타 수정) */
+}
+
+.swagger-ui .dialog-ux .modal-ux-content {
+  max-height: 85vh !important;
+}
+
+.swagger-ui .dialog-ux .modal-ux-body {
+  max-height: calc(85vh - 120px) !important;
+  overflow-y: auto !important;
+}
+
+/* Authorize 항목 간 간격 */
+.swagger-ui .auth-container {
+  margin: 8px 0 !important;
+  padding: 8px 0 !important;
+}
+
+/* =========================================================
+   7) Endpoint list layout (card look)
+   ========================================================= */
+.swagger-ui .opblock {
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px #f5f5f6;
+  margin: 0 !important; /* rows 붙이기 */
+}
+
+.swagger-ui .opblock-summary {
+  padding: 6px 10px !important;
+}
+
+.swagger-ui .opblock-body {
+  margin-top: 4px !important;
+}
+
+/* =========================================================
+   8) Method badge (GET/POST/...)
+   ========================================================= */
+.swagger-ui .opblock-summary-method {
+  margin-right: 4px !important;
+  min-width: 60px !important;
+
+  height: 25px !important;
+  line-height: 22px !important;
+  padding: 0 6px !important;
+  font-size: 12px !important;
+
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* method badge colors */
+.swagger-ui .opblock-get .opblock-summary-method {
+  background-color: #599bf8 !important;
+  color: #fff !important;
+}
+
+.swagger-ui .opblock-post .opblock-summary-method {
+  background-color: #09b573 !important;
+  color: #fff !important;
+}
+
+.swagger-ui .opblock-delete .opblock-summary-method {
+  background-color: #f45a5c !important;
+  color: #fff !important;
+}
+
+/* PUT / PATCH */
+.swagger-ui .opblock-put .opblock-summary-method {
+  background-color: #fbc531 !important;
+  color: #000 !important;
+}
+
+.swagger-ui .opblock-patch .opblock-summary-method {
+  background-color: #f69f14 !important;
+  color: #fff !important;
+}
+
+/* =========================================================
+   9) Opblock colors (background/border + summary tint)
+   ========================================================= */
+.swagger-ui .opblock.opblock-get,
+.swagger-ui .opblock.opblock-post,
+.swagger-ui .opblock.opblock-delete,
+.swagger-ui .opblock.opblock-patch,
+.swagger-ui .opblock.opblock-put {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.swagger-ui .opblock.opblock-get {
+  border-color: rgba(255, 255, 255, 1) !important;
+}
+
+/* summary tints */
+.swagger-ui .opblock.opblock-get .opblock-summary {
+  background: rgba(139, 201, 248, 0.12) !important;
+}
+
+.swagger-ui .opblock.opblock-post .opblock-summary {
+  background: rgba(176, 249, 222, 0.12) !important;
+}
+
+.swagger-ui .opblock.opblock-delete .opblock-summary {
+  background: rgba(248, 186, 187, 0.12) !important;
+}
+
+.swagger-ui .opblock.opblock-patch .opblock-summary {
+  background: rgba(255, 221, 153, 0.12) !important;
+}
+
+.swagger-ui .opblock.opblock-put .opblock-summary {
+  background: rgba(255, 236, 179, 0.12) !important;
+}
+
+/* =========================================================
+   10) Typography 
+   ========================================================= */
+.swagger-ui .opblock-summary-path {
+  font-size: 18px !important;
+}
+
+.swagger-ui .opblock-summary-description {
+  font-size: 16px !important;
+}
+
+.swagger-ui .opblock-body,
+.swagger-ui .opblock-body * {
+  font-size: 14px !important;
+}
+
+.swagger-ui .parameter__name {
+  font-size: 14px !important;
+  font-weight: 600;
+}
+
+.swagger-ui .parameter__description,
+.swagger-ui .parameter__in {
+  font-size: 13px !important;
+}
+
+.swagger-ui .opblock-section-header h4,
+.swagger-ui .responses-header h4 {
+  font-size: 15px !important;
+  font-weight: 600;
+}
+
+.swagger-ui textarea,
+.swagger-ui pre,
+.swagger-ui code {
+  font-size: 13px !important;
+  line-height: 1.5;
+}
+
+.swagger-ui .responses-wrapper {
+  font-size: 13px !important;
+}
+
+/* =========================================================
+   11) Code blocks (JSON/headers/examples) color + background
+       - 레이아웃(폰트/마진/패딩), 색/배경 정리
+   ========================================================= */
+
+/* JSON 박스 배경: "조금 덜 어둡게" */
+.swagger-ui pre.microlight,
+.swagger-ui .microlight,
+.swagger-ui .highlight-code pre,
+.swagger-ui .responses-wrapper pre {
+  background-color: #3a3f00 !important; /* 기존보다 한 톤 밝은 차콜 */
+}
+
+/* 토큰이 없는 문자(괄호/대괄호/콜론/콤마가 여기로 떨어지는 케이스) */
+.swagger-ui pre.microlight,
+.swagger-ui pre.microlight code,
+.swagger-ui .microlight,
+.swagger-ui .microlight code,
+.swagger-ui .highlight-code pre,
+.swagger-ui .highlight-code pre code,
+.swagger-ui .responses-wrapper pre,
+.swagger-ui .responses-wrapper pre code {
+  color: #f2f2f2 !important; /* 기호/기본 텍스트 밝게 */
+}
+
+/* Prism 토큰 기반 하이라이팅 (Swagger가 이쪽을 자주 씀) */
+.swagger-ui .token.punctuation,
+.swagger-ui .token.operator {
+  color: #f2f2f2 !important; /* 괄호/대괄호/콜론/콤마 */
+}
+
+.swagger-ui .token.property {
+  color: #cfd3d6 !important; /* key: 회색 */
+  font-weight: 600;
+}
+
+.swagger-ui .token.string {
+  color: #9ef0b8 !important; /* value: 연두 */
+}
+
+.swagger-ui .token.number {
+  color: #ffd38a !important; /* 숫자는 약간 따뜻하게 */
+}
+
+/* endpoint 경로(/auth/register 등) 폰트를 Pretendard로 */
+.swagger-ui .opblock-summary-path {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', Arial,
+    sans-serif !important;
+}

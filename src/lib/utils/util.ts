@@ -1,7 +1,5 @@
 import { TaskStatus } from '@prisma/client';
 import { ymdKst } from './calendar';
-import { Prisma } from '@prisma/client';
-import { PrismaVersion } from '../../generated/prisma/internal/prismaNamespace';
 import { CommentWithAuthorMember } from '../../dto/commentDto';
 import { TaskForFormat } from '../../types/task';
 
