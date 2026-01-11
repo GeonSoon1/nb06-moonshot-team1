@@ -17,7 +17,7 @@ export default fileRouter;
  * @openapi
  * /files/profile:
  *   post:
- *     summary: 이미지 1장 업로드
+ *     summary: 프로파일 이미지 업로드
  *     tags: [파일 업로드]
  *     requestBody:
  *       required: true
@@ -62,7 +62,7 @@ export default fileRouter;
  * @openapi
  * /files:
  *   post:
- *     summary: 프로젝트 이미지 다중 업로드
+ *     summary: 할 일 첨부파일 업로드
  *     tags: [파일 업로드]
  *     requestBody:
  *       required: true

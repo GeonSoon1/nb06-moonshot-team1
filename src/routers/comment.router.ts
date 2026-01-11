@@ -6,7 +6,7 @@ import authorize from '../middlewares/authorize'; // 팀원 미들웨어
 const commentRouter = express.Router();
 
 // 1. 댓글 조회: 인증 & 인가 미들웨어 사용
-commentRouter.get('/:commentId', authenticate, authorize.projectMember, commentControl.getCommentById);
+commentRouter.get('/:commentId', authenticate, authorize.projectMember, commentControl.getComment);
 
 // 2. 댓글 수정: 멤버 확인(미들웨어) + 본인 확인 및 개별 메시지(서비스)
 commentRouter.patch('/:commentId', authenticate, authorize.commentAuthor, commentControl.updateComment);

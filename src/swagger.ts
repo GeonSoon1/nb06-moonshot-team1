@@ -6,7 +6,7 @@ const options = {
   definition: {
     openapi: '3.0.3',
     info: {
-      title: 'MoonShot',
+      title: '🌙 MoonShot',
       version: '1.0.0',
       description: '1팀: 박건순(팀장), 이지민, 이현우, 정수영, 최민수'
     },

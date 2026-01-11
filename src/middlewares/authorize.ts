@@ -78,6 +78,12 @@ async function commentAuthor(req: Request, res: Response, next: NextFunction) {
 }
 
 async function resolveProjectId(params: Record<string, string | undefined>) {
+  if (params.commentId) {
+    const comment = await prisma.comment.findUniqueOrThrow({
+      where: { id: Number(params.commentId) }
+    });
+    return Number(comment.projectId);
+  }
   if (params.invitationId) {
     const invitation = await prisma.invitation.findUniqueOrThrow({
       where: { id: params.invitationId }
@@ -105,7 +111,7 @@ async function resolveProjectId(params: Record<string, string | undefined>) {
   if (params.projectId) {
     return Number(params.projectId);
   }
-  console.log('요청 파라미터에 projectId, taskId, subTaskId, invitationId 중 하나가 있어야 합니다');
+  console.log('요청 파라미터에 projectId, taskId, subTaskId, commentId, invitationId 중 하나가 있어야 합니다');
   throw new BadRequestError('잘못된 요청 형식');
 }
 
