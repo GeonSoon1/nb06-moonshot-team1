@@ -13,6 +13,7 @@ import userRouter from './routers/user.router';
 import taskRouter from './routers/task.router';
 import subtaskRouter from './routers/subtask.router';
 import fileRouter from './routers/file.router';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(
     allowedHeaders: ['Content-Type', 'Authorization']
   })
 );
+app.use(cookieParser());
 app.use(express.json());
 
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
