@@ -27,7 +27,7 @@ export async function googleCallback(req: Request, res: Response) {
     throw new BadRequestError();
   }
   setAuthCookies(res, { accessToken, refreshToken });
-  return res.redirect(redirectTo);
+  return res.redirect(`${redirectTo}/projects`);
 }
 
 //회원가입
