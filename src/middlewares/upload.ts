@@ -32,14 +32,14 @@ const taskFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallb
   cb(null, true);
 };
 
-export const uploadProfile = multer({ 
-  storage, 
-  fileFilter: profileFilter, 
-  limits: { fileSize: 5 * 1024 * 1024 } 
+export const uploadProfile = multer({
+  storage,
+  fileFilter: profileFilter,
+  limits: { fileSize: 5 * 1024 * 1024 }
 });
 
-export const uploadTaskFile = multer({ 
-  storage, 
-  fileFilter: taskFilter, 
-  limits: { fileSize: 20 * 1024 * 1024 } 
+export const uploadTaskFile = multer({
+  storage,
+  fileFilter: taskFilter,
+  limits: { fileSize: 20 * 1024 * 1024 }
 });

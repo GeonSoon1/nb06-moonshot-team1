@@ -9,7 +9,7 @@ const fileRouter = express.Router();
 fileRouter.post('/', uploadTaskFile.single('files'), asyncHandler(fileControl.uploadSingleFile));
 
 // 프로필 이미지 업로드 (name="files"로 약속)
-fileRouter.post('/register', uploadProfile.single('files'), asyncHandler(fileControl.uploadSingleFile));
+fileRouter.post('/register', uploadProfile.single('image'), asyncHandler(fileControl.uploadSingleFile));
 
 export default fileRouter;
 
