@@ -8,7 +8,7 @@ POST {{baseUrl}}/files
 Content-Type: multipart/form-data; boundary=----boundary
 
 ------boundary
-Content-Disposition: form-data; name="image"; filename="project_plan.zip"
+Content-Disposition: form-data; name="files"; filename="project_plan.zip"
 Content-Type: application/zip
 
 < /mnt/c/Users/USER/Desktop/moonshot.zip
@@ -19,11 +19,11 @@ Content-Type: application/zip
 ### [2] 프로필 이미지 업로드 (이미지 외에는 에러 발생)
 ### -----------------------------------------------------------
 # @name profileUpload
-POST {{baseUrl}}/files/profile
+POST {{baseUrl}}/files/register
 Content-Type: multipart/form-data; boundary=----boundary
 
 ------boundary
-Content-Disposition: form-data; name="image"; filename="my_face.jpg"
+Content-Disposition: form-data; name="files"; filename="my_face.jpg"
 Content-Type: image/jpeg
 
 /mnt/c/Users/USER/Desktop/man.jpg

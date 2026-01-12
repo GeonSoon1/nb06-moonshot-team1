@@ -15,55 +15,11 @@ export default fileRouter;
 
 /**
  * @openapi
- * /files/profile:
- *   post:
- *     summary: 프로파일 이미지 업로드
- *     tags: [파일 업로드]
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             required: [image]
- *             properties:
- *               image:
- *                 type: string
- *                 format: binary
- *     responses:
- *       201:
- *         description: Created
- *         content:
- *           application/json:
- *             example:
- *               url: http://localhost:3000/image.png
- *             schema:
- *               type: object
- *               required: [url]
- *               properties:
- *                 url:
- *                   type: string
- *       400:
- *         description: Bad Request
- *         content:
- *           application/json:
- *             example:
- *               message: 잘못된 요청 형식
- *             schema:
- *               type: object
- *               required: [message]
- *               properties:
- *                 message:
- *                   type: string
- *       404:
- *         description: Not Found
- */
-/**
- * @openapi
  * /files:
  *   post:
  *     summary: 할 일 첨부파일 업로드
  *     tags: [파일 업로드]
+ *     security: []
  *     requestBody:
  *       required: true
  *       content:
@@ -126,4 +82,50 @@ export default fileRouter;
  *               properties:
  *                 message:
  *                   type: string
+ */
+/**
+ * @openapi
+ * /files/register:
+ *   post:
+ *     summary: 프로파일 이미지 업로드
+ *     tags: [파일 업로드]
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required: [image]
+ *             properties:
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       201:
+ *         description: Created
+ *         content:
+ *           application/json:
+ *             example:
+ *               url: http://localhost:3000/image.png
+ *             schema:
+ *               type: object
+ *               required: [url]
+ *               properties:
+ *                 url:
+ *                   type: string
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: 잘못된 요청 형식
+ *             schema:
+ *               type: object
+ *               required: [message]
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       404:
+ *         description: Not Found
  */

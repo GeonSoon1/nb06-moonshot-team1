@@ -1,7 +1,7 @@
 @baseUrl = http://localhost:3000
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2ODA2MDg2MywiZXhwIjoxNzY4MTQ3MjYzfQ.tgiPHcDMcSzPaZP9ZilpR6J0hExwQXw8n68V_pkxTpo
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTc2ODI1MzQ2OSwiZXhwIjoxNzY4MzM5ODY5fQ.QvRQJWFGeeBzUQzeBvzxZCBHgJw0ebyuv2esvxWvDAs
 
-@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2ODA1MzIzNywiZXhwIjoxNzY4NjU4MDM3fQ.LVwhI9cZn0QuPiOXk2aXvsfkBveK16PR3Q7Kb6Oq_ZM
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTc2ODI1MzQ2OSwiZXhwIjoxNzY4ODU4MjY5fQ.LMIkDNOoOOQwo47N4WGz8zRb828_yzMnFjMX_KGlq70
 
 ### 회원가입
 POST {{baseUrl}}/auth/register
@@ -20,8 +20,8 @@ X-Device-Id: dev-rest-123
 Content-Type: application/json
 
 {
-    "email": "user1@test.com",
-    "password": "password1"
+    "email": "user4@test.com",
+    "password": "password4"
 }
 
 ### 토큰갱신

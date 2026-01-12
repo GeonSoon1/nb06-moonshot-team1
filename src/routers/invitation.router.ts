@@ -46,7 +46,7 @@ export default invitationRouter;
  * @openapi
  * /invitations/{invitationId}/reject:
  *   post:
- *     summary: 멤버 초대 거절
+ *     summary: 멤버 초대 거절 (부가 기능)
  *     tags: [멤버]
  *     parameters:
  *       - in: path

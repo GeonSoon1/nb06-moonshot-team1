@@ -101,8 +101,8 @@ export default authRouter;
  *       content:
  *         application/json:
  *           example:
- *             email: user1@test.com
- *             password: password1
+ *             email: user4@test.com
+ *             password: password4
  *           schema:
  *             type: object
  *             required:
@@ -214,15 +214,13 @@ export default authRouter;
  *       - deviceId: []
  *     summary: 구글 로그인 (회원가입)
  *     description: |
- *       프론트에서 로그인 버튼 클릭 시 진입.
- *       서버가 Google OAuth 인증 페이지로 307 Redirect.
- *       Swagger UI Try it out으로 정상 로그인 보장하지 않음.
+ *       프론트엔드 사이트에서 구글로 로그인 링크 클릭시 진입. Swagger로는 정상 로그인 보장하지 않음.
  *     responses:
  *       307:
  *         description: Temporary Redirect
  *         headers:
  *           Location:
- *             description: Google OAuth authorization endpoint URL
+ *             description: Google 로그인 사이트로 리디렉션
  *             schema:
  *               type: string
  *               example: "https://accounts.google.com/o/oauth2/v2/auth?...&redirect_uri=https://api.example.com/auth/google/callback"
@@ -235,9 +233,8 @@ export default authRouter;
  *     security: []
  *     summary: 구글 로그인 콜백
  *     description: |
- *       Google OAuth 인증 이후 호출되는 콜백 엔드포인트.
- *       인증 성공 시 프론트엔드 사이트로 Redirect.
- *       Swagger UI Try it out으로 정상 작동 보장하지 않음.
+ *       구글 인증 성공 시 프론트엔드 사이트로 리디렉션.
+ *       Swagger로는 정상 작동 보장하지 않음.
  *     responses:
  *       307:
  *         description: Temporary Redirect
