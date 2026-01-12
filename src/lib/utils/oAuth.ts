@@ -65,20 +65,18 @@ export async function getGoogleProfile(googleAccessToken: string): Promise<Googl
 }
 
 export function setAuthCookies(res: Response, { accessToken, refreshToken }: SessionTokens) {
-  const isProduction = process.env.NODE_ENV === 'production';
-
   res.cookie('access-token', accessToken, {
     httpOnly: true,
-    sameSite: isProduction ? 'none' : 'lax',
-    secure: isProduction,
+    sameSite: 'none',
+    secure: true,
     maxAge: 30 * 60 * 1000,
     path: '/'
   });
 
   res.cookie('refresh-token', refreshToken, {
     httpOnly: true,
-    sameSite: isProduction ? 'none' : 'lax',
-    secure: isProduction,
+    sameSite: 'none',
+    secure: true,
     maxAge: 7 * 24 * 60 * 60 * 1000,
     path: '/'
   });
