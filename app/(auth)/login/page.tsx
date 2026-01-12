@@ -10,22 +10,43 @@ import Button from "@/shared/components/Button";
 import Label from "@/shared/components/Label";
 import OAuthProvider from "@/types/OAuthProivder";
 import SocialButton from "../components/SocialButton";
-import { login, LoginInput } from "./actions";
+import { login } from "./actions"; // ✅ LoginInput 굳이 여기서 안 써도 됨
 import styles from "../shared.module.css";
+import { getOrCreateDeviceId } from "@/shared/device";
+
 const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001";
 const cx = classNames.bind(styles);
 
+type LoginFormState = {
+  email: string;
+  password: string;
+};
+
 const LoginPage = () => {
   const router = useRouter();
+
+  // ✅ 브라우저에서 deviceId 확보 (소셜 로그인 링크에도 써야 해서 여기서 한번 만들기)
+  const deviceId = getOrCreateDeviceId();
+
   const [state, dispatch, isPending] = useActionState(
-    async (_: LoginInput, formData: FormData) => {
-      const values: LoginInput = {
+    async (_: LoginFormState, formData: FormData) => {
+      const values: LoginFormState = {
         email: formData.get("email") as string,
         password: formData.get("password") as string,
       };
 
-      const result = await login(values);
+      // ✅ deviceId가 없으면 백엔드에서 막히니까 여기서 방어
+      if (!deviceId) {
+        toast.error(
+          "deviceId 생성에 실패했습니다. 새로고침 후 다시 시도해주세요."
+        );
+        return values;
+      }
+
+      // ✅ server action에 deviceId도 같이 전달
+      const result = await login({ ...values, deviceId });
+
       if (result.error) {
         toast.error(result.error);
       } else if (result.success) {
@@ -78,19 +99,36 @@ const LoginPage = () => {
       <div className={cx(styles.socialLoginContainer)}>
         <p className={cx(styles.socialButtonTitle)}>SNS 간편 로그인</p>
         <div className={cx(styles.socialButtonContainer)}>
-          <a href={`${API_BASE}/auth/naver`}>
+          {/* ✅ 소셜 로그인은 header를 못 붙이니까 device_id를 query로 붙여야 함 */}
+          <a
+            href={`${API_BASE}/auth/naver?device_id=${encodeURIComponent(
+              deviceId
+            )}`}
+          >
             <SocialButton provider={OAuthProvider.NAVER} />
           </a>
 
-          <a href={`${API_BASE}/auth/google`}>
+          <a
+            href={`${API_BASE}/auth/google?device_id=${encodeURIComponent(
+              deviceId
+            )}`}
+          >
             <SocialButton provider={OAuthProvider.GOOGLE} />
           </a>
 
-          <a href={`${API_BASE}/auth/facebook`}>
+          <a
+            href={`${API_BASE}/auth/facebook?device_id=${encodeURIComponent(
+              deviceId
+            )}`}
+          >
             <SocialButton provider={OAuthProvider.FACEBOOK} />
           </a>
 
-          <a href={`${API_BASE}/auth/kakao`}>
+          <a
+            href={`${API_BASE}/auth/kakao?device_id=${encodeURIComponent(
+              deviceId
+            )}`}
+          >
             <SocialButton provider={OAuthProvider.KAKAO} />
           </a>
         </div>

@@ -27,19 +27,12 @@ const logError = (error: unknown) => {
   }
 };
 
-export const login = async (payload: { email: string; password: string }) => {
-  try {
-    const response = await axios.post("/auth/login", payload);
-    return response.data;
-  } catch (error) {
-    logError(error);
-    if (error instanceof AxiosError) {
-      throw new Error(
-        error.response?.data.message ?? "로그인 중 오류가 발생했습니다."
-      );
-    }
-    throw error;
-  }
+export const login = async (
+  body: { email: string; password: string },
+  config?: any
+) => {
+  const res = await axios.post("/auth/login", body, config);
+  return res.data;
 };
 
 export const register = async (payload: {
