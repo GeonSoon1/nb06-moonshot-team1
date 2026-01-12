@@ -4,6 +4,7 @@ import { BadRequestError } from '../middlewares/errors/customError';
 import { oAuthService } from '../services/oAuth.service';
 import { firstQuery, requireQuery, setAuthCookies } from '../lib/utils/oAuth';
 import { Request, Response } from 'express';
+import * as fileService from '../services/file.service';
 
 //auth/google  (브라우저에서 눌렀을 때 구글 로그인으로 보내기)
 export async function googleAuth(req: Request, res: Response) {
@@ -30,8 +31,24 @@ export async function googleCallback(req: Request, res: Response) {
 }
 
 //회원가입
+// export async function register(req: Request, res: Response) {
+//   const { name, email, password, profileImage } = create(req.body, CreateUserBodyStruct);
+//   const userWithoutPassword = await oAuthService.register({
+//     name,
+//     email,
+//     password,
+//     profileImage
+//   });
+//   return res.status(201).send(userWithoutPassword);
+// }
+//--------------
 export async function register(req: Request, res: Response) {
-  const { name, email, password, profileImage } = create(req.body, CreateUserBodyStruct);
+  const profileUrl = req.file ? fileService.getFileResponse(req, req.file).url : null;
+  const body = {
+    ...req.body,
+    profileImage: profileUrl ?? req.body.profileImage ?? null
+  };
+  const { name, email, password, profileImage } = create(body, CreateUserBodyStruct);
   const userWithoutPassword = await oAuthService.register({
     name,
     email,
@@ -40,7 +57,7 @@ export async function register(req: Request, res: Response) {
   });
   return res.status(201).send(userWithoutPassword);
 }
-
+//--------------
 //로그인
 export async function login(req: Request, res: Response) {
   const { email, password } = create(req.body, LoginUserBodyStruct);

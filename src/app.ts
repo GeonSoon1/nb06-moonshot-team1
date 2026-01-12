@@ -16,13 +16,12 @@ import fileRouter from './routers/file.router';
 
 const app = express();
 
-// app.use(
-//   cors({
-//     origin: 'http://localhost:3000',
-//     allowedHeaders: ['Content-Type', 'Authorization']
-//   })
-// );
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    allowedHeaders: ['Content-Type', 'Authorization']
+  })
+);
 app.use(express.json());
 
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
