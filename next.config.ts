@@ -3,11 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async redirects() {
     return [
-      {
-        source: "/",
-        destination: "/projects",
-        permanent: false,
-      },
+      { source: "/", destination: "/projects", permanent: false },
       {
         source: "/projects/:projectId",
         destination: "/projects/:projectId/tasks",
@@ -16,17 +12,19 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  async rewrites() {
+    const backend = process.env.BACKEND_URL;
+    if (!backend) return [];
+    return [
+      { source: "/api/:path*", destination: `${backend}/:path*` },
+      { source: "/uploads/:path*", destination: `${backend}/uploads/:path*` },
+    ];
+  },
   images: {
     remotePatterns: [
       {
-        protocol: "https", // 배포 주소는 https입니다.
-        hostname: "nb06-moonshot-team1-jity.onrender.com", // 복사한 백엔드 주소
-        pathname: "/uploads/**",
-      },
-      {
-        protocol: "http",
-        hostname: "localhost",
-        port: "10000", // 로컬 테스트용은 유지해도 좋습니다.
+        protocol: "https",
+        hostname: "nb06-moonshot-team1-jity.onrender.com",
         pathname: "/uploads/**",
       },
       {
@@ -34,54 +32,44 @@ const nextConfig: NextConfig = {
         hostname: "lh3.googleusercontent.com",
         pathname: "/**",
       },
+      // 로컬은 보통 3001 같은 걸로 맞춰
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3001",
+        pathname: "/uploads/**",
+      },
     ],
   },
-  experimental: {
-    serverActions: {
-      bodySizeLimit: "1mb",
-    },
-  },
 
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  experimental: { serverActions: { bodySizeLimit: "1mb" } },
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
 
   turbopack: {
     rules: {
-      "*.svg": {
-        loaders: ["@svgr/webpack"],
-        as: "*.js",
-      },
+      "*.svg": { loaders: ["@svgr/webpack"], as: "*.js" },
     },
   },
 
   webpack: (config) => {
-    // @ts-expect-error 타입 에러 무시
-    const fileLoaderRule = config.module.rules.find((rule) =>
-      rule.test?.test?.(".svg")
+    const fileLoaderRule = config.module.rules.find((rule: any) =>
+      rule?.test?.test?.(".svg")
     );
+    if (!fileLoaderRule) return config;
 
     config.module.rules.push(
-      {
-        ...fileLoaderRule,
-        test: /\.svg$/i,
-        resourceQuery: /url/,
-      },
+      { ...fileLoaderRule, test: /\.svg$/i, resourceQuery: /url/ },
       {
         test: /\.svg$/i,
         issuer: fileLoaderRule.issuer,
-        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] },
+        resourceQuery: {
+          not: [...(fileLoaderRule.resourceQuery?.not ?? []), /url/],
+        },
         use: [
           {
             loader: "@svgr/webpack",
-            options: {
-              typescript: true,
-              ext: "tsx",
-            },
+            options: { typescript: true, ext: "tsx" },
           },
         ],
       }

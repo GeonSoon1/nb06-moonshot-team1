@@ -1,44 +1,64 @@
-import * as Axios from "axios";
+// shared/api/axios.ts (혹은 너 프로젝트의 ./axios 경로)
+import axiosPkg, {
+  AxiosError,
+  AxiosHeaders,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from "axios";
+
 import { getAccessToken, refreshTokens } from "./auth";
 import { getOrCreateDeviceId } from "./device";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const isServer = typeof window === "undefined";
 
-export const axios = Axios.default.create({
+// ✅ 서버는 BACKEND_URL(직행), 브라우저는 /api(Next rewrites 프록시)
+const BASE_URL = isServer ? process.env.BACKEND_URL : "/api";
+
+export const axios = axiosPkg.create({
   baseURL: BASE_URL,
   withCredentials: true,
 });
 
-axios.interceptors.request.use(async (config) => {
-  // headers 안전 처리
-  config.headers = config.headers ?? {};
+type RetryConfig = InternalAxiosRequestConfig & { _retry?: boolean };
 
-  // 1) access token
-  const accessToken = await getAccessToken();
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  } else {
-    // 토큰 없을 때 Authorization 남아있으면 제거(선택)
-    delete (config.headers as any).Authorization;
+axios.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
+  // Axios v1 헤더 타입 안전 처리
+  if (!config.headers || typeof (config.headers as any).set !== "function") {
+    config.headers = new AxiosHeaders(config.headers as any);
   }
+  const headers = config.headers as AxiosHeaders;
 
-  // 2) device id
-  const deviceId = getOrCreateDeviceId();
-  if (deviceId) {
-    config.headers["X-Device-Id"] = deviceId;
+  const accessToken = await getAccessToken();
+  if (accessToken) headers.set("Authorization", `Bearer ${accessToken}`);
+  else headers.delete("Authorization");
+
+  if (!isServer) {
+    const deviceId = getOrCreateDeviceId();
+    if (deviceId) headers.set("X-Device-Id", deviceId);
   }
 
   return config;
 });
 
 axios.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest) {
+  (res: AxiosResponse) => res,
+  async (err: unknown) => {
+    const error = err as AxiosError;
+    const originalRequest = error.config as RetryConfig | undefined;
+
+    if (!error.response || !originalRequest) return Promise.reject(error);
+
+    // refresh 요청에서 401이면 무한루프 방지
+    if (originalRequest.url?.includes("/auth/refresh")) {
+      return Promise.reject(error);
+    }
+
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
       await refreshTokens();
       return axios(originalRequest);
     }
+
     return Promise.reject(error);
   }
 );
