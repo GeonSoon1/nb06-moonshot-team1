@@ -13,24 +13,8 @@ import { FormattedSubTask } from '../dto/subTaskResponseDTO';
 import { formatComment } from '../lib/utils/util';
 
 // 생성
-export const createNewTask = async (
-  projectId: number,
-  userId: number,
-  body: TaskInput
-): Promise<FormattedTask> => {
-  const {
-    title,
-    description,
-    startYear,
-    startMonth,
-    startDay,
-    endYear,
-    endMonth,
-    endDay,
-    status,
-    tags,
-    attachments
-  } = body;
+export const createNewTask = async (projectId: number, userId: number, body: TaskInput): Promise<FormattedTask> => {
+  const { title, description, startYear, startMonth, startDay, endYear, endMonth, endDay, status, tags, attachments } = body;
 
   if (isNaN(Number(startYear))) {
     throw new BadRequestError('잘못된 요청 형식');
@@ -83,19 +67,8 @@ export const createNewTask = async (
 };
 
 // 조회
-export const getTaskList = async (
-  projectId: number,
-  query: TaskQueryInput
-): Promise<TaskListResponse> => {
-  const {
-    page = 1,
-    limit = 10,
-    status,
-    assignee,
-    keyword,
-    order = 'desc',
-    order_by = 'created_at'
-  } = query;
+export const getTaskList = async (projectId: number, query: TaskQueryInput): Promise<TaskListResponse> => {
+  const { page = 1, limit = 10, status, assignee, keyword, order = 'desc', order_by = 'created_at' } = query;
 
   const where: Prisma.TaskWhereInput = {
     projectId,
@@ -110,16 +83,11 @@ export const getTaskList = async (
   else if (order_by === 'name') orderBy.title = order;
   else if (order_by === 'end_date') orderBy.endDate = order;
 
-  const tasks = await taskRepo.findMany(
-    where, 
-    (Number(page) - 1) * Number(limit), 
-    Number(limit), 
-    orderBy
-  );
+  const tasks = await taskRepo.findMany(where, (Number(page) - 1) * Number(limit), Number(limit), orderBy);
 
-  return { 
-    data: tasks.map((t) => formatTask(t)), 
-    total: tasks.length 
+  return {
+    data: tasks.map((t) => formatTask(t)),
+    total: tasks.length
   };
 };
 
@@ -134,11 +102,7 @@ export const getTaskDetail = async (id: number): Promise<FormattedTask> => {
 };
 
 // 수정
-export const updateTaskInfo = async (
-  id: number,
-  body: TaskInput,
-  userId: number
-): Promise<FormattedTask> => {
+export const updateTaskInfo = async (id: number, body: TaskInput, userId: number): Promise<FormattedTask> => {
   const task = await taskRepo.findById(id);
   if (!task) throw new NotFoundError();
 
@@ -164,7 +128,7 @@ export const updateTaskInfo = async (
   if (endYear && endMonth && endDay) {
     updateData.endDate = new Date(Number(endYear), Number(endMonth) - 1, Number(endDay));
   }
-  
+
   if (assigneeId) {
     updateData.assigneeProjectMember = {
       connect: { projectId_memberId: { projectId: task.projectId, memberId: Number(assigneeId) } }
@@ -184,7 +148,6 @@ export const updateTaskInfo = async (
 
   return formatTask(updatedTask);
 };
-
 
 // 삭제
 export async function deleteTask(id: number, userId: number): Promise<void> {
@@ -249,7 +212,9 @@ export async function createComment(commentData: Prisma.CommentCreateManyInput) 
 // 특정 테스크의 댓글  목록 조회
 export async function findAllByTaskId(taskId: number, userId: number, page: number, limit: number) {
   const skip = (Number(page) - 1) * Number(limit); // skip 계산 추가
-  const comments = await taskRepo.findAllByTaskId(taskId, skip, limit);
-  const formattedData = comments.map((c) => formatComment(c));
-  return { formattedData, total: formattedData.length };
+  const result = await taskRepo.findAllByTaskId(taskId, skip, limit);
+  return {
+    data: (result.data || []).map((comment) => formatComment(comment)),
+    total: result.total || 0
+  };
 }

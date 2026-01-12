@@ -2,9 +2,7 @@ import { Prisma, ProjectMember, SubTask, Comment } from '@prisma/client';
 import { TaskDelete, TaskWithDetails, taskInclude } from '../types/task';
 import { prisma } from '../lib/prismaClient';
 
-export const createTask = async (
-  data: Prisma.TaskUncheckedCreateInput
-): Promise<TaskWithDetails> => {
+export const createTask = async (data: Prisma.TaskUncheckedCreateInput): Promise<TaskWithDetails> => {
   const task = await prisma.task.create({
     data,
     include: taskInclude
@@ -50,10 +48,9 @@ export const updateWithTransaction = async (
   attachments?: string[]
 ): Promise<TaskWithDetails> => {
   return await prisma.$transaction(async (tx) => {
-  
     if (Array.isArray(tags)) {
       await tx.taskTag.deleteMany({ where: { taskId: id } });
-      
+
       if (tags.length > 0) {
         data.taskTags = {
           create: tags.map((name) => ({
@@ -65,7 +62,7 @@ export const updateWithTransaction = async (
 
     if (Array.isArray(attachments)) {
       await tx.attachment.deleteMany({ where: { taskId: id } });
-      
+
       if (attachments.length > 0) {
         data.attachments = {
           create: attachments.map((url) => ({ url }))
@@ -73,19 +70,16 @@ export const updateWithTransaction = async (
       }
     }
 
-    return await tx.task.update({
+    return (await tx.task.update({
       where: { id },
       data,
       include: taskInclude
-    }) as TaskWithDetails;
+    })) as TaskWithDetails;
   });
 };
 
 // projectMember인지 확인하는 부분
-export const findProjectMember = async (
-  projectId: number,
-  memberId: number
-): Promise<ProjectMember | null> => {
+export const findProjectMember = async (projectId: number, memberId: number): Promise<ProjectMember | null> => {
   const member = await prisma.projectMember.findUnique({
     where: { projectId_memberId: { projectId, memberId } }
   });
@@ -143,11 +137,19 @@ export async function createComment(data: Prisma.CommentCreateManyInput): Promis
 }
 
 export async function findAllByTaskId(taskId: number, skip: number, limit: number) {
-  return prisma.comment.findMany({
-    where: { taskId },
-    skip,
-    take: limit,
-    orderBy: { createdAt: 'desc' },
-    include: { author: { include: { member: true } } } // util에서 member 필요해서 이중 include
-  });
+  const [data, total] = await Promise.all([
+    prisma.comment.findMany({
+      where: { taskId },
+      include: {
+        author: {
+          include: { member: true }
+        }
+      },
+      skip,
+      take: limit,
+      orderBy: { createdAt: 'desc' }
+    }),
+    prisma.comment.count({ where: { taskId } })
+  ]);
+  return { data, total };
 }
