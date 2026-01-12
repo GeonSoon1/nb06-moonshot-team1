@@ -110,12 +110,17 @@ export const getTaskList = async (
   else if (order_by === 'name') orderBy.title = order;
   else if (order_by === 'end_date') orderBy.endDate = order;
 
-  const [tasks, total] = (await Promise.all([
-    taskRepo.findMany(where, (Number(page) - 1) * Number(limit), Number(limit), orderBy),
-    taskRepo.count(where)
-  ])) as [TaskWithDetails[], number];
+  const tasks = await taskRepo.findMany(
+    where, 
+    (Number(page) - 1) * Number(limit), 
+    Number(limit), 
+    orderBy
+  );
 
-  return { data: tasks.map((t) => formatTask(t)), total };
+  return { 
+    data: tasks.map((t) => formatTask(t)), 
+    total: tasks.length 
+  };
 };
 
 // 상세 조회
@@ -134,39 +139,20 @@ export const updateTaskInfo = async (
   body: TaskInput,
   userId: number
 ): Promise<FormattedTask> => {
-  // 1. 기존 할 일 조회
   const task = await taskRepo.findById(id);
-  if (!task) {
-    throw new NotFoundError();
-  }
+  if (!task) throw new NotFoundError();
 
-  // (attachments 포함)
-  const {
-    title,
-    description,
-    status,
-    startYear,
-    startMonth,
-    startDay,
-    endYear,
-    endMonth,
-    endDay,
-    assigneeId,
-    tags,
-    attachments
-  } = body;
+  const { title, description, status, startYear, startMonth, startDay, endYear, endMonth, endDay, assigneeId, tags, attachments } = body;
 
-  // 2. 권한 확인
+  // 권한 확인
   const requester = await taskRepo.findProjectMember(task.projectId, userId);
   if (!requester) throw new ForbiddenError('프로젝트 멤버가 아닙니다');
 
-  // 3. 담당자 변경 시 검증
   if (assigneeId) {
     const member = await taskRepo.findProjectMember(task.projectId, Number(assigneeId));
     if (!member) throw new ForbiddenError('프로젝트 멤버가 아닙니다');
   }
 
-  // 4. 업데이트 데이터 조립 (Prisma.TaskUpdateInput 형식)
   const updateData: Prisma.TaskUpdateInput = {};
   if (title) updateData.title = title;
   if (description !== undefined) updateData.description = description;
@@ -178,38 +164,27 @@ export const updateTaskInfo = async (
   if (endYear && endMonth && endDay) {
     updateData.endDate = new Date(Number(endYear), Number(endMonth) - 1, Number(endDay));
   }
+  
   if (assigneeId) {
     updateData.assigneeProjectMember = {
-      connect: {
-        projectId_memberId: {
-          projectId: task.projectId,
-          memberId: Number(assigneeId)
-        }
-      }
+      connect: { projectId_memberId: { projectId: task.projectId, memberId: Number(assigneeId) } }
     };
   }
-  //민수 추가
+
   let updatedTask = await taskRepo.updateWithTransaction(id, updateData, tags, attachments);
-  // 6) 캘린더 동기화 (비차단 방식)
+
+  // 캘린더 동기화
   const syncUserId = task.taskCreatorId;
   const googleAccount = await oAuthRepo.findGoogleToken(syncUserId);
   if (googleAccount?.refreshTokenEnc) {
-    // 비동기로 날림 처리 → 실패해도 전체 흐름엔 영향 없음
-    syncCalendarEvent(updatedTask, syncUserId).catch(
-      (
-        err: any // any 사용함
-      ) =>
-        console.warn('calendar sync failed (update)', {
-          err: String(err),
-          taskId: updatedTask.id,
-          userId: syncUserId,
-          googleEventId: updatedTask.googleEventId ?? null
-        })
+    syncCalendarEvent(updatedTask, syncUserId).catch((err: any) =>
+      console.warn('Calendar sync failed (update)', { err: String(err), taskId: updatedTask.id })
     );
   }
 
   return formatTask(updatedTask);
 };
+
 
 // 삭제
 export async function deleteTask(id: number, userId: number): Promise<void> {
