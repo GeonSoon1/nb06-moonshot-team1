@@ -16,6 +16,7 @@ import fileRouter from './routers/file.router';
 import cookieParser from 'cookie-parser';
 
 const app = express();
+
 app.set('trust proxy', 1);
 app.use(
   cors({
