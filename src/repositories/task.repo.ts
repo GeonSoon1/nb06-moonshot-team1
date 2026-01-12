@@ -28,6 +28,7 @@ export const findMany = async (
   });
 };
 
+// 목록 조회에서 total 쓸 때 사용.
 export const count = async (where: Prisma.TaskWhereInput): Promise<number> => {
   const totalCount = await prisma.task.count({ where });
   return totalCount;
@@ -49,31 +50,34 @@ export const updateWithTransaction = async (
   attachments?: string[]
 ): Promise<TaskWithDetails> => {
   return await prisma.$transaction(async (tx) => {
-    // 태그 수정 로직
-    if (tags) {
+  
+    if (Array.isArray(tags)) {
       await tx.taskTag.deleteMany({ where: { taskId: id } });
-      data.taskTags = {
-        create: tags.map((name) => ({
-          tag: { connectOrCreate: { where: { name }, create: { name } } }
-        }))
-      };
+      
+      if (tags.length > 0) {
+        data.taskTags = {
+          create: tags.map((name) => ({
+            tag: { connectOrCreate: { where: { name }, create: { name } } }
+          }))
+        };
+      }
     }
 
-    // 첨부파일 수정 로직
-    if (attachments) {
+    if (Array.isArray(attachments)) {
       await tx.attachment.deleteMany({ where: { taskId: id } });
-      data.attachments = {
-        create: attachments.map((url) => ({ url }))
-      };
+      
+      if (attachments.length > 0) {
+        data.attachments = {
+          create: attachments.map((url) => ({ url }))
+        };
+      }
     }
 
-    // 최종 업데이트 실행
-    const updated = await tx.task.update({
+    return await tx.task.update({
       where: { id },
       data,
       include: taskInclude
-    });
-    return updated as TaskWithDetails;
+    }) as TaskWithDetails;
   });
 };
 

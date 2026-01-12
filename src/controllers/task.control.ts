@@ -82,17 +82,43 @@ export const update = async (req: Request, res: Response): Promise<void> => {
     }
   }
 
+  let attachmentList: string[] | undefined = undefined;
+
+  if (body.attachments !== undefined) {
+    if (typeof body.attachments === 'string' && body.attachments.trim() !== '') {
+      try {
+        const parsed = JSON.parse(body.attachments);
+        attachmentList = Array.isArray(parsed) ? parsed : [body.attachments];
+      } catch {
+        attachmentList = body.attachments
+          .split(',')
+          .map((x: string) => x.trim())
+          .filter((x: string) => x !== '');
+      }
+    } else if (Array.isArray(body.attachments)) {
+      attachmentList = body.attachments;
+    } else {
+      attachmentList = [];
+    }
+  }
+
   const data: TaskInput = {
     ...body,
-    ...(tagList !== undefined && { tags: tagList })
+    ...(tagList !== undefined && { tags: tagList }),
+    ...(attachmentList !== undefined && { attachments: attachmentList })
   };
 
   assert(data, TaskStruct.UpdateTask);
 
-  const result = await taskService.updateTaskInfo(Number(taskId), data, userId);
+  const result = await taskService.updateTaskInfo(
+    Number(taskId), 
+    data, 
+    userId
+  );
 
   res.status(200).json(result);
 };
+
 
 // 할 일 삭제
 export const remove = async (req: Request, res: Response): Promise<void> => {

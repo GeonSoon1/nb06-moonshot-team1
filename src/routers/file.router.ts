@@ -5,11 +5,11 @@ import { asyncHandler } from '../middlewares/asyncHandler';
 
 const fileRouter = express.Router();
 
-// 할 일 첨부파일 업로드 (name="image"로 약속)
-fileRouter.post('/', uploadTaskFile.single('image'), asyncHandler(fileControl.uploadSingleFile));
+// 할 일 첨부파일 업로드 (name="files"로 약속)
+fileRouter.post('/', uploadTaskFile.single('files'), asyncHandler(fileControl.uploadSingleFile));
 
-// 프로필 이미지 업로드 (name="image"로 약속)
-fileRouter.post('/profile', uploadProfile.single('image'), asyncHandler(fileControl.uploadSingleFile));
+// 프로필 이미지 업로드 (name="files"로 약속)
+fileRouter.post('/register', uploadProfile.single('files'), asyncHandler(fileControl.uploadSingleFile));
 
 export default fileRouter;
 
