@@ -83,7 +83,10 @@ export const refreshToken = async (refreshToken: string | null) => {
 
 export const getMe = async (): Promise<User> => {
   try {
-    const response = await axios.get("/users/me");
+    // ✅ withCredentials 옵션을 추가하여 쿠키를 요청에 포함시킵니다.
+    const response = await axios.get("/users/me", {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     logError(error);
