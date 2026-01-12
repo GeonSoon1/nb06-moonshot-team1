@@ -12,7 +12,7 @@ export async function googleAuth(req: Request, res: Response) {
   const deviceId = req.deviceId;
   if (!deviceId) throw new BadRequestError('deviceId가 필요합니다');
   const url = oAuthService.buildGoogleAuthUrl({ redirectTo, deviceId });
-  return res.redirect(307, url);
+  return res.redirect(url);
 }
 
 //구글 콜백
