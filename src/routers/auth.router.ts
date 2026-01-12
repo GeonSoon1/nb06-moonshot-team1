@@ -210,20 +210,13 @@ export default authRouter;
  * /auth/google:
  *   get:
  *     tags: [인증]
- *     security: []
+ *     security:
+ *       - deviceId: []
  *     summary: 구글 로그인 (회원가입)
  *     description: |
  *       프론트에서 로그인 버튼 클릭 시 진입.
  *       서버가 Google OAuth 인증 페이지로 307 Redirect.
  *       Swagger UI Try it out으로 정상 로그인 보장하지 않음.
- *     parameters:
- *       - in: header
- *         name: X-Device-Id
- *         required: true
- *         schema:
- *           type: string
- *           default: dev-rest-123
- *         description: 디바이스 식별자
  *     responses:
  *       307:
  *         description: Temporary Redirect
