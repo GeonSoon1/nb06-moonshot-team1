@@ -8,21 +8,20 @@ import { ListMyTasksQuery, MyProjectsQuery, MyProjectsWithCount, MyTasks, Pagina
 export class UserService {
   async updateMyInfo(user: Pick<User, 'id' | 'passwordHashed'>, input: UpdateMyInfoInput): Promise<PublicUser> {
     const { email, name, profileImage, currentPassword, newPassword } = input;
-    // 비번 변경 의사 (둘 중 하나라도 오면 "변경하려는 것"으로 봄)
-    const passwordChange = currentPassword != null || newPassword != null;
-    // 하나만 오면 400
-    if (typeof passwordChange !== 'string' || typeof newPassword !== 'string') {
-      throw new BadRequestError('잘못된 데이터 형식');
-    }
     const patch: Prisma.UserUpdateInput = {};
     if (email !== undefined) patch.email = email;
     if (name !== undefined) patch.name = name;
     if (profileImage !== undefined) patch.profileImage = profileImage;
-    if (passwordChange) {
+    // 비밀번호 변경 분기: 둘 중 하나라도 오면 변경 시도로 간주
+    if (currentPassword != null || newPassword != null) {
+      // 하나라도 빠지면 400
+      if (!currentPassword || !newPassword) {
+        throw new BadRequestError('잘못된 데이터 형식');
+      }
       if (!user.passwordHashed) {
         throw new ForbiddenError('소셜 로그인 계정은 비밀번호를 변경할 수 없습니다.');
       }
-      const ok = await bcrypt.compare(currentPassword!, user.passwordHashed);
+      const ok = await bcrypt.compare(currentPassword, user.passwordHashed);
       if (!ok) {
         throw new ForbiddenError('이메일 또는 비밀번호가 올바르지 않습니다.');
       }
@@ -30,7 +29,6 @@ export class UserService {
     }
     return userRepo.update(user.id, patch);
   }
-
   //내가 참여한 프로젝트 조회
   async getMyProjects(userId: number, query: MyProjectsQuery): Promise<Paginated<MyProjectsWithCount>> {
     const { page, limit, order, order_by } = query;

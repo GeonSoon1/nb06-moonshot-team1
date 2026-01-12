@@ -11,6 +11,7 @@ const Description = s.size(s.string(), 0, 40);
 // 상태: 정해진 값만 허용
 const TaskStatus = s.enums(['todo', 'in_progress', 'done']);
 
+const CoerceNumber = s.union([s.number(), s.string()]);
 
 // "숫자처럼 생긴 문자열" -> number 로 변환까지 해주는 형태
 const Int = s.coerce(
@@ -20,7 +21,6 @@ const Int = s.coerce(
 );
 
 const TagList = s.size(s.array(s.string()), 0, 5); // 프론트 maxTags=5에 맞춤
-
 
 // --- [2. API별 검증 스키마] ---
 
@@ -45,10 +45,10 @@ export const UpdateTask = s.partial(CreateTask);
 
 // [C] 할 일 목록 조회용 쿼리 (GET)
 export const TaskQuery = s.object({
-  page: s.defaulted(Int, 1),
-  limit: s.defaulted(Int, 10),
+  page: s.defaulted(CoerceNumber, 1),
+  limit: s.defaulted(CoerceNumber, 10),
   status: s.optional(TaskStatus),
-  assignee: s.optional(Int),
+  assignee: s.optional(CoerceNumber),
   keyword: s.optional(s.string()),
   order: s.optional(s.enums(['asc', 'desc'])),
   order_by: s.optional(s.enums(['created_at', 'name', 'end_date'])),
@@ -58,13 +58,12 @@ export const TaskQuery = s.object({
 
 // [D] URL 파라미터 검증
 export const TaskParams = s.object({
-  projectId: s.optional(Int),
-  taskId: s.optional(Int)
+  projectId: s.optional(CoerceNumber),
+  taskId: s.optional(CoerceNumber)
 });
 
-
 export const TaskIdParam = s.object({
-  taskId: Int 
+  taskId: CoerceNumber
 });
 
 export type TaskIdParamType = s.Infer<typeof TaskIdParam>;

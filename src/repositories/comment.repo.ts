@@ -8,10 +8,7 @@ async function findCommentById(id: number) {
   });
 }
 
-async function updateComment(
-  id: number,
-  data: Prisma.CommentUpdateInput
-): Promise<CommentWithAuthorMember> {
+async function updateComment(id: number, data: Prisma.CommentUpdateInput): Promise<CommentWithAuthorMember> {
   return prisma.comment.update({
     where: { id },
     data,

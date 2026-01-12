@@ -110,15 +110,10 @@ export const update = async (req: Request, res: Response): Promise<void> => {
 
   assert(data, TaskStruct.UpdateTask);
 
-  const result = await taskService.updateTaskInfo(
-    Number(taskId), 
-    data, 
-    userId
-  );
+  const result = await taskService.updateTaskInfo(Number(taskId), data, userId);
 
   res.status(200).json(result);
 };
-
 
 // 할 일 삭제
 export const remove = async (req: Request, res: Response): Promise<void> => {
@@ -186,5 +181,6 @@ export async function getComments(req: Request, res: Response, next: NextFunctio
   const userId = req.user.id;
 
   const result = await taskService.findAllByTaskId(Number(taskId), userId, Number(page), Number(limit));
-  return res.status(200).json(result);
+  const comments = Array.isArray(result) ? result : result?.data ?? [];
+  return res.status(200).json(comments);
 }
