@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 import commentService from '../services/comment.service';
 
 // 1. 댓글 조회 (GET)
-async function getCommentById(req: Request, res: Response, next: NextFunction) {
+async function getComment(req: Request, res: Response, next: NextFunction) {
   const { commentId } = req.params;
   const comment = await commentService.getComment(Number(commentId));
   return res.status(200).json(comment);
@@ -30,7 +30,7 @@ async function deleteComment(req: Request, res: Response, next: NextFunction) {
 }
 
 export default {
-  getCommentById,
+  getComment,
   updateComment,
   deleteComment
 };

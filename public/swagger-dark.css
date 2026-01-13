@@ -4,7 +4,7 @@
    1) Global
    ========================================================= */
 body {
-  background-color: #fcfefd;
+  background-color: #fcfcfe;
 }
 
 /* Swagger 전체 기본 글자색만 설정 (자식 요소까지 강제하지 않음) */
@@ -99,13 +99,13 @@ body {
 }
 
 .swagger-ui select {
-  font-size: 13px !important;
+  font-size: 15px !important;
   padding: 6px 10px !important;
   height: auto !important;
 }
 
 .swagger-ui option {
-  font-size: 13px !important;
+  font-size: 15px !important;
 }
 
 .swagger-ui .scheme-container .schemes-title {
@@ -264,17 +264,17 @@ body {
 
 .swagger-ui .opblock-body,
 .swagger-ui .opblock-body * {
-  font-size: 14px !important;
+  font-size: 15px !important;
 }
 
 .swagger-ui .parameter__name {
-  font-size: 14px !important;
+  font-size: 15px !important;
   font-weight: 600;
 }
 
 .swagger-ui .parameter__description,
 .swagger-ui .parameter__in {
-  font-size: 13px !important;
+  font-size: 15px !important;
 }
 
 .swagger-ui .opblock-section-header h4,
@@ -286,12 +286,12 @@ body {
 .swagger-ui textarea,
 .swagger-ui pre,
 .swagger-ui code {
-  font-size: 13px !important;
+  font-size: 15px !important;
   line-height: 1.5;
 }
 
 .swagger-ui .responses-wrapper {
-  font-size: 13px !important;
+  font-size: 15px !important;
 }
 
 /* =========================================================
@@ -304,7 +304,7 @@ body {
 .swagger-ui .microlight,
 .swagger-ui .highlight-code pre,
 .swagger-ui .responses-wrapper pre {
-  background-color: #3a3f00 !important; /* 기존보다 한 톤 밝은 차콜 */
+  background-color: #07073e !important;
 }
 
 /* 토큰이 없는 문자(괄호/대괄호/콜론/콤마가 여기로 떨어지는 케이스) */
@@ -340,6 +340,13 @@ body {
 
 /* endpoint 경로(/auth/register 등) 폰트를 Pretendard로 */
 .swagger-ui .opblock-summary-path {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', Arial,
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Nanum Gothic', Arial, 'Segoe UI', Roboto, 'Noto Sans KR', 'Apple SD Gothic Neo',
     sans-serif !important;
+}
+
+.swagger-ui pre,
+.swagger-ui code,
+.swagger-ui .microlight,
+.swagger-ui .highlight-code {
+  font-weight: 200 !important;
 }

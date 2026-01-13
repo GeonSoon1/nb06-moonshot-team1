@@ -34,7 +34,7 @@ export default projectRouter;
  * @openapi
  * /projects:
  *   get:
- *     summary: 프로젝트 목록 조회
+ *     summary: 프로젝트 목록 조회 (부가 기능)
  *     tags: [프로젝트]
  *     responses:
  *       200:
