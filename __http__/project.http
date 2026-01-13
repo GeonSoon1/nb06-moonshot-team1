@@ -1,0 +1,103 @@
+@baseUrl = http://localhost:3000
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2ODEwNTk1OSwiZXhwIjoxNzY4MTkyMzU5fQ.SseaZbRyyc3DTdMzfU0XdZpP7inEu151FsUZZ49K2l8
+
+### 프로젝트 목록 조회: 인증, 부가기능
+GET {{baseUrl}}/projects
+Authorization: Bearer {{accessToken}}
+
+
+### 프로젝트 생성: 인증, 인가(멤버)
+POST {{baseUrl}}/projects
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "강아지 훈련하기",
+  "description": "똥개를 명견으로 만들기 위한 지침서"
+}
+
+
+### 프로젝트 상세 조회: 인증, 인가(멤버)
+GET {{baseUrl}}/projects/6
+Authorization: Bearer {{accessToken}}
+
+
+### 프로젝트 수정: 인증, 인가(관리자)
+PATCH {{baseUrl}}/projects/6
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "명견 훈련 지침서 (리뉴얼)",
+  "description": "각광받고 있는 감성훈련법이 추가된 업그레이드 버전"
+}
+
+
+### 프로젝트 삭제: 인증, 인가(관리자)
+DELETE {{baseUrl}}/projects/7
+Authorization: Bearer {{accessToken}}
+
+
+
+### 프로젝트 멤버 목록 조회: 인증, 인가(멤버)
+GET {{baseUrl}}/projects/1/users?page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+
+
+### 프로젝트 멤버 제외: 인증, 인가(관리자)
+DELETE {{baseUrl}}/projects/1/users/6
+Authorization: Bearer {{accessToken}}
+
+
+
+### 프로젝트 멤버 초대: 인증, 인가(관리자)
+POST {{baseUrl}}/projects/1/invitations
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "email":"user5@test.com"
+}
+
+
+
+###
+//***** 할 일 (Tasks) *****//
+
+@assigneeId = 3
+
+
+### [1] 프로젝트에 할 일 생성 (2단계 업로드 방식 - JSON)
+POST {{baseUrl}}/projects/2/tasks
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "title": "리팩토링된 할 일",
+  "description": "이제 파일은 주소로만 관리합니다.",
+  "startYear": 2026,
+  "startMonth": 1,
+  "startDay": 5,
+  "endYear": 2026,
+  "endMonth": 1,
+  "endDay": 10,
+  "status": "todo",
+  "tags": ["백엔드", "성공적"],
+  "attachments": [
+    "http://localhost:3000/uploads/profile-1767753624816-581423953.jpg",
+    "http://localhost:3000/uploads/task-1767754230284-155756946.jpg"
+  ]
+}
+
+
+### [2] 프로젝트의 할 일 목록 조회 (기본)
+GET {{baseUrl}}/projects/2/tasks?page=1&limit=2
+Authorization: Bearer {{accessToken}}
+
+
+
+### [3] 프로젝트의 할 일 목록 조회 (필터링 및 정렬)
+# 상태: todo, 담당자ID: 2, 검색어: Prisma, 정렬: 마감기한순
+GET {{baseUrl}}/projects/2/tasks?status=todo&assignee=2&order=desc&order_by=end_date
+Authorization: Bearer {{accessToken}}

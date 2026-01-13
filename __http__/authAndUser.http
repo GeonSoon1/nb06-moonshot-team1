@@ -1,0 +1,64 @@
+@baseUrl = http://localhost:3000
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTc2ODI1MzQ2OSwiZXhwIjoxNzY4MzM5ODY5fQ.QvRQJWFGeeBzUQzeBvzxZCBHgJw0ebyuv2esvxWvDAs
+
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTc2ODI1MzQ2OSwiZXhwIjoxNzY4ODU4MjY5fQ.LMIkDNOoOOQwo47N4WGz8zRb828_yzMnFjMX_KGlq70
+
+### 회원가입
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "email": "user11@test.com",
+    "name": "user11",
+    "password": "password11",
+    "profileImage": "http://localhost:3000/uploads/profile-1767753624816-581423953.jpg"
+}
+
+### 로그인
+POST {{baseUrl}}/auth/login
+X-Device-Id: dev-rest-123
+Content-Type: application/json
+
+{
+    "email": "user4@test.com",
+    "password": "password4"
+}
+
+### 토큰갱신
+POST {{baseUrl}}/auth/refresh
+X-Device-Id: dev-rest-123
+Authorization: Bearer {{refreshToken}}
+
+### 내 정보 조회
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{accessToken}}
+
+### 내 정보 수정
+PATCH {{baseUrl}}/users/me
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "email": "babo@test.com",
+  "currentPassword": "password11",
+  "newPassword": "password1",
+  "profileImage": "http://localhost:3000/uploads/myimage.jpg"
+}
+
+### 내가 참여중인 프로젝트 조회
+GET {{baseUrl}}/users/me/projects
+Authorization: Bearer {{accessToken}}
+
+### 내가 참여중인 모든 프로젝트의 할 일 목록 조회
+GET {{baseUrl}}/users/me/tasks
+Authorization: Bearer {{accessToken}}
+
+### 쿼리 추가 버전
+GET {{baseUrl}}/users/me/tasks?from=2025-01-01&to=2027-01-31&project_id=1&status=todo&assignee_id=1&keyword=기르기
+Authorization: Bearer {{accessToken}}
+
+//날짜, 키워드 : ?from=2026-01-01&to=2026-01-31&keyword=진행
+//users/me/tasks?from=2026-01-01&to=2026-01-31
+//users/me/tasks?project_id=27
+//users/me/tasks?status=todo
+//users/me/tasks?from=2026-01-01&to=2026-01-31&project_id=27&status=todo&assignee_id=17&keyword=TODO

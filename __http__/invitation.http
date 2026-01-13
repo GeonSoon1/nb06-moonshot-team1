@@ -1,0 +1,22 @@
+@baseUrl = http://localhost:3000
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2ODA5NTUyMywiZXhwIjoxNzY4MTgxOTIzfQ.LFk2ZMK0kEAQaejFlosOcM3EJDCD7TAksu2Sy5xEUKo
+
+
+@invitationID = 76cc1e41-cbe7-44e9-a018-4b319e6443d5
+
+// 초대 수락: 인증
+// 200, 400, 404
+POST {{baseUrl}}/invitations/{{invitationID}}/accept
+Authorization: Bearer {{accessToken}}
+
+// 초대 거절: 인증
+###
+POST {{baseUrl}}/invitations/{{invitationID}}/reject
+Authorization: Bearer {{accessToken}}
+// 인증만 되면 거절 가능. 초대코드 소지 자체로 인가되는 것으로 간주?
+
+// 초대 취소: 인증, 인가
+// 204, 400, 401, 403, 404
+### 
+DELETE {{baseUrl}}/invitations/{{invitationID}}
+Authorization: Bearer {{accessToken}}

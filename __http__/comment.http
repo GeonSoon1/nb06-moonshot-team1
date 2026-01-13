@@ -1,0 +1,25 @@
+@baseUrl = http://localhost:3000
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2ODA1MzIzNywiZXhwIjoxNzY4MTM5NjM3fQ.Iaet1JEep9dlgpMFXlnGNsDzC77MdXbDOkt2rdJz1Sg
+@accessToken2 = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2ODA1NDAzMywiZXhwIjoxNzY4MTQwNDMzfQ.fjhZg17XAicnFtHSidaHogNzhIvtlo60PKV7HfG7xYY
+@commentId = 1
+@taskId = 1
+
+### 댓글 조회 (GET)
+GET {{baseUrl}}/comments/2
+Authorization: Bearer {{accessToken}}
+
+
+### 댓글 수정 (PATCH)
+PATCH {{baseUrl}}/comments/4
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "content": "천리길도 한걸음부터"
+}
+
+###
+
+### 댓글 삭제 (DELETE)
+DELETE {{baseUrl}}/comments/6
+Authorization: Bearer {{accessToken}}

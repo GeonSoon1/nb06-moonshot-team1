@@ -1,0 +1,65 @@
+{
+  "name": "nb06-moonshot-team1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "dev": "nodemon --watch src --ext ts,tsx --exec \"npx tsx\" src/app.ts",
+    "dev2": "nodemon --watch src --exec ts-node src/app.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^6.18.0",
+    "axios": "^1.13.2",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.3.1",
+    "express": "^5.2.1",
+    "googleapis": "^169.0.0",
+    "is-email": "^1.0.2",
+    "is-uuid": "^1.0.2",
+    "jsonwebtoken": "^9.0.3",
+    "lru-cache": "^11.2.4",
+    "multer": "^2.0.2",
+    "superstruct": "^2.0.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^11.12.0",
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/is-email": "^1.0.0",
+    "@types/is-uuid": "^1.0.2",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^25.0.6",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
+    "nodemon": "^3.1.11",
+    "prisma": "^6.18.0",
+    "prisma-erd-generator": "^2.3.0",
+    "tcx": "^0.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeonSoon1/nb06-moonshot-team1.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GeonSoon1/nb06-moonshot-team1/issues"
+  },
+  "homepage": "https://github.com/GeonSoon1/nb06-moonshot-team1#readme"
+}
