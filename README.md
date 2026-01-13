@@ -1,14 +1,14 @@
 # 프로젝트 Moonshot
 
-[팀 협업 문서 링크 (예: Notion)](https://notion.so/moonshot-team-collaboration)
+[팀 협업 문서 링크 (예: Notion)](https://www.notion.so/2de465dc83a0817eab90cebee0287992)
 
 ## 팀원 구성 및 업무 분담
 
-- **박건순** ([Github](https://github.com/)) - **태스크 및 파일 시스템**: 고성능 태스크 엔진, Multer 기반 비동기 파일 업로드, 필터링 검색
-- **최민수** ([Github](https://github.com/)) - **인증 및 유저 도메인**: JWT 보안 인증, 구글 OAuth, 유저 프로필 관리
-- **이지민** ([Github](https://github.com/)) - **프로젝트 및 하위 할 일**: 프로젝트 CRUD 엔진, 5개 생성 제한 로직, 하위 할 일 체크리스트
-- **이현우** ([Github](https://github.com/)) - **댓글 및 태그 시스템**: 할 일 기반 실시간 소통 API, N:M 관계 태그 로직 구현
-- **정수영** ([Github](https://github.com/)) - **멤버십 및 권한 제어**: 초대 워크플로우 설계, 역할 기반 권한 인가(RBAC) 미들웨어 구축
+- **박건순** ([Github](https://github.com/GeonSoon1/)) - **태스크 및 파일 시스템**: 고성능 태스크 엔진, Multer 기반 비동기 파일 업로드, 필터링 검색
+- **최민수** ([Github](https://github.com/chamysj/)) - **인증 및 유저 도메인**: JWT 보안 인증, 구글 OAuth, 유저 프로필 관리
+- **이지민** ([Github](https://github.com/truely00-beep/)) - **프로젝트 및 하위 할 일**: 프로젝트 CRUD 엔진, 5개 생성 제한 로직, 하위 할 일 체크리스트
+- **이현우** ([Github](https://github.com/DreamingLeopard74/)) - **댓글 및 태그 시스템**: 할 일 기반 실시간 소통 API, N:M 관계 태그 로직 구현
+- **정수영** ([Github](https://github.com/sooyoungbabo/)) - **멤버십 및 권한 제어**: 초대 워크플로우 설계, 역할 기반 권한 인가(RBAC) 미들웨어 구축
 
 ## 프로젝트 소개
 
