@@ -10,7 +10,7 @@ const options = {
       version: '1.0.0',
       description: '1팀: 박건순(팀장), 이지민, 이현우, 정수영, 최민수'
     },
-    servers: [{ url: 'http://localhost:3000', description: 'local' }],
+    servers: [{ url: 'http://localhost:3001', description: 'local' }],
     components: {
       securitySchemes: {
         bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },

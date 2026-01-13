@@ -13,15 +13,19 @@ import userRouter from './routers/user.router';
 import taskRouter from './routers/task.router';
 import subtaskRouter from './routers/subtask.router';
 import fileRouter from './routers/file.router';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
+app.set('trust proxy', 1);
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.FRONTEND_URL?.trim() || 'http://localhost:3000',
+    credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization']
   })
 );
+app.use(cookieParser());
 app.use(express.json());
 
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));

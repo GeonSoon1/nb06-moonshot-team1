@@ -67,24 +67,23 @@ export async function getGoogleProfile(googleAccessToken: string): Promise<Googl
 export function setAuthCookies(res: Response, { accessToken, refreshToken }: SessionTokens) {
   res.cookie('access-token', accessToken, {
     httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'none',
+    secure: true,
     maxAge: 30 * 60 * 1000,
     path: '/'
   });
+
   res.cookie('refresh-token', refreshToken, {
     httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'none',
+    secure: true,
     maxAge: 7 * 24 * 60 * 60 * 1000,
     path: '/'
   });
 }
 
 // 제네릭 활용한 타입선언...이렇게도 할 수 있구나
-export function stripPassword<T extends { passwordHashed?: unknown }>(
-  user: T
-): Omit<T, 'passwordHashed'> {
+export function stripPassword<T extends { passwordHashed?: unknown }>(user: T): Omit<T, 'passwordHashed'> {
   const { passwordHashed: _passwordHashed, ...rest } = user;
   return rest;
 }

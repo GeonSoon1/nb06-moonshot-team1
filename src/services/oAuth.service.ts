@@ -3,31 +3,10 @@ import bcrypt from 'bcrypt';
 import { oAuthRepo } from '../repositories/oAuth.repo';
 import { userRepo } from '../repositories/user.repo';
 import { sessionRepo } from '../repositories/session.repo';
-import {
-  generateAccessToken,
-  generateRefreshToken,
-  sha256,
-  verifyRefreshToken
-} from '../lib/token';
-import {
-  decodeOAuthState,
-  getGoogleProfile,
-  getGoogleToken,
-  stripPassword
-} from '../lib/utils/oAuth';
-import {
-  BadRequestError,
-  NotFoundError,
-  UnauthorizedError
-} from '../middlewares/errors/customError';
-import {
-  BuildGoogleAuthUrlInput,
-  GoogleCallbackInput,
-  RefreshJwtPayload,
-  RefreshTokensInput,
-  SessionTokens,
-  Tx
-} from '../types/oAuth';
+import { generateAccessToken, generateRefreshToken, sha256, verifyRefreshToken } from '../lib/token';
+import { decodeOAuthState, getGoogleProfile, getGoogleToken, stripPassword } from '../lib/utils/oAuth';
+import { BadRequestError, NotFoundError, UnauthorizedError } from '../middlewares/errors/customError';
+import { BuildGoogleAuthUrlInput, GoogleCallbackInput, RefreshJwtPayload, RefreshTokensInput, SessionTokens, Tx } from '../types/oAuth';
 import { LoginInput, RegisterInput } from '../types/user';
 import { User } from '@prisma/client';
 
@@ -39,12 +18,7 @@ export class OAuthService {
     if (!clientId || !redirectUri) {
       throw new Error('구글 클라이언트 아이디와 리다이렉트 URI를 확인해주세요'); //백엔드 역할, 콘솔로 출력되게 warn
     }
-    const scope = [
-      'openid',
-      'email',
-      'profile',
-      'https://www.googleapis.com/auth/calendar.events'
-    ].join(' ');
+    const scope = ['openid', 'email', 'profile', 'https://www.googleapis.com/auth/calendar.events'].join(' ');
     const state = Buffer.from(
       JSON.stringify({
         redirectTo: redirectTo || process.env.FRONTEND_REDIRECT_URI || 'http://localhost:3000',
@@ -68,10 +42,7 @@ export class OAuthService {
   //구글 콜백
   //구글 콜백에서 던지는 에러메세지는 우리 서버가 아니라 인가서버에서 보는 것
   //디버깅에 쓰려한다면 console로 찍히도록 할 것
-  async googleCallback({
-    code,
-    state
-  }: GoogleCallbackInput): Promise<{ redirectTo: string | undefined } & SessionTokens> {
+  async googleCallback({ code, state }: GoogleCallbackInput): Promise<{ redirectTo: string | undefined } & SessionTokens> {
     if (!code) throw new BadRequestError('잘못된 요청입니다');
     const { redirectTo, deviceId } = decodeOAuthState(state);
     if (!deviceId || typeof deviceId !== 'string') {
@@ -103,12 +74,7 @@ export class OAuthService {
   }
 
   //회원가입
-  async register({
-    name,
-    email,
-    password,
-    profileImage
-  }: RegisterInput): Promise<Omit<User, 'passwordHashed'>> {
+  async register({ name, email, password, profileImage }: RegisterInput): Promise<Omit<User, 'passwordHashed'>> {
     const findEmail = await userRepo.findByUserEmail(email);
     if (findEmail) {
       throw new BadRequestError('이미 가입한 이메일입니다');
@@ -156,10 +122,7 @@ export class OAuthService {
     const newHash = sha256(newRefreshToken);
     const newExpiresAt = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
     const result = await prisma.$transaction(async (tx: Tx) => {
-      const updated = await sessionRepo.rotateSession(
-        { userId, deviceIdHash, oldHash, newHash, newExpiresAt, now },
-        tx
-      );
+      const updated = await sessionRepo.rotateSession({ userId, deviceIdHash, oldHash, newHash, newExpiresAt, now }, tx);
       if (updated.count !== 1) {
         await sessionRepo.revokeSessions({ userId, deviceIdHash, now }, tx);
         return { status: 'RELOGIN' };

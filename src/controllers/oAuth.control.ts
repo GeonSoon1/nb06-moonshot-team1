@@ -12,7 +12,7 @@ export async function googleAuth(req: Request, res: Response) {
   const deviceId = req.deviceId;
   if (!deviceId) throw new BadRequestError('deviceId가 필요합니다');
   const url = oAuthService.buildGoogleAuthUrl({ redirectTo, deviceId });
-  return res.redirect(307, url);
+  return res.redirect(url);
 }
 
 //구글 콜백
@@ -27,7 +27,7 @@ export async function googleCallback(req: Request, res: Response) {
     throw new BadRequestError();
   }
   setAuthCookies(res, { accessToken, refreshToken });
-  return res.redirect(307, redirectTo);
+  return res.redirect(`${redirectTo}/projects`);
 }
 
 //회원가입
