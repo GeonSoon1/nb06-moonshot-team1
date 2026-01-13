@@ -10,7 +10,7 @@ const options = {
       version: '1.0.0',
       description: '1팀: 박건순(팀장), 이지민, 이현우, 정수영, 최민수'
     },
-    servers: [{ url: 'http://localhost:3001', description: 'local' }],
+    servers: [{ url: 'https://nb06-moonshot-team1-jity.onrender.com', description: 'moonshot_BE' }],
     components: {
       securitySchemes: {
         bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
