@@ -110,10 +110,13 @@ src
  ┣ types         # TypeScript 인터페이스 및 전역 타입
  ┣ lib           # 공통 라이브러리 및 유틸리티
  ┗ app.ts        # 서버 설정 및 미들웨어 파이프라인
+```
 
 ## API 명세서
-[SwaggerUI]
+[[SwaggerUI](https://nb06-moonshot-team1-jity.onrender.com/docs/)]
 
 ## 프로젝트 회고록
-[발표자료]
-```
+[발표자료][1팀_moonshot_발표자료.pdf](https://github.com/user-attachments/files/24603376/1._moonshot_.pdf)
+
+
+
